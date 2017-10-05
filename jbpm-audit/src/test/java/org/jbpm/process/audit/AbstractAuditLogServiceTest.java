@@ -500,7 +500,6 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         Assertions.assertThat(variableValues).contains("One", "Two", "Three");
         Assertions.assertThat(variableIds).contains("list[0]", "list[1]", "list[2]");
 
-        
         // Test findVariableInstancesByName* methods
         List<VariableInstanceLog> emptyVarLogs = auditLogService.findVariableInstancesByName("s", true) ;
         assertTrue( emptyVarLogs.isEmpty());
