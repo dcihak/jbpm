@@ -498,8 +498,8 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
             assertEquals("list", var.getVariableInstanceId());
         }
 
-        Assertions.assertThat(variableValues).containsExactly("One", "Two", "Three");
-        Assertions.assertThat(variableIds).containsExactly("list[0]", "list[1]", "list[2]");
+        Assertions.assertThat(variableValues).contains("One", "Two", "Three");
+        Assertions.assertThat(variableIds).contains("list[0]", "list[1]", "list[2]");
 
 //        VariableInstanceLog var = listVariables.get(0);
 //        assertEquals("One", var.getValue());
