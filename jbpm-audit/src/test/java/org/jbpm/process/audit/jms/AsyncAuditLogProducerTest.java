@@ -87,9 +87,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     public void setup() throws Exception {
         startHornetQServer();
         context = setupWithPoolingDataSource(JBPM_PERSISTENCE_UNIT_NAME);
-        env = createEnvironment(context);
         // load the process
         KieBase kbase = createKnowledgeBase();
+        env = createEnvironment(context);
         // create a new session
         try {
             session = createKieSession(kbase, env);
@@ -238,7 +238,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         }
         auditLogService.clear();
         processInstances = auditLogService.findProcessInstances("com.sample.ruleflow");
-        auditLogService.dispose();
+        //auditLogService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
@@ -268,7 +268,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         }
         auditLogService.clear();
         processInstances = auditLogService.findProcessInstances("com.sample.ruleflow");
-        auditLogService.dispose();
+        //auditLogService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
@@ -328,7 +328,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
 
         auditLogService.clear();
         processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
-        auditLogService.dispose();
+        //auditLogService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
@@ -398,7 +398,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
 
         auditLogService.clear();
         processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
-        auditLogService.dispose();
+        //auditLogService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
