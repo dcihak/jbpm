@@ -77,8 +77,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     private HashMap<String, Object> context;
     private ConnectionFactory factory;
     private Queue queue;
-    private Environment env;
-    private KieSession session;
 
     private EmbeddedJMS jmsServer;    
     
@@ -86,25 +84,22 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     public void setup() throws Exception {
         startHornetQServer();
         context = setupWithPoolingDataSource(JBPM_PERSISTENCE_UNIT_NAME);
-        env = createEnvironment(context);
-        // load the process
-        KieBase kbase = createKnowledgeBase();
-        // create a new session
-        session = createKieSession(kbase, env);
     }
 
     @After
     public void tearDown() throws Exception {
-        if (session != null) {
-            session.dispose();
-        }
-        session = null;
         cleanUp(context);
         stopHornetQServer();
     }
     
     @Test
     public void testAsyncAuditProducer() throws Exception {
+        Environment env = createEnvironment(context);
+        // load the process
+        KieBase kbase = createKnowledgeBase();
+        // create a new session
+        KieSession session = createSession(kbase, env);
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -128,7 +123,12 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     public void testAsyncAuditProducerTransactional() throws Exception {
         UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction");
         ut.begin();
-        
+        Environment env = createEnvironment(context);
+        // load the process
+        KieBase kbase = createKnowledgeBase();
+        // create a new session
+        KieSession session = createSession(kbase, env);
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", true);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -153,7 +153,12 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     public void testAsyncAuditProducerTransactionalWithRollback() throws Exception {
         UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction");
         ut.begin();
-        
+        Environment env = createEnvironment(context);
+        // load the process
+        KieBase kbase = createKnowledgeBase();
+        // create a new session
+        KieSession session = createSession(kbase, env);
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", true);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -178,7 +183,12 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     public void testAsyncAuditProducerNonTransactionalWithRollback() throws Exception {
         UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction");
         ut.begin();
-        
+        Environment env = createEnvironment(context);
+        // load the process
+        KieBase kbase = createKnowledgeBase();
+        // create a new session
+        KieSession session = createSession(kbase, env);
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", jmsServer.lookup("ConnectionFactory"));
@@ -201,6 +211,12 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     
     @Test
     public void testAsyncAuditLoggerComplete() throws Exception {
+        Environment env = createEnvironment(context);
+        // load the process
+        KieBase kbase = createKnowledgeBase();
+        // create a new session
+        KieSession session = createSession(kbase, env);
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -236,6 +252,13 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     
     @Test
     public void testAsyncAuditLoggerCompleteDirectCreation() throws Exception {
+        Environment env = createEnvironment(context);
+        // load the process
+        KieBase kbase = createKnowledgeBase();
+        // create a new session
+        KieSession session = createSession(kbase, env);
+
+
         AbstractAuditLogger logger = AuditLoggerFactory.newJMSInstance(true, factory, queue);
         assertNotNull(logger);
         assertTrue((logger instanceof AsyncAuditLogProducer));
@@ -267,6 +290,12 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     
     @Test
     public void testAsyncAuditLoggerCompleteWithVariables() throws Exception {
+        Environment env = createEnvironment(context);
+        // load the process
+        KieBase kbase = createKnowledgeBase();
+        // create a new session
+        KieSession session = createSession(kbase, env);
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -328,6 +357,12 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     
     @Test
     public void testAsyncAuditLoggerCompleteWithVariablesCustomIndexer() throws Exception {
+        Environment env = createEnvironment(context);
+        // load the process
+        KieBase kbase = createKnowledgeBase();
+        // create a new session
+        KieSession session = createSession(kbase, env);
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
