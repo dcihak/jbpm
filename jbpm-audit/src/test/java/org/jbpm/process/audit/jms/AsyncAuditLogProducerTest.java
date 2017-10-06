@@ -59,6 +59,7 @@ import org.jbpm.process.audit.VariableInstanceLog;
 import org.jbpm.process.instance.impl.demo.SystemOutWorkItemHandler;
 import org.jbpm.test.util.AbstractBaseTest;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieBase;
@@ -76,7 +77,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     private HashMap<String, Object> context;
     private ConnectionFactory factory;
     private Queue queue;
-    
+
     private EmbeddedJMS jmsServer;    
     
     @Before
@@ -127,7 +128,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", true);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -157,7 +158,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", true);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -187,7 +188,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", jmsServer.lookup("ConnectionFactory"));
@@ -215,7 +216,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -256,7 +257,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
 
         AbstractAuditLogger logger = AuditLoggerFactory.newJMSInstance(true, factory, queue);
         assertNotNull(logger);
@@ -294,7 +295,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -347,7 +348,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         assertEquals(processInstance.getProcessId(), var.getProcessId());
         assertEquals("s", var.getVariableId());
         assertEquals("s", var.getVariableInstanceId());
-        
+
         logService.clear();
         processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         logService.dispose();
@@ -361,7 +362,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -424,7 +425,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
 
         Assertions.assertThat(variableValues).contains("john", "mary", "peter");
         Assertions.assertThat(variableIds).contains("list[0]", "list[1]", "list[2]");
-        
+
         logService.clear();
         processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         logService.dispose();
