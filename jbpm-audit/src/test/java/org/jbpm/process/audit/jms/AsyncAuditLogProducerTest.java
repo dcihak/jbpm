@@ -59,7 +59,6 @@ import org.jbpm.process.audit.VariableInstanceLog;
 import org.jbpm.process.instance.impl.demo.SystemOutWorkItemHandler;
 import org.jbpm.test.util.AbstractBaseTest;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieBase;
