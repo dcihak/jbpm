@@ -86,16 +86,11 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     public void setup() throws Exception {
         startHornetQServer();
         context = setupWithPoolingDataSource(JBPM_PERSISTENCE_UNIT_NAME);
+        env = createEnvironment(context);
         // load the process
         KieBase kbase = createKnowledgeBase();
-        env = createEnvironment(context);
         // create a new session
-        try {
-            session = createKieSession(kbase, env);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Assert.fail("Exception thrown while trying to create a session.");
-        }
+        session = createKieSession(kbase, env);
     }
 
     @After
