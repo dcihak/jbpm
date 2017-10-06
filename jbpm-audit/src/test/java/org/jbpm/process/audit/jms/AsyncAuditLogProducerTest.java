@@ -59,6 +59,7 @@ import org.jbpm.process.audit.VariableInstanceLog;
 import org.jbpm.process.instance.impl.demo.SystemOutWorkItemHandler;
 import org.jbpm.test.util.AbstractBaseTest;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieBase;
@@ -76,29 +77,43 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     private HashMap<String, Object> context;
     private ConnectionFactory factory;
     private Queue queue;
-    
+    private Environment env;
+    private KieSession session;
+    private AuditLogService auditLogService;
+
     private EmbeddedJMS jmsServer;    
     
     @Before
     public void setup() throws Exception {
         startHornetQServer();
         context = setupWithPoolingDataSource(JBPM_PERSISTENCE_UNIT_NAME);
+        env = createEnvironment(context);
+        // load the process
+        KieBase kbase = createKnowledgeBase();
+        // create a new session
+        try {
+            session = createKieSession(kbase, env);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Assert.fail("Exception thrown while trying to create a session.");
+        }
+        auditLogService = new JPAAuditLogService(env);
     }
 
     @After
     public void tearDown() throws Exception {
+        if (session != null) {
+            session.dispose();
+        }
+        session = null;
+        auditLogService.clear();
+        auditLogService = null;
         cleanUp(context);
         stopHornetQServer();
     }
     
     @Test
     public void testAsyncAuditProducer() throws Exception {
-        Environment env = createEnvironment(context);
-        // load the process
-        KieBase kbase = createKnowledgeBase();
-        // create a new session
-        KieSession session = createSession(kbase, env);
-
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -122,11 +137,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     public void testAsyncAuditProducerTransactional() throws Exception {
         UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction");
         ut.begin();
-        Environment env = createEnvironment(context);
-        // load the process
-        KieBase kbase = createKnowledgeBase();
-        // create a new session
-        KieSession session = createSession(kbase, env);
         
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", true);
@@ -152,11 +162,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     public void testAsyncAuditProducerTransactionalWithRollback() throws Exception {
         UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction");
         ut.begin();
-        Environment env = createEnvironment(context);
-        // load the process
-        KieBase kbase = createKnowledgeBase();
-        // create a new session
-        KieSession session = createSession(kbase, env);
         
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", true);
@@ -182,11 +187,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     public void testAsyncAuditProducerNonTransactionalWithRollback() throws Exception {
         UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction");
         ut.begin();
-        Environment env = createEnvironment(context);
-        // load the process
-        KieBase kbase = createKnowledgeBase();
-        // create a new session
-        KieSession session = createSession(kbase, env);
         
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
@@ -210,12 +210,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     
     @Test
     public void testAsyncAuditLoggerComplete() throws Exception {
-        Environment env = createEnvironment(context);
-        // load the process
-        KieBase kbase = createKnowledgeBase();
-        // create a new session
-        KieSession session = createSession(kbase, env);
-        
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -232,10 +226,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
-        AuditLogService logService = new JPAAuditLogService(env);
-        List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow");
+        List<ProcessInstanceLog> processInstances = auditLogService.findProcessInstances("com.sample.ruleflow");
         assertEquals(1, processInstances.size());
-        List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
+        List<NodeInstanceLog> nodeInstances = auditLogService.findNodeInstances(processInstance.getId());
         assertEquals(6, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
 
@@ -243,21 +236,14 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             assertEquals("com.sample.ruleflow", nodeInstance.getProcessId());
             assertNotNull(nodeInstance.getDate());
         }
-        logService.clear();
-        processInstances = logService.findProcessInstances("com.sample.ruleflow");
-        logService.dispose();
+        auditLogService.clear();
+        processInstances = auditLogService.findProcessInstances("com.sample.ruleflow");
+        auditLogService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
     @Test
     public void testAsyncAuditLoggerCompleteDirectCreation() throws Exception {
-        Environment env = createEnvironment(context);
-        // load the process
-        KieBase kbase = createKnowledgeBase();
-        // create a new session
-        KieSession session = createSession(kbase, env);
-        
-
         AbstractAuditLogger logger = AuditLoggerFactory.newJMSInstance(true, factory, queue);
         assertNotNull(logger);
         assertTrue((logger instanceof AsyncAuditLogProducer));
@@ -270,10 +256,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
-        AuditLogService logService = new JPAAuditLogService(env);
-        List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow");
+        List<ProcessInstanceLog> processInstances = auditLogService.findProcessInstances("com.sample.ruleflow");
         assertEquals(1, processInstances.size());
-        List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
+        List<NodeInstanceLog> nodeInstances = auditLogService.findNodeInstances(processInstance.getId());
         assertEquals(6, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
 
@@ -281,20 +266,14 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             assertEquals("com.sample.ruleflow", nodeInstance.getProcessId());
             assertNotNull(nodeInstance.getDate());
         }
-        logService.clear();
-        processInstances = logService.findProcessInstances("com.sample.ruleflow");
-        logService.dispose();
+        auditLogService.clear();
+        processInstances = auditLogService.findProcessInstances("com.sample.ruleflow");
+        auditLogService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
     @Test
     public void testAsyncAuditLoggerCompleteWithVariables() throws Exception {
-        Environment env = createEnvironment(context);
-        // load the process
-        KieBase kbase = createKnowledgeBase();
-        // create a new session
-        KieSession session = createSession(kbase, env);
-        
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -313,10 +292,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
-        AuditLogService logService = new JPAAuditLogService(env);
-        List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
+        List<ProcessInstanceLog> processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
         assertEquals(1, processInstances.size());
-        List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
+        List<NodeInstanceLog> nodeInstances = auditLogService.findNodeInstances(processInstance.getId());
         assertEquals(6, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
 
@@ -325,7 +303,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             assertNotNull(nodeInstance.getDate());
         }
         //verify variables
-        List<VariableInstanceLog> variables = logService.findVariableInstances(processInstance.getId());
+        List<VariableInstanceLog> variables = auditLogService.findVariableInstances(processInstance.getId());
         assertNotNull(variables);
         assertEquals(2, variables.size());
         
@@ -347,21 +325,15 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         assertEquals(processInstance.getProcessId(), var.getProcessId());
         assertEquals("s", var.getVariableId());
         assertEquals("s", var.getVariableInstanceId());
-        
-        logService.clear();
-        processInstances = logService.findProcessInstances("com.sample.ruleflow3");
-        logService.dispose();
+
+        auditLogService.clear();
+        processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
+        auditLogService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
     @Test
     public void testAsyncAuditLoggerCompleteWithVariablesCustomIndexer() throws Exception {
-        Environment env = createEnvironment(context);
-        // load the process
-        KieBase kbase = createKnowledgeBase();
-        // create a new session
-        KieSession session = createSession(kbase, env);
-        
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -385,10 +357,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
-        AuditLogService logService = new JPAAuditLogService(env);
-        List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
+        List<ProcessInstanceLog> processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
         assertEquals(1, processInstances.size());
-        List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
+        List<NodeInstanceLog> nodeInstances = auditLogService.findNodeInstances(processInstance.getId());
         assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
 
@@ -397,7 +368,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             assertNotNull(nodeInstance.getDate());
         }
         //verify variables
-        List<VariableInstanceLog> variables = logService.findVariableInstances(processInstance.getId());
+        List<VariableInstanceLog> variables = auditLogService.findVariableInstances(processInstance.getId());
         assertNotNull(variables);
         assertEquals(8, variables.size());
         
@@ -424,10 +395,10 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
 
         Assertions.assertThat(variableValues).contains("john", "mary", "peter");
         Assertions.assertThat(variableIds).contains("list[0]", "list[1]", "list[2]");
-        
-        logService.clear();
-        processInstances = logService.findProcessInstances("com.sample.ruleflow3");
-        logService.dispose();
+
+        auditLogService.clear();
+        processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
+        auditLogService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
