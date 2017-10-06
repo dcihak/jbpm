@@ -79,7 +79,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     private Queue queue;
     private Environment env;
     private KieSession session;
-    private AuditLogService auditLogService;
 
     private EmbeddedJMS jmsServer;    
     
@@ -97,7 +96,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             ex.printStackTrace();
             Assert.fail("Exception thrown while trying to create a session.");
         }
-        auditLogService = new JPAAuditLogService(env);
     }
 
     @After
@@ -106,8 +104,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             session.dispose();
         }
         session = null;
-        auditLogService.clear();
-        auditLogService = null;
         cleanUp(context);
         stopHornetQServer();
     }
@@ -226,9 +222,10 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
-        List<ProcessInstanceLog> processInstances = auditLogService.findProcessInstances("com.sample.ruleflow");
+        AuditLogService logService = new JPAAuditLogService(env);
+        List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow");
         assertEquals(1, processInstances.size());
-        List<NodeInstanceLog> nodeInstances = auditLogService.findNodeInstances(processInstance.getId());
+        List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
         assertEquals(6, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
 
@@ -236,9 +233,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             assertEquals("com.sample.ruleflow", nodeInstance.getProcessId());
             assertNotNull(nodeInstance.getDate());
         }
-        auditLogService.clear();
-        processInstances = auditLogService.findProcessInstances("com.sample.ruleflow");
-        //auditLogService.dispose();
+        logService.clear();
+        processInstances = logService.findProcessInstances("com.sample.ruleflow");
+        logService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
@@ -256,9 +253,10 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
-        List<ProcessInstanceLog> processInstances = auditLogService.findProcessInstances("com.sample.ruleflow");
+        AuditLogService logService = new JPAAuditLogService(env);
+        List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow");
         assertEquals(1, processInstances.size());
-        List<NodeInstanceLog> nodeInstances = auditLogService.findNodeInstances(processInstance.getId());
+        List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
         assertEquals(6, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
 
@@ -266,9 +264,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             assertEquals("com.sample.ruleflow", nodeInstance.getProcessId());
             assertNotNull(nodeInstance.getDate());
         }
-        auditLogService.clear();
-        processInstances = auditLogService.findProcessInstances("com.sample.ruleflow");
-        //auditLogService.dispose();
+        logService.clear();
+        processInstances = logService.findProcessInstances("com.sample.ruleflow");
+        logService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
@@ -292,9 +290,10 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
-        List<ProcessInstanceLog> processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
+        AuditLogService logService = new JPAAuditLogService(env);
+        List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         assertEquals(1, processInstances.size());
-        List<NodeInstanceLog> nodeInstances = auditLogService.findNodeInstances(processInstance.getId());
+        List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
         assertEquals(6, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
 
@@ -303,7 +302,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             assertNotNull(nodeInstance.getDate());
         }
         //verify variables
-        List<VariableInstanceLog> variables = auditLogService.findVariableInstances(processInstance.getId());
+        List<VariableInstanceLog> variables = logService.findVariableInstances(processInstance.getId());
         assertNotNull(variables);
         assertEquals(2, variables.size());
         
@@ -326,9 +325,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         assertEquals("s", var.getVariableId());
         assertEquals("s", var.getVariableInstanceId());
 
-        auditLogService.clear();
-        processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
-        //auditLogService.dispose();
+        logService.clear();
+        processInstances = logService.findProcessInstances("com.sample.ruleflow3");
+        logService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
@@ -357,9 +356,10 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
-        List<ProcessInstanceLog> processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
+        AuditLogService logService = new JPAAuditLogService(env);
+        List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         assertEquals(1, processInstances.size());
-        List<NodeInstanceLog> nodeInstances = auditLogService.findNodeInstances(processInstance.getId());
+        List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
         assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
 
@@ -368,7 +368,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             assertNotNull(nodeInstance.getDate());
         }
         //verify variables
-        List<VariableInstanceLog> variables = auditLogService.findVariableInstances(processInstance.getId());
+        List<VariableInstanceLog> variables = logService.findVariableInstances(processInstance.getId());
         assertNotNull(variables);
         assertEquals(8, variables.size());
         
@@ -396,9 +396,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         Assertions.assertThat(variableValues).contains("john", "mary", "peter");
         Assertions.assertThat(variableIds).contains("list[0]", "list[1]", "list[2]");
 
-        auditLogService.clear();
-        processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
-        //auditLogService.dispose();
+        logService.clear();
+        processInstances = logService.findProcessInstances("com.sample.ruleflow3");
+        logService.dispose();
         assertTrue(processInstances.isEmpty());
     }
     
