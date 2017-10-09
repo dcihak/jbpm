@@ -66,6 +66,7 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
 
         @After
         public void clean() {
+            this.taskService.removeAllTasks();
             super.tearDown();
             if (emf != null) {
                 emf.close();
