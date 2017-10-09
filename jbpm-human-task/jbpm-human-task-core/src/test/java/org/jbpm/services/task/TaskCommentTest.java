@@ -172,6 +172,7 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
             for(int i = 0; i < commentsCount; i++) {
                 Comment comment = allCommentList.get(i);
                 assertNotNull(comment);
+                System.out.println("Expected: " + commentId[i] + ", Actual:" + comment.getId());
                 assertEquals(commentId[i], comment.getId());
                 assertNotNull(comment.getAddedAt());
                 assertEquals(messages[i], comment.getText());
