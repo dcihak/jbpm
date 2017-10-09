@@ -144,7 +144,7 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
 
         @Test
         public void testTaskCommentsOrder() {
-            int commentsCount = 50;
+            int commentsCount = 20;
             String str = "(with (new Task()) { priority = 55, taskData = (with( new TaskData()) { } ), ";
             str += "peopleAssignments = (with ( new PeopleAssignments() ) { businessAdministrators = [new User('Bobba Fet')], }),";
             str += "name =  'This is my task name' })";
@@ -176,7 +176,6 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
             for(int i = 0; i < commentsCount; i++) {
                 Comment comment = allCommentList.get(i);
                 assertNotNull(comment);
-                logger.info("Expected: " + commentId[i] + ", Actual:" + comment.getId());
                 assertEquals(commentId[i], comment.getId());
                 assertNotNull(comment.getAddedAt());
                 assertEquals(messages[i], comment.getText());
