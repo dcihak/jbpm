@@ -97,9 +97,9 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
             Comment commentById = taskService.getCommentById(commentId.longValue());
             assertNotNull(commentById);
             assertEquals(commentId, commentById.getId());
-            //assertEquals(date, commentById.getAddedAt());
+            assertEquals(date, commentById.getAddedAt());
 
-            Assertions.assertThat(date).isEqualToIgnoringMillis(commentById.getAddedAt());
+            //Assertions.assertThat(date).isEqualToIgnoringMillis(commentById.getAddedAt());
 
             assertEquals(user, commentById.getAddedBy());
             assertEquals(txt, commentById.getText());
