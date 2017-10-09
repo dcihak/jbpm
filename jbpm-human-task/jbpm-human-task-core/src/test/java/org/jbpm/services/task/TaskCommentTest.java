@@ -173,7 +173,7 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
 
             List<Comment> allCommentList = taskService.getAllCommentsByTaskId(taskSum.getId());
             assertEquals(commentsCount, allCommentList.size());
-            assertEquals(commentId[23], allCommentList.get(23));
+            assertEquals(commentId[23], allCommentList.get(23).getId());
 
 //            for(int i = 0; i < commentsCount; i++) {
 //                Comment comment = allCommentList.get(i);
