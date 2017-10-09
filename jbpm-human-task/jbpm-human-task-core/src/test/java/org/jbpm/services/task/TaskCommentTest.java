@@ -144,7 +144,7 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
 
         @Test
         public void testTaskCommentsOrder() {
-            int commentsCount = 20;
+            int commentsCount = 19;
             String str = "(with (new Task()) { priority = 55, taskData = (with( new TaskData()) { } ), ";
             str += "peopleAssignments = (with ( new PeopleAssignments() ) { businessAdministrators = [new User('Bobba Fet')], }),";
             str += "name =  'This is my task name' })";
