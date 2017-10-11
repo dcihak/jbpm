@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hamcrest.core.AnyOf;
+import org.hamcrest.core.Is;
 import org.jbpm.bpmn2.objects.TestWorkItemHandler;
 import org.jbpm.process.core.context.exception.CompensationScope;
 import org.jbpm.process.instance.impl.demo.SystemOutWorkItemHandler;
@@ -255,8 +257,9 @@ public class CompensationTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
         if( ! isPersistence() ) { 
             assertProcessVarValue(processInstance, "x", null);
-        } else { 
-            assertProcessVarValue(processInstance, "x", "");
+        } else {
+            String actualValue = getProcessVarValue(processInstance, "x");
+            assertThat(actualValue, AnyOf.anyOf(Is.is(""), Is.is((String) null), Is.is(" ")));
         }
     }
     
