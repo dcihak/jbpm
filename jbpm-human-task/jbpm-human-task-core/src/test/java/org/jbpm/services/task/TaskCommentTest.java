@@ -29,11 +29,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.condition.AnyOf;
 import org.jbpm.services.task.impl.factories.TaskFactory;
 import org.jbpm.test.util.PoolingDataSource;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.task.model.Comment;
@@ -44,15 +42,11 @@ import org.kie.internal.task.api.InternalTaskService;
 import org.kie.internal.task.api.TaskModelProvider;
 import org.kie.internal.task.api.model.InternalComment;
 import org.kie.internal.task.api.model.InternalOrganizationalEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TaskCommentTest extends HumanTaskServicesBaseTest{
         private PoolingDataSource pds;
         private EntityManagerFactory emf;
         private static final Date TODAY = new Date();
-
-        private static final Logger logger = LoggerFactory.getLogger(TaskCommentTest.class);
 
         @Before
         public void setup() {
@@ -66,7 +60,6 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
 
         @After
         public void clean() {
-            this.taskService.removeAllTasks();
             super.tearDown();
             if (emf != null) {
                 emf.close();
@@ -172,12 +165,10 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
 
             List<Comment> allCommentList = taskService.getAllCommentsByTaskId(taskSum.getId());
             assertEquals(commentsCount, allCommentList.size());
-            assertEquals(commentId[23], allCommentList.get(23).getId());
 
             for(int i = 0; i < commentsCount; i++) {
                 Comment comment = allCommentList.get(i);
                 assertNotNull(comment);
-                logger.debug("Expected: " + commentId[i] + ", Actual: " + comment.getId());
                 assertEquals(commentId[i], comment.getId());
                 assertNotNull(comment.getAddedAt());
                 assertEquals(messages[i], comment.getText());
