@@ -144,7 +144,7 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
         public void testTaskCommentsOrder() {
             //Assume.assumeFalse(PersistenceUtil.getDatasourceProperties().getProperty(COMMUNITY_DATASOURCE_LABEL));
             try {
-                String dbName = pds.getConnection().getMetaData().getDatabaseProductName();
+                String dbName = pds.getConnection().getMetaData().getDatabaseProductVersion();
                 System.out.println("DB name: " + dbName);
                 assertEquals("SOMETHNG STUPID", dbName);
             } catch (SQLException e) {
