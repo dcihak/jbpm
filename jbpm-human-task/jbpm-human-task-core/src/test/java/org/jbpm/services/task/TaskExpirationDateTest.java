@@ -73,7 +73,6 @@ public class TaskExpirationDateTest extends HumanTaskServicesBaseTest{
 
             assertEquals(1, tasks.size());
             TaskSummary taskSum = tasks.get(0);
-
             assertNull(taskService.getExpirationDate(taskSum.getId()));
 
             taskService.setExpirationDate(taskSum.getId(), TODAY);
