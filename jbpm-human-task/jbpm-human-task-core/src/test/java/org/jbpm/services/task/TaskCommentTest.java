@@ -22,6 +22,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotEquals;
 
 import java.io.StringReader;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +31,12 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.assertj.core.api.Assertions;
+import org.h2.jdbc.JdbcDatabaseMetaData;
+import org.jbpm.persistence.util.PersistenceUtil;
 import org.jbpm.services.task.impl.factories.TaskFactory;
 import org.jbpm.test.util.PoolingDataSource;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.task.model.Comment;
@@ -137,6 +142,14 @@ public class TaskCommentTest extends HumanTaskServicesBaseTest{
 
         @Test
         public void testTaskCommentsOrder() {
+            //Assume.assumeFalse(PersistenceUtil.getDatasourceProperties().getProperty(COMMUNITY_DATASOURCE_LABEL));
+            try {
+                String dbName = pds.getConnection().getMetaData().getDatabaseProductName();
+                System.out.println("DB name: " + dbName);
+                assertEquals("SOMETHNG STUPID", dbName);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             int commentsCount = 50;
             String str = "(with (new Task()) { priority = 55, taskData = (with( new TaskData()) { } ), ";
             str += "peopleAssignments = (with ( new PeopleAssignments() ) { businessAdministrators = [new User('Bobba Fet')], }),";
