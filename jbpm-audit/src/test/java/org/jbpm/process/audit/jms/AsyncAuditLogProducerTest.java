@@ -362,6 +362,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         // create a new session
         KieSession session = createSession(kbase, env);
 
+        AuditLogService logService = new JPAAuditLogService(env);
+        logService.clear();
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -385,7 +388,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
-        AuditLogService logService = new JPAAuditLogService(env);
         List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         assertEquals(1, processInstances.size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
