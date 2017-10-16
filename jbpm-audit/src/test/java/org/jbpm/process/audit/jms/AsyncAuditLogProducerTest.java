@@ -320,7 +320,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
 
         for (ProcessInstanceLog pi : processInstances) {
-            assertEquals("sdfsf", pi.getProcessName());
+            assertEquals("ruleflow", pi.getProcessName());
             assertEquals("sdfsf", pi.getProcessId());
             assertEquals("sdfsf", pi.getProcessInstanceId());
             assertEquals("sdfsf", pi.getProcessVersion());
