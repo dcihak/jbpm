@@ -323,7 +323,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             assertEquals("ruleflow", pi.getProcessName());
             assertEquals("com.sample.ruleflow3", pi.getProcessId());
             assertEquals(Long.valueOf(1L), pi.getProcessInstanceId());
-            assertEquals("sdfsf", pi.getProcessVersion());
         }
 
         assertEquals(1, processInstances.size());
@@ -403,11 +402,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         assertEquals(1, processInstances.size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
 
-        for (NodeInstanceLog ni : nodeInstances) {
-            assertEquals("com.sample.ruleflow3", ni.getProcessId());
-            assertEquals("Start", ni.getNodeName());
-            assertEquals(Long.valueOf(1L), ni.getProcessInstanceId());
-        }
+        assertEquals("com.sample.ruleflow3", nodeInstances.get(0).getProcessId());
+        assertEquals("Start", nodeInstances.get(0).getNodeName());
+        assertEquals(Long.valueOf(1L), nodeInstances.get(0).getProcessInstanceId());
 
         assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
