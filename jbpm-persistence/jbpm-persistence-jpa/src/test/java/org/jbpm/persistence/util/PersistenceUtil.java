@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.transaction.UserTransaction;
@@ -127,11 +128,14 @@ public class PersistenceUtil {
      */
     public static void cleanUp(Map<String, Object> context) {
         if (context != null) {
+            EntityManagerFactory emf = (EntityManagerFactory) context.get(ENTITY_MANAGER_FACTORY);
+            EntityManager em = emf.createEntityManager();
+            em.createQuery("drop table deadline");
             
             Object emfObject = context.remove(ENTITY_MANAGER_FACTORY);
             if (emfObject != null) {
                 try {
-                    EntityManagerFactory emf = (EntityManagerFactory) emfObject;
+                    emf = (EntityManagerFactory) emfObject;
                     emf.close();
                 } catch (Throwable t) {
                     t.printStackTrace();

@@ -23,7 +23,6 @@ import static org.jbpm.persistence.util.PersistenceUtil.setupWithPoolingDataSour
 import static org.jbpm.process.audit.AbstractAuditLogServiceTest.createKieSession;
 import static org.jbpm.process.audit.AbstractAuditLogServiceTest.createKnowledgeBase;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -296,9 +295,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         // create a new session
         KieSession session = createSession(kbase, env);
 
-        AuditLogService logService = new JPAAuditLogService(env);
-        logService.clear();
-
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -317,14 +313,8 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
+        AuditLogService logService = new JPAAuditLogService(env);
         List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
-
-        for (ProcessInstanceLog pi : processInstances) {
-            assertEquals("ruleflow", pi.getProcessName());
-            assertEquals("com.sample.ruleflow3", pi.getProcessId());
-            assertEquals(Long.valueOf(1L), pi.getProcessInstanceId());
-        }
-
         assertEquals(1, processInstances.size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
         assertEquals(6, nodeInstances.size());
@@ -372,9 +362,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         // create a new session
         KieSession session = createSession(kbase, env);
 
-        AuditLogService logService = new JPAAuditLogService(env);
-        logService.clear();
-
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -398,14 +385,10 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
      
         // validate if everything is stored in db
+        AuditLogService logService = new JPAAuditLogService(env);
         List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         assertEquals(1, processInstances.size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
-
-        assertEquals("com.sample.ruleflow3", nodeInstances.get(0).getProcessId());
-        assertEquals("Start", nodeInstances.get(0).getNodeName());
-        assertEquals(Long.valueOf(1L), nodeInstances.get(0).getProcessInstanceId());
-
         assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
 
