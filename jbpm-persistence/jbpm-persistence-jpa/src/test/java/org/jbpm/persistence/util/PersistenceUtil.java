@@ -233,6 +233,7 @@ public class PersistenceUtil {
                 for (String propertyName : new String[] { "databaseName", "portNumber", "serverName", "url" }) {
                     pds.getDriverProperties().put(propertyName, dsProps.getProperty(propertyName));
                 }
+                pds.getDriverProperties().put("splitStatements", "false");
             } else {
                 throw new RuntimeException("Unknown driver class: " + driverClass);
             }
