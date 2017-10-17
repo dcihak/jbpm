@@ -130,7 +130,7 @@ public class PersistenceUtil {
         if (context != null) {
             EntityManagerFactory emf = (EntityManagerFactory) context.get(ENTITY_MANAGER_FACTORY);
             EntityManager em = emf.createEntityManager();
-            em.createQuery("drop table deadline").executeUpdate();
+            em.createQuery("truncate table deadline").executeUpdate();
             
             Object emfObject = context.remove(ENTITY_MANAGER_FACTORY);
             if (emfObject != null) {
