@@ -10,7 +10,7 @@ $BODY$
 declare
 begin
     insert into jbpm_active_clob (loid) values (cast(new.expression as oid));
-    return new;
+    return new; \
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE;
@@ -28,7 +28,7 @@ $BODY$
 declare
 begin
     insert into jbpm_active_clob (loid) values (cast(new.expression as oid));
-    return new;
+    return new; \
 end;
 $BODY$
   LANGUAGE plpgsql VOLATILE;
