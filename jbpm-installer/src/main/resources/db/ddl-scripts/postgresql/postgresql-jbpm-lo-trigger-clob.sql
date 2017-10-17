@@ -6,13 +6,13 @@ create table jbpm_active_clob ( loid oid );
 
 CREATE OR REPLACE FUNCTION booleanexpression_expression_clob_before_insert()
   RETURNS "trigger" AS
-$BODY$
+$$
 declare
 begin
     insert into jbpm_active_clob (loid) values (cast(new.expression as oid));
-    return new; \
+    return new;
 end;
-$BODY$
+$$
   LANGUAGE plpgsql VOLATILE;
 
 CREATE TRIGGER booleanexpression_expression_clob_before_insert_trigger
@@ -24,13 +24,13 @@ CREATE TRIGGER booleanexpression_expression_clob_before_insert_trigger
 
 CREATE OR REPLACE FUNCTION booleanexpression_expression_clob_before_update()
   RETURNS "trigger" AS
-$BODY$
+$$
 declare
 begin
     insert into jbpm_active_clob (loid) values (cast(new.expression as oid));
-    return new; \
+    return new;
 end;
-$BODY$
+$$
   LANGUAGE plpgsql VOLATILE;
 
 CREATE TRIGGER booleanexpression_expression_clob_before_update_trigger
