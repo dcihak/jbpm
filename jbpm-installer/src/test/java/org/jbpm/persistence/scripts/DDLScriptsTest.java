@@ -16,20 +16,19 @@
 
 package org.jbpm.persistence.scripts;
 
+import org.assertj.core.api.Assertions;
 import org.flywaydb.core.Flyway;
 import org.jbpm.persistence.scripts.util.TestsUtil;
 import org.jbpm.persistence.util.PersistenceUtil;
 import org.jbpm.test.util.PoolingDataSource;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Properties;
 
+import static org.jbpm.persistence.scripts.PersistenceUnit.DB_TESTING_UPDATE;
 import static org.jbpm.persistence.util.PersistenceUtil.JBPM_PERSISTENCE_UNIT_NAME;
 
 /**
@@ -56,7 +55,9 @@ public class DDLScriptsTest {
     @Test
     public void createSchemaUsingDDLs() throws Exception {
         Properties dsProps = PersistenceUtil.getDatasourceProperties();
-        PoolingDataSource pds = PersistenceUtil.setupPoolingDataSource(dsProps);
+        PoolingDataSource pds = PersistenceUtil.setupPoolingDataSource(dsProps, PersistenceUnit.DB_TESTING_UPDATE.getDataSourceName(), false);
+        pds.init();
+        Assert.assertNotNull(pds);
 
         Flyway flyway = new Flyway();
         flyway.setDataSource(pds);
@@ -82,9 +83,10 @@ public class DDLScriptsTest {
     /**
      * Simulates the default config for kie-server/kie-wb when deploying the apps for the first time (and without running the DDL scripts first)
      */
+    @Ignore
     @Test
     public void runHibernateUpdateOnEmptyDB() throws Exception {
-        final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(PersistenceUnit.DB_TESTING_UPDATE);
+        final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(DB_TESTING_UPDATE);
         dbTestingContext.clean();
     }
 
@@ -92,6 +94,7 @@ public class DDLScriptsTest {
      * Simulates the case when user executes DDL scripts before deploying the kie-server/kie-wb and leaves the hibernate
      * config untouched (thus using the default 'update')
      */
+    @Ignore
     @Test
     public void createSchemaWithDDLsAndRunHibernateUpdate() throws Exception {
         final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
@@ -100,7 +103,7 @@ public class DDLScriptsTest {
         } finally {
             scriptRunnerContext.clean();
         }
-        final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(PersistenceUnit.DB_TESTING_UPDATE);
+        final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(DB_TESTING_UPDATE);
         dbTestingContext.clean();
     }
 
