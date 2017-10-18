@@ -60,7 +60,7 @@ public class DDLScriptsTest {
 
         Flyway flyway = new Flyway();
         flyway.setDataSource(pds);
-//        flyway.migrate();
+        flyway.migrate();
 
 
 //        final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
