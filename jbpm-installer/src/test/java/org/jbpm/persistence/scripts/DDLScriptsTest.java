@@ -58,11 +58,10 @@ public class DDLScriptsTest {
         Properties dsProps = PersistenceUtil.getDatasourceProperties();
         PoolingDataSource pds = PersistenceUtil.setupPoolingDataSource(dsProps);
 
-//        Flyway flyway = new Flyway();
-//        flyway.setDataSource(pds);
-//        flyway.setSchemas("NEW_SCHEMA_1");
-//        flyway.clean();
-//        flyway.migrate();
+        Flyway flyway = new Flyway();
+        flyway.setDataSource(pds);
+        flyway.setSchemas("NEW_SCHEMA_1");
+        flyway.migrate();
 
 
         final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
