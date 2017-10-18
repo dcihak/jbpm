@@ -54,23 +54,29 @@ public class DDLScriptsTest {
      */
     @Test
     public void createSchemaUsingDDLs() throws Exception {
-        Properties dsProps = PersistenceUtil.getDatasourceProperties();
-        PoolingDataSource pds = PersistenceUtil.setupPoolingDataSource(dsProps, PersistenceUnit.DB_TESTING_UPDATE.getDataSourceName(), false);
-        pds.init();
+//        Properties dsProps = PersistenceUtil.getDatasourceProperties();
+//        PoolingDataSource pds = PersistenceUtil.setupPoolingDataSource(dsProps, PersistenceUnit.DB_TESTING_UPDATE.getDataSourceName(), false);
+//        pds.init();
+
+        final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
+        PoolingDataSource pds = scriptRunnerContext.getPds();
         Assert.assertNotNull(pds);
 
-        Flyway flyway = new Flyway();
-        flyway.setDataSource(pds);
-        flyway.migrate();
+        try {
+            Flyway flyway = new Flyway();
+            flyway.setDataSource(pds);
+            flyway.migrate();
+        } finally {
+            scriptRunnerContext.clean();
+        }
 
 
-//        final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
 //        try {
 //            scriptRunnerContext.executeScripts(new File(getClass().getResource(DB_DDL_SCRIPTS_RESOURCE_PATH).getFile()));
 //        } finally {
 //            scriptRunnerContext.clean();
 //        }
-//
+
 //        final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(PersistenceUnit.DB_TESTING_VALIDATE);
 //        try {
 //            dbTestingContext.startAndPersistSomeProcess("minimalProcess");

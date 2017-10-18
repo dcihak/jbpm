@@ -61,6 +61,9 @@ import org.kie.internal.task.api.model.InternalTaskData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.jbpm.persistence.util.PersistenceUtil.DATASOURCE;
+import static org.jbpm.persistence.util.PersistenceUtil.getDatasourceProperties;
+
 /**
  * Central context that hides persistence from tests, so there is no need to work with persistence in the tests
  * (transactions etc).
@@ -72,13 +75,18 @@ public final class TestPersistenceContext {
     private EntityManagerFactory entityManagerFactory;
     private JtaTransactionManager transactionManager;
     private Environment environment;
+    private PoolingDataSource pds;
 
     private final Properties dataSourceProperties;
     private final DatabaseType databaseType;
 
     public TestPersistenceContext() {
-        this.dataSourceProperties = PersistenceUtil.getDatasourceProperties();
+        this.dataSourceProperties = getDatasourceProperties();
         this.databaseType = TestsUtil.getDatabaseType(dataSourceProperties);
+    }
+
+    public PoolingDataSource getPds() {
+        return pds;
     }
 
     /**
@@ -89,6 +97,9 @@ public final class TestPersistenceContext {
         try {
             context = PersistenceUtil.setupWithPoolingDataSource(persistenceUnit.getName(), persistenceUnit
                     .getDataSourceName());
+
+            pds = (PoolingDataSource) context.get(DATASOURCE);
+
             entityManagerFactory = (EntityManagerFactory) context.get(EnvironmentName.ENTITY_MANAGER_FACTORY);
             environment = PersistenceUtil.createEnvironment(context);
             Object tm = this.environment.get(EnvironmentName.TRANSACTION_MANAGER);
@@ -126,7 +137,7 @@ public final class TestPersistenceContext {
     public void executeScripts(final File scriptsRootFolder, String type) throws IOException, SQLException {
         testIsInitialized();
         final File[] sqlScripts = TestsUtil.getDDLScriptFilesByDatabaseType(scriptsRootFolder, databaseType, true);
-        final Connection connection = ((PoolingDataSource) context.get(PersistenceUtil.DATASOURCE)).getConnection();
+        final Connection connection = ((PoolingDataSource) context.get(DATASOURCE)).getConnection();
         connection.setAutoCommit(false);
         try {
             for (File script : sqlScripts) {
