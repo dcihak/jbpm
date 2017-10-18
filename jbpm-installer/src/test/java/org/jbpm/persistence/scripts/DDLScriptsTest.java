@@ -16,7 +16,10 @@
 
 package org.jbpm.persistence.scripts;
 
+import org.flywaydb.core.Flyway;
 import org.jbpm.persistence.scripts.util.TestsUtil;
+import org.jbpm.persistence.util.PersistenceUtil;
+import org.jbpm.test.util.PoolingDataSource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -25,6 +28,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Properties;
+
+import static org.jbpm.persistence.util.PersistenceUtil.JBPM_PERSISTENCE_UNIT_NAME;
 
 /**
  * Contains tests that test DDL scripts.
@@ -49,6 +55,16 @@ public class DDLScriptsTest {
      */
     @Test
     public void createSchemaUsingDDLs() throws Exception {
+        Properties dsProps = PersistenceUtil.getDatasourceProperties();
+        PoolingDataSource pds = PersistenceUtil.setupPoolingDataSource(dsProps);
+
+//        Flyway flyway = new Flyway();
+//        flyway.setDataSource(pds);
+//        flyway.setSchemas("NEW_SCHEMA_1");
+//        flyway.clean();
+//        flyway.migrate();
+
+
         final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
         try {
             scriptRunnerContext.executeScripts(new File(getClass().getResource(DB_DDL_SCRIPTS_RESOURCE_PATH).getFile()));
