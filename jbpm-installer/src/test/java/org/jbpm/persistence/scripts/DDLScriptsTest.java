@@ -54,17 +54,13 @@ public class DDLScriptsTest {
      */
     @Test
     public void createSchemaUsingDDLs() throws Exception {
-//        Properties dsProps = PersistenceUtil.getDatasourceProperties();
-//        PoolingDataSource pds = PersistenceUtil.setupPoolingDataSource(dsProps, PersistenceUnit.DB_TESTING_UPDATE.getDataSourceName(), false);
-//        pds.init();
-
         final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
-        PoolingDataSource pds = scriptRunnerContext.getPds();
-        Assert.assertNotNull(pds);
+        PoolingDataSource srPds = scriptRunnerContext.getPds();
+        Assert.assertNotNull(srPds);
 
         try {
             Flyway flyway = new Flyway();
-            flyway.setDataSource(pds);
+            flyway.setDataSource(srPds);
             flyway.migrate();
         } finally {
             scriptRunnerContext.clean();
@@ -77,7 +73,18 @@ public class DDLScriptsTest {
 //            scriptRunnerContext.clean();
 //        }
 
-//        final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(PersistenceUnit.DB_TESTING_VALIDATE);
+        final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(PersistenceUnit.DB_TESTING_VALIDATE);
+        PoolingDataSource dbtPds = dbTestingContext.getPds();
+        try {
+            Flyway flyway1 = new Flyway();
+            flyway1.setDataSource(dbtPds);
+            flyway1.migrate();
+            dbTestingContext.startAndPersistSomeProcess("minimalProcess");
+            Assert.assertTrue(dbTestingContext.getStoredProcessesCount() == 1);
+        } finally {
+            dbTestingContext.clean();
+        }
+
 //        try {
 //            dbTestingContext.startAndPersistSomeProcess("minimalProcess");
 //            Assert.assertTrue(dbTestingContext.getStoredProcessesCount() == 1);
