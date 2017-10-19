@@ -78,7 +78,7 @@ public class DDLScriptsTest {
         flyway.setDataSource(dbtPds);
         flyway.setLocations(dbScriptsLocation);
         flyway.migrate();
-        flyway.clean();
+//        flyway.clean();
         dbTestingContext.startAndPersistSomeProcess("minimalProcess");
         Assert.assertTrue(dbTestingContext.getStoredProcessesCount() == 1);
         dbTestingContext.clean();
