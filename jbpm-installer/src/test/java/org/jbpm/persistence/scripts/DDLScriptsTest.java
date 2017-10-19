@@ -59,6 +59,7 @@ public class DDLScriptsTest {
         PoolingDataSource srPds = scriptRunnerContext.getPds();
         Assert.assertNotNull(srPds);
 
+        flyway.baseline();
         flyway.setDataSource(srPds);
         String dbScriptsLocation = TestsUtil.getDDLScriptDirByDatabaseType("db/ddl-scripts", scriptRunnerContext.getDatabaseType());
         flyway.setLocations(dbScriptsLocation);
