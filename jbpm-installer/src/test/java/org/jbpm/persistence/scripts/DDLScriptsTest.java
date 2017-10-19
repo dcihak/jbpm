@@ -58,11 +58,10 @@ public class DDLScriptsTest {
         final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
         PoolingDataSource srPds = scriptRunnerContext.getPds();
         Assert.assertNotNull(srPds);
+        String dbScriptsLocation = TestsUtil.getDDLScriptDirByDatabaseType("db/ddl-scripts", scriptRunnerContext.getDatabaseType());
 
         flyway.setDataSource(srPds);
-        String dbScriptsLocation = TestsUtil.getDDLScriptDirByDatabaseType("db/ddl-scripts", scriptRunnerContext.getDatabaseType());
         flyway.setLocations(dbScriptsLocation);
-
         flyway.migrate();
         flyway.clean();
         scriptRunnerContext.clean();
@@ -77,6 +76,7 @@ public class DDLScriptsTest {
         PoolingDataSource dbtPds = dbTestingContext.getPds();
 
         flyway.setDataSource(dbtPds);
+        flyway.setLocations(dbScriptsLocation);
         flyway.migrate();
         flyway.clean();
         dbTestingContext.startAndPersistSomeProcess("minimalProcess");
