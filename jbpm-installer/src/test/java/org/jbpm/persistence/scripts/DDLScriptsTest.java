@@ -63,7 +63,7 @@ public class DDLScriptsTest {
         flyway.setDataSource(srPds);
         flyway.setLocations(dbScriptsLocation);
         flyway.migrate();
-        flyway.clean();
+//        flyway.clean();
         scriptRunnerContext.clean();
 
 //        try {
