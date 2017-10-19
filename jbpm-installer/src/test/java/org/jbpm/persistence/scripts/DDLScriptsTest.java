@@ -36,6 +36,7 @@ import static org.jbpm.persistence.util.PersistenceUtil.JBPM_PERSISTENCE_UNIT_NA
  */
 public class DDLScriptsTest {
     private static final Logger logger = LoggerFactory.getLogger(DDLScriptsTest.class);
+    private Flyway flyway = new Flyway();
 
     @BeforeClass
     public static void printHibernateVersion() {
@@ -58,13 +59,10 @@ public class DDLScriptsTest {
         PoolingDataSource srPds = scriptRunnerContext.getPds();
         Assert.assertNotNull(srPds);
 
-        try {
-            Flyway flyway = new Flyway();
-            flyway.setDataSource(srPds);
-            flyway.migrate();
-        } finally {
-            scriptRunnerContext.clean();
-        }
+
+        flyway.setDataSource(srPds);
+        flyway.migrate();
+        scriptRunnerContext.clean();
 
 
 //        try {
@@ -75,15 +73,12 @@ public class DDLScriptsTest {
 
         final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(PersistenceUnit.DB_TESTING_VALIDATE);
         PoolingDataSource dbtPds = dbTestingContext.getPds();
-        try {
-            Flyway flyway1 = new Flyway();
-            flyway1.setDataSource(dbtPds);
-            flyway1.migrate();
-            dbTestingContext.startAndPersistSomeProcess("minimalProcess");
-            Assert.assertTrue(dbTestingContext.getStoredProcessesCount() == 1);
-        } finally {
-            dbTestingContext.clean();
-        }
+
+        flyway.setDataSource(dbtPds);
+        flyway.migrate();
+        dbTestingContext.startAndPersistSomeProcess("minimalProcess");
+        Assert.assertTrue(dbTestingContext.getStoredProcessesCount() == 1);
+        dbTestingContext.clean();
 
 //        try {
 //            dbTestingContext.startAndPersistSomeProcess("minimalProcess");
@@ -111,15 +106,12 @@ public class DDLScriptsTest {
         final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
         PoolingDataSource srPds = scriptRunnerContext.getPds();
         Assert.assertNotNull(srPds);
-        try {
             //scriptRunnerContext.executeScripts(new File(getClass().getResource("/db/ddl-scripts").getFile()));
 
-            Flyway flyway1 = new Flyway();
-            flyway1.setDataSource(srPds);
-            flyway1.migrate();
-        } finally {
-            scriptRunnerContext.clean();
-        }
+        flyway.setDataSource(srPds);
+        flyway.migrate();
+        scriptRunnerContext.clean();
+
         final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(DB_TESTING_UPDATE);
         dbTestingContext.clean();
     }
