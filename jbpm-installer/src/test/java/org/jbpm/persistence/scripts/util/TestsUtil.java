@@ -70,6 +70,10 @@ public final class TestsUtil {
         }
     }
 
+    public static String getDDLScriptDirByDatabaseType(final String folderWithDDLs, final DatabaseType databaseType) {
+        return folderWithDDLs + File.separator + databaseType.getScriptsFolderName();
+    }
+
     /**
      * Gets database type based on dialect property specified in data source properties.
      * @param dataSourceProperties Data source properties.

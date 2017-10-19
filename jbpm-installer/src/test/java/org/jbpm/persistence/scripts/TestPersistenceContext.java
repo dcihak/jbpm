@@ -89,6 +89,10 @@ public final class TestPersistenceContext {
         return pds;
     }
 
+    public DatabaseType getDatabaseType() {
+        return databaseType;
+    }
+
     /**
      * Initializes persistence context from specified persistence unit.
      * @param persistenceUnit Persistence unit which is used to initialize this persistence context.
