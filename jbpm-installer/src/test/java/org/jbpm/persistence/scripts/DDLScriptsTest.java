@@ -106,12 +106,17 @@ public class DDLScriptsTest {
      * Simulates the case when user executes DDL scripts before deploying the kie-server/kie-wb and leaves the hibernate
      * config untouched (thus using the default 'update')
      */
-    @Ignore
     @Test
     public void createSchemaWithDDLsAndRunHibernateUpdate() throws Exception {
         final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
+        PoolingDataSource srPds = scriptRunnerContext.getPds();
+        Assert.assertNotNull(srPds);
         try {
-            scriptRunnerContext.executeScripts(new File(getClass().getResource("/db/ddl-scripts").getFile()));
+            //scriptRunnerContext.executeScripts(new File(getClass().getResource("/db/ddl-scripts").getFile()));
+
+            Flyway flyway1 = new Flyway();
+            flyway1.setDataSource(srPds);
+            flyway1.migrate();
         } finally {
             scriptRunnerContext.clean();
         }
