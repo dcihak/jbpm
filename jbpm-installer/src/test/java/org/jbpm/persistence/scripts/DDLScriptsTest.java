@@ -96,7 +96,6 @@ public class DDLScriptsTest {
     /**
      * Simulates the default config for kie-server/kie-wb when deploying the apps for the first time (and without running the DDL scripts first)
      */
-    @Ignore
     @Test
     public void runHibernateUpdateOnEmptyDB() throws Exception {
         final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(DB_TESTING_UPDATE);
