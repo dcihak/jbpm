@@ -60,7 +60,7 @@ public class DDLScriptsTest {
         Assert.assertNotNull(srPds);
 
         flyway.setDataSource(srPds);
-        String dbScriptsLocation = TestsUtil.getDDLScriptDirByDatabaseType(DB_DDL_SCRIPTS_RESOURCE_PATH, scriptRunnerContext.getDatabaseType());
+        String dbScriptsLocation = TestsUtil.getDDLScriptDirByDatabaseType("db/ddl-scripts", scriptRunnerContext.getDatabaseType());
         Assert.assertEquals("SCRIPT LOCATION", dbScriptsLocation);
         flyway.setLocations(dbScriptsLocation);
 
