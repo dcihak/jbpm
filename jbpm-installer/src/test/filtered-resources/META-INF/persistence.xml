@@ -105,7 +105,7 @@
     <class>org.jbpm.runtime.manager.impl.jpa.ExecutionErrorInfo</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
-      <property name="hibernate.globally_quoted_identifiers" value="true"/>
+      <property name="hibernate.globally_quoted_identifiers" value="false"/>
 
       <property name="hibernate.max_fetch_depth" value="3"/>
       <property name="hibernate.hbm2ddl.auto" value="validate"/>
