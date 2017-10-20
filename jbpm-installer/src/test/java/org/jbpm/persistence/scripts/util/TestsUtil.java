@@ -71,7 +71,7 @@ public final class TestsUtil {
     }
 
     public static String getDDLScriptDirByDatabaseType(final String folderWithDDLs, final DatabaseType databaseType) {
-        return folderWithDDLs + File.separator + databaseType.getScriptsFolderName() + File.separator + "migration";
+        return folderWithDDLs + File.separator + databaseType.getScriptsFolderName();
     }
 
     /**
