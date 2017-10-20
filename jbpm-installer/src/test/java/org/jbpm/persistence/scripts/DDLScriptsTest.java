@@ -72,7 +72,7 @@ public class DDLScriptsTest {
 //            scriptRunnerContext.clean();
 //        }
 
-        final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
+        final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(PersistenceUnit.DB_TESTING_UPDATE);
         PoolingDataSource dbtPds = dbTestingContext.getPds();
 
         flyway.setDataSource(dbtPds);
