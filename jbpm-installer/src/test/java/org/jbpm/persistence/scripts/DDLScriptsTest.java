@@ -71,7 +71,6 @@ public class DDLScriptsTest {
 //            scriptRunnerContext.clean();
 //        }
 
-        flyway.baseline();
         final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(PersistenceUnit.DB_TESTING_VALIDATE);
         PoolingDataSource dbtPds = dbTestingContext.getPds();
 
