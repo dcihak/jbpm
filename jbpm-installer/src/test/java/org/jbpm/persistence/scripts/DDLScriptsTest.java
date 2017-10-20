@@ -63,7 +63,6 @@ public class DDLScriptsTest {
         flyway.setDataSource(srPds);
         flyway.setLocations(dbScriptsLocation);
         flyway.migrate();
-//        flyway.clean();
         scriptRunnerContext.clean();
 
 //        try {
@@ -72,6 +71,7 @@ public class DDLScriptsTest {
 //            scriptRunnerContext.clean();
 //        }
 
+        flyway.clean();
         final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(PersistenceUnit.DB_TESTING_VALIDATE);
         PoolingDataSource dbtPds = dbTestingContext.getPds();
 
