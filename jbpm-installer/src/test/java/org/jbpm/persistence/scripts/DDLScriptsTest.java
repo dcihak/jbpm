@@ -107,6 +107,7 @@ public class DDLScriptsTest {
      * Simulates the default config for kie-server/kie-wb when deploying the apps for the first time (and without running the DDL scripts first)
      */
     @Test
+    @Ignore
     public void runHibernateUpdateOnEmptyDB() throws Exception {
         final TestPersistenceContext dbTestingContext = createAndInitPersistenceContext(DB_TESTING_UPDATE);
         dbTestingContext.clean();
@@ -117,6 +118,7 @@ public class DDLScriptsTest {
      * config untouched (thus using the default 'update')
      */
     @Test
+    @Ignore
     public void createSchemaWithDDLsAndRunHibernateUpdate() throws Exception {
         final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
         PoolingDataSource srPds = scriptRunnerContext.getPds();
@@ -124,6 +126,7 @@ public class DDLScriptsTest {
             //scriptRunnerContext.executeScripts(new File(getClass().getResource("/db/ddl-scripts").getFile()));
 
         flyway.setDataSource(srPds);
+        flyway.baseline();
         flyway.migrate();
         scriptRunnerContext.clean();
 
