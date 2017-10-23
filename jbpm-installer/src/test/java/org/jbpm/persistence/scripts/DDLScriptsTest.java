@@ -17,15 +17,23 @@
 package org.jbpm.persistence.scripts;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.internal.cglib.transform.impl.AccessFieldTransformer;
 import org.flywaydb.core.Flyway;
 import org.jbpm.persistence.scripts.util.TestsUtil;
 import org.jbpm.persistence.util.PersistenceUtil;
+import org.jbpm.services.task.impl.model.AttachmentImpl;
+import org.jbpm.services.task.impl.model.ContentImpl;
+import org.jbpm.services.task.impl.model.UserImpl;
 import org.jbpm.test.util.PoolingDataSource;
 import org.junit.*;
+import org.kie.api.task.model.Attachment;
+import org.kie.api.task.model.Content;
+import org.kie.internal.task.api.model.AccessType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Properties;
 
 import static org.jbpm.persistence.scripts.PersistenceUnit.DB_TESTING_UPDATE;
@@ -58,12 +66,22 @@ public class DDLScriptsTest {
         final TestPersistenceContext scriptRunnerContext = createAndInitPersistenceContext(PersistenceUnit.SCRIPT_RUNNER);
         PoolingDataSource srPds = scriptRunnerContext.getPds();
         Assert.assertNotNull(srPds);
-        String dbScriptsLocation = TestsUtil.getDDLScriptDirByDatabaseType("db/ddl-scripts", scriptRunnerContext.getDatabaseType());
 
-        flyway.setDataSource(srPds);
-        flyway.setLocations(dbScriptsLocation);
-        flyway.baseline();
-        flyway.migrate();
+//        AttachmentImpl attachment = new AttachmentImpl();
+//        attachment.setAccessType(AccessType.Inline);
+//        attachment.setAttachedAt(new Date());
+//        attachment.setName("NAME");
+//        ContentImpl content = new ContentImpl();
+//        attachment.setContent(content);
+//        attachment.setContentType("CONTENT TYPE");
+//        attachment.setSize(10);
+
+//        String dbScriptsLocation = TestsUtil.getDDLScriptDirByDatabaseType("db/ddl-scripts", scriptRunnerContext.getDatabaseType());
+//
+//        flyway.setDataSource(srPds);
+//        flyway.setLocations(dbScriptsLocation);
+//        flyway.baseline();
+//        flyway.migrate();
         scriptRunnerContext.clean();
 
 //        try {
