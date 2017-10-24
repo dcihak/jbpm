@@ -366,7 +366,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
         jmsProps.put("jbpm.audit.jms.queue", queue);
-        AbstractAuditLogger logger = AuditLoggerFactory.newInstance(Type.JPA, session, jmsProps);
+        AbstractAuditLogger logger = AuditLoggerFactory.newInstance(Type.JMS, session, jmsProps);
         assertNotNull(logger);
         assertTrue((logger instanceof AsyncAuditLogProducer));
 
