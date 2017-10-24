@@ -393,6 +393,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         TrackingProcessEventListener process = new TrackingProcessEventListener(false);
         session.addEventListener(process);
         List<String> nodesLeft = process.getNodesLeft();
+        Assertions.assertThat(process.wasProcessStarted("com.sample.ruleflow3")).isTrue();
         assertEquals(22, nodesLeft.size());
         for (String node : nodesLeft) {
             this.logger.info("NODE: " + node);
