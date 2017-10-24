@@ -67,15 +67,6 @@ public class DDLScriptsTest {
         PoolingDataSource srPds = scriptRunnerContext.getPds();
         Assert.assertNotNull(srPds);
 
-//        AttachmentImpl attachment = new AttachmentImpl();
-//        attachment.setAccessType(AccessType.Inline);
-//        attachment.setAttachedAt(new Date());
-//        attachment.setName("NAME");
-//        ContentImpl content = new ContentImpl();
-//        attachment.setContent(content);
-//        attachment.setContentType("CONTENT TYPE");
-//        attachment.setSize(10);
-
 //        String dbScriptsLocation = TestsUtil.getDDLScriptDirByDatabaseType("db/ddl-scripts", scriptRunnerContext.getDatabaseType());
 //
 //        flyway.setDataSource(srPds);

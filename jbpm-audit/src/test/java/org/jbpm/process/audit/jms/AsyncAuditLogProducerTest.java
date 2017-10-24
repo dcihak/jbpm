@@ -62,6 +62,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieBase;
+import org.kie.api.event.process.DefaultProcessEventListener;
+import org.kie.api.event.process.ProcessNodeLeftEvent;
 import org.kie.api.runtime.Environment;
 import org.kie.api.runtime.EnvironmentName;
 import org.kie.api.runtime.KieSession;
@@ -366,7 +368,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
         jmsProps.put("jbpm.audit.jms.queue", queue);
-        AbstractAuditLogger logger = AuditLoggerFactory.newInstance(Type.JMS, session, jmsProps);
+        AbstractAuditLogger logger = AuditLoggerFactory.newInstance(Type.JPA, session, jmsProps);
         assertNotNull(logger);
         assertTrue((logger instanceof AsyncAuditLogProducer));
 
@@ -389,6 +391,11 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         assertEquals(1, processInstances.size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
+
+        TrackingProcessEventListener process = new TrackingProcessEventListener(false);
+        session.addEventListener(process);
+        Assertions.assertThat(process.wasNodeTriggered("Start")).isTrue();
+
         assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
 
