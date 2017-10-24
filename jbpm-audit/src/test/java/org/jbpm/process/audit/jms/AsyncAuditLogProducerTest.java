@@ -392,9 +392,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
 
         TrackingProcessEventListener process = new TrackingProcessEventListener(false);
         session.addEventListener(process);
-        List<String> nodesTriggered = process.getNodesTriggered();
-        assertEquals(22, nodesTriggered.size());
-        for (String node : nodesTriggered) {
+        List<String> nodesLeft = process.getNodesLeft()
+        assertEquals(22, nodesLeft.size());
+        for (String node : nodesLeft) {
             this.logger.info("NODE: " + node);
         }
 
