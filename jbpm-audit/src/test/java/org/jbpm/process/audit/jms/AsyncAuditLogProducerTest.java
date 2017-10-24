@@ -390,9 +390,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         assertEquals(1, processInstances.size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
 
-        TrackingProcessEventListener process = new TrackingProcessEventListener(false);
-        session.addEventListener(process);
-        Assertions.assertThat(process.wasNodeTriggered("Start")).isTrue();
+//        TrackingProcessEventListener process = new TrackingProcessEventListener(false);
+//        session.addEventListener(process);
+//        Assertions.assertThat(process.wasNodeTriggered("Start")).isTrue();
 
         assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
