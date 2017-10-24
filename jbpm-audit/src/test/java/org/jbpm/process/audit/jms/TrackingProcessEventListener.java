@@ -13,6 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Created by dcihak on 24.10.17.
+ */
 public class TrackingProcessEventListener extends DefaultProcessEventListener {
 
     private final int numberOfCountDownsNeeded;
@@ -226,5 +229,4 @@ public class TrackingProcessEventListener extends DefaultProcessEventListener {
             latch.countDown();
         }
     }
-
 }
