@@ -62,8 +62,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieBase;
-import org.kie.api.event.process.DefaultProcessEventListener;
-import org.kie.api.event.process.ProcessNodeLeftEvent;
 import org.kie.api.runtime.Environment;
 import org.kie.api.runtime.EnvironmentName;
 import org.kie.api.runtime.KieSession;
