@@ -1,21 +1,18 @@
 package org.jbpm.process.audit.jms;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
 import org.drools.persistence.api.TransactionManager;
 import org.drools.persistence.api.TransactionManagerFactory;
 import org.drools.persistence.api.TransactionSynchronization;
 import org.kie.api.event.process.*;
 import org.kie.api.runtime.process.ProcessInstance;
 
-/**
- * AgendaEventListener to track fired rules. When rule is fired for the first
- * time it's added to fired rules and when the rule fires afterwards the counter
- * is incremented to make it possible to track how many times the rule was fired
- */
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 public class TrackingProcessEventListener extends DefaultProcessEventListener {
 
     private final int numberOfCountDownsNeeded;
