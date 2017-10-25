@@ -309,13 +309,13 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
 
         // start process instance
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
-        
-        MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
-     
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
         List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
+        
+        MessageReceiver receiver = new MessageReceiver();
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
+
         assertEquals(1, processInstances.size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
         assertEquals(6, nodeInstances.size());
