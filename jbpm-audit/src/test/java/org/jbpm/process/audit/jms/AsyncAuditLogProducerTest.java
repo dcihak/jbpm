@@ -333,7 +333,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         VariableInstanceLog var = variables.get(0);
         // initial value from rule flow definition
         assertEquals("InitialValue", var.getValue());
-        assertEquals("", var.getOldValue());
+        assertThat(var.getOldValue(), AnyOf.anyOf(Is.is(""), Is.is((String) null), Is.is(" ")));
         assertEquals(processInstance.getId(), var.getProcessInstanceId().longValue());
         assertEquals(processInstance.getProcessId(), var.getProcessId());
         assertEquals("s", var.getVariableId());
