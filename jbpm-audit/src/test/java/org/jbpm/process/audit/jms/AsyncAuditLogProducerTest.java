@@ -401,6 +401,12 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             this.logger.info("NODE: " + node);
         }
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
+
+        this.logger.info("List of all node instances: ");
+        for (NodeInstanceLog instance : nodeInstances) {
+            this.logger.info("INSTANCE: " + instance);
+        }
+
         assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
             assertEquals(processInstance.getId(), nodeInstance.getProcessInstanceId().longValue());
