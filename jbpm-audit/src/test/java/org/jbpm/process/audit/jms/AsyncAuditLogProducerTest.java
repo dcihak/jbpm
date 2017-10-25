@@ -390,7 +390,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
         List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
-//        assertEquals(1, processInstances.size());
+        assertEquals(1, processInstances.size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
 
         // wait for timer
