@@ -395,6 +395,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         // wait for timer
         String endNodeName = "End";
         assertTrue( "Node '" + endNodeName + "' was not triggered on time!", tpel.waitForNodeTobeTriggered(endNodeName, 2000));
+        assertEquals(12, tpel.getNodesLeft().size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
 
         assertEquals(12, nodeInstances.size());
