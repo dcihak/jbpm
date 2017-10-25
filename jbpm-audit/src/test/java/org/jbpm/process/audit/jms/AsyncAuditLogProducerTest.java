@@ -65,6 +65,7 @@ import org.kie.api.KieBase;
 import org.kie.api.runtime.Environment;
 import org.kie.api.runtime.EnvironmentName;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.manager.audit.AuditService;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -378,6 +379,8 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("list", names);
 
+        TrackingProcessEventListener tpel = new TrackingProcessEventListener();
+        session.addEventListener(tpel);
         // start process instance
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
         
@@ -386,18 +389,15 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
-        List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
-        assertEquals(1, processInstances.size());
+//        List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
+//        assertEquals(1, processInstances.size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
 
-        TrackingProcessEventListener process = new TrackingProcessEventListener(false);
-        session.addEventListener(process);
-        List<String> nodesLeft = process.getNodesLeft();
-        Assertions.assertThat(process.wasProcessStarted("com.sample.ruleflow3")).isTrue();
-        assertEquals(22, nodesLeft.size());
-        for (String node : nodesLeft) {
-            this.logger.info("NODE: " + node);
-        }
+        // wait for timer
+        String endNodeName = "End";
+        assertTrue( "Node '" + endNodeName + "' was not triggered on time!", tpel.waitForNodeTobeTriggered(endNodeName, 2000));
+        Assertions.assertThat(tpel.wasNodeTriggered("Start")).isTrue();
+        Assertions.assertThat(tpel.wasNodeLeft("Start")).isTrue();
 
         //assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
