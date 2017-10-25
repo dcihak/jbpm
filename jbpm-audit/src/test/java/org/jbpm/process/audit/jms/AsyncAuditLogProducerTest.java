@@ -352,7 +352,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         logService.clear();
         processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         logService.dispose();
-        assertTrue(processInstances.isEmpty());
+        Assertions.assertThat(processInstances).isNullOrEmpty();
     }
     
     @Test
