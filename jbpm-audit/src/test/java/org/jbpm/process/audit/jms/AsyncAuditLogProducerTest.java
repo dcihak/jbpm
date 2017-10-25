@@ -230,7 +230,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow");
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -268,7 +268,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow");
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -311,11 +311,17 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
 
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000);
 
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
         List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
+
+        this.logger.info("List of all processInstances: ");
+        for (ProcessInstanceLog instance : processInstances) {
+            this.logger.info("INSTANCE: " + instance.toString());
+        }
+
         assertEquals(1, processInstances.size());
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
         assertEquals(6, nodeInstances.size());
@@ -385,7 +391,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -477,7 +483,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     
     private class MessageReceiver {
         
-        void receiveAndProcess(Queue queue, EntityManagerFactory entityManagerFactory) throws Exception {
+        void receiveAndProcess(Queue queue, EntityManagerFactory entityManagerFactory, int waitTime) throws Exception {
             
             Connection qconnetion = factory.createConnection();
             Session qsession = qconnetion.createSession(true, QueueSession.AUTO_ACKNOWLEDGE);
@@ -501,7 +507,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             };
             consumer.setMessageListener(rec);
             // since we use message listener allow it to complete the async processing
-            Thread.sleep(2000);
+            Thread.sleep(waitTime);
             
             consumer.close();            
             qsession.close();            
