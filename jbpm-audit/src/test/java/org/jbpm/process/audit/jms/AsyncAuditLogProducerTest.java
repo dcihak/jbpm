@@ -396,12 +396,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         // wait for timer
         String endNodeName = "End";
         assertTrue( "Node '" + endNodeName + "' was not triggered on time!", tpel.waitForNodeTobeTriggered(endNodeName, 2000));
-        Assertions.assertThat(tpel.wasNodeTriggered("Start")).isTrue();
-        Assertions.assertThat(tpel.wasNodeLeft("Start")).isTrue();
 
-        //assertEquals(12, nodeInstances.size());
+        assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
-
             assertEquals(processInstance.getId(), nodeInstance.getProcessInstanceId().longValue());
             assertEquals("com.sample.ruleflow3", nodeInstance.getProcessId());
             assertNotNull(nodeInstance.getDate());
@@ -438,7 +435,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         logService.clear();
         processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         logService.dispose();
-        assertTrue(processInstances.isEmpty());
+        Assertions.assertThat(processInstances).isNullOrEmpty();
     }
     
     public KieSession createSession(KieBase kbase, Environment env) {
