@@ -391,11 +391,11 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         AuditLogService logService = new JPAAuditLogService(env);
         List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         assertEquals(1, processInstances.size());
-        List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
 
         // wait for timer
         String endNodeName = "End";
         assertTrue( "Node '" + endNodeName + "' was not triggered on time!", tpel.waitForNodeTobeTriggered(endNodeName, 2000));
+        List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
 
         assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
