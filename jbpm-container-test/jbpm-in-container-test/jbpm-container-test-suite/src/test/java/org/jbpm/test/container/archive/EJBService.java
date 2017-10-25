@@ -40,6 +40,7 @@ import org.jbpm.test.container.JbpmContainerTest;
 import org.jbpm.test.container.listeners.TrackingAgendaEventListener;
 import org.jbpm.test.container.tools.IntegrationMavenResolver;
 import org.jbpm.test.container.webspherefix.WebSphereFixedJtaPlatform;
+import org.jbpm.test.listener.DefaultCountDownProcessEventListener;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
@@ -96,6 +97,7 @@ public class EJBService {
                 .addClass(EJBService.class)
                 // Workaroud for https://hibernate.atlassian.net/browse/HHH-11606
                 .addClass(WebSphereFixedJtaPlatform.class)
+                .addClass(DefaultCountDownProcessEventListener.class)
                 .addClass(JbpmContainerTest.class)
                 .addClass(AbstractEJBServicesTest.class)
                 .addClass(AbstractRuntimeEJBServicesTest.class)

@@ -257,9 +257,9 @@ public class CompensationTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
         if( ! isPersistence() ) { 
             assertProcessVarValue(processInstance, "x", null);
-        } else {
+        } else { 
             String actualValue = getProcessVarValue(processInstance, "x");
-            assertThat(actualValue, AnyOf.anyOf(Is.is(""), Is.is((String) null), Is.is(" ")));
+            assertThat(actualValue, AnyOf.anyOf(Is.is(""), Is.is(" ")));
         }
     }
     
