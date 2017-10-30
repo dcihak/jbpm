@@ -25,6 +25,8 @@ import static org.jbpm.process.audit.AbstractAuditLogServiceTest.createKnowledge
 import static org.junit.Assert.*;
 
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -225,7 +227,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow");
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000);
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000, 28);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -263,7 +265,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow");
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000);
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000, 13);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -282,7 +284,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         logService.dispose();
         assertTrue(processInstances.isEmpty());
     }
-    
+
     @Test
     public void testAsyncAuditLoggerCompleteWithVariables() throws Exception {
         Environment env = createEnvironment(context);
@@ -306,7 +308,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
 
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000);
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000, 11);
 
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -377,7 +379,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000);
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000, 11);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -454,7 +456,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     
     private class MessageReceiver {
         
-        void receiveAndProcess(Queue queue, EntityManagerFactory entityManagerFactory, long waitTime) throws Exception {
+        void receiveAndProcess(Queue queue, EntityManagerFactory entityManagerFactory, long waitTime, int countDown) throws Exception {
             
             Connection qconnetion = factory.createConnection();
             Session qsession = qconnetion.createSession(true, QueueSession.AUTO_ACKNOWLEDGE);
@@ -470,7 +472,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             MessageConsumer consumer = qsession.createConsumer(queue);
             qconnetion.start();
 
-            //CountDownLatch latch = new CountDownLatch(11);
+            CountDownLatch latch = new CountDownLatch(countDown);
 
             AsyncAuditLogReceiver rec = new AsyncAuditLogReceiver(entityManagerFactory) {
 
@@ -481,9 +483,8 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
                         UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction");
                         ut.begin();                    
                         super.onMessage(message);
-                        logger.info("MESSAGE CONTENT" + message.toString());
                         ut.commit();
-                        //latch.countDown();
+                        latch.countDown();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -492,8 +493,8 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             };
             consumer.setMessageListener(rec);
             // since we use message listener allow it to complete the async processing
-            Thread.sleep(waitTime);
-            //latch.await(waitTime, TimeUnit.MILLISECONDS);
+            //Thread.sleep(waitTime);
+            latch.await(waitTime, TimeUnit.MILLISECONDS);
             
             consumer.close();            
             qsession.close();            
