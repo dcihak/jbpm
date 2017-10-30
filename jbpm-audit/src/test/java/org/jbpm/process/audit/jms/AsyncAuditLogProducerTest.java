@@ -462,7 +462,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             Enumeration messagesEnum = qsession.createBrowser(queue).getEnumeration();
             int i = 0;
             while (messagesEnum.hasMoreElements()) {
-                logger.info("MESSAGES: " + messagesEnum.nextElement().toString());
+                messagesEnum.nextElement();
                 i++;
             }
             logger.info("MESSAGES COUNT: " + i);
@@ -470,7 +470,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             MessageConsumer consumer = qsession.createConsumer(queue);
             qconnetion.start();
 
-            //CountDownLatch latch = new CountDownLatch(10);
+            //CountDownLatch latch = new CountDownLatch(11);
 
             AsyncAuditLogReceiver rec = new AsyncAuditLogReceiver(entityManagerFactory) {
 
@@ -481,6 +481,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
                         UserTransaction ut = InitialContext.doLookup("java:comp/UserTransaction");
                         ut.begin();                    
                         super.onMessage(message);
+                        logger.info("MESSAGE CONTENT" + message.toString());
                         ut.commit();
                         //latch.countDown();
                     } catch (Exception e) {
