@@ -458,8 +458,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             
             Connection qconnetion = factory.createConnection();
             Session qsession = qconnetion.createSession(true, QueueSession.AUTO_ACKNOWLEDGE);
-            MessageConsumer consumer = qsession.createConsumer(queue);
-            qconnetion.start();
 
             Enumeration messagesEnum = qsession.createBrowser(queue).getEnumeration();
             int i = 0;
@@ -468,6 +466,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
                 i++;
             }
             logger.info("MESSAGES COUNT: " + i);
+
+            MessageConsumer consumer = qsession.createConsumer(queue);
+            qconnetion.start();
 
             //CountDownLatch latch = new CountDownLatch(10);
 
