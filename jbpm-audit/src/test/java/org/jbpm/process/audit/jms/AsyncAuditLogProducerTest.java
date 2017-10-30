@@ -462,7 +462,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             Enumeration messagesEnum = qsession.createBrowser(queue).getEnumeration();
             int i = 0;
             while (messagesEnum.hasMoreElements()) {
-                messagesEnum.nextElement();
+                logger.info("MESSAGES: " + messagesEnum.nextElement().toString());
                 i++;
             }
             logger.info("MESSAGES COUNT: " + i);
