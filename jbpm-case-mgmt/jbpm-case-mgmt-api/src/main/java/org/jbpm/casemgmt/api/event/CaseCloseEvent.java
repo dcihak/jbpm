@@ -16,6 +16,8 @@
 
 package org.jbpm.casemgmt.api.event;
 
+import org.jbpm.casemgmt.api.model.instance.CaseFileInstance;
+
 /**
  * Represents occurrence of case close operation
  */
@@ -23,8 +25,8 @@ public class CaseCloseEvent extends CaseEvent {
 
     private String comment;
     
-    public CaseCloseEvent(String user, String caseId, String comment) {
-        super(user, caseId);
+    public CaseCloseEvent(String user, String caseId, CaseFileInstance caseFile, String comment) {
+        super(user, caseId, caseFile);
         this.comment = comment;
     }
     
