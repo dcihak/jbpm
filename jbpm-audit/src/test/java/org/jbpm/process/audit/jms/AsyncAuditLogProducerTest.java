@@ -483,9 +483,8 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
                 
             };
             consumer.setMessageListener(rec);
-            // since we use message listener allow it to complete the async processing
-            //Thread.sleep(waitTime);
-            latch.await(waitTime, TimeUnit.MILLISECONDS);
+            boolean latchResult = latch.await(waitTime, TimeUnit.MILLISECONDS);
+            logger.info("latchResult: " + latchResult);
             
             consumer.close();            
             qsession.close();            
