@@ -24,11 +24,7 @@ import static org.jbpm.process.audit.AbstractAuditLogServiceTest.createKieSessio
 import static org.jbpm.process.audit.AbstractAuditLogServiceTest.createKnowledgeBase;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -458,12 +454,23 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     
     private class MessageReceiver {
         
-        void receiveAndProcess(Queue queue, EntityManagerFactory entityManagerFactory, int waitTime) throws Exception {
+        void receiveAndProcess(Queue queue, EntityManagerFactory entityManagerFactory, long waitTime) throws Exception {
             
             Connection qconnetion = factory.createConnection();
             Session qsession = qconnetion.createSession(true, QueueSession.AUTO_ACKNOWLEDGE);
             MessageConsumer consumer = qsession.createConsumer(queue);
             qconnetion.start();
+
+            Enumeration messagesEnum = qsession.createBrowser(queue).getEnumeration();
+            int i = 0;
+            while (messagesEnum.hasMoreElements()) {
+                messagesEnum.nextElement();
+                i++;
+            }
+            logger.info("MESSAGES COUNT: " + i);
+
+            //CountDownLatch latch = new CountDownLatch(10);
+
             AsyncAuditLogReceiver rec = new AsyncAuditLogReceiver(entityManagerFactory) {
 
                 @Override
@@ -474,6 +481,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
                         ut.begin();                    
                         super.onMessage(message);
                         ut.commit();
+                        //latch.countDown();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -483,6 +491,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             consumer.setMessageListener(rec);
             // since we use message listener allow it to complete the async processing
             Thread.sleep(waitTime);
+            //latch.await(waitTime, TimeUnit.MILLISECONDS);
             
             consumer.close();            
             qsession.close();            
