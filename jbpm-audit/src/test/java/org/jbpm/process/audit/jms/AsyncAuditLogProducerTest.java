@@ -461,6 +461,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             Connection qconnetion = factory.createConnection();
             Session qsession = qconnetion.createSession(true, QueueSession.AUTO_ACKNOWLEDGE);
 
+            Thread.sleep(2000);
             Enumeration messagesEnum = qsession.createBrowser(queue).getEnumeration();
             int i = 0;
             while (messagesEnum.hasMoreElements()) {
