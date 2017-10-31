@@ -265,7 +265,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow");
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000, 11);
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 6000, 11);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -379,7 +379,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 5000, 28);
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 6000, 28);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
