@@ -24,11 +24,9 @@ import static org.jbpm.process.audit.AbstractAuditLogServiceTest.createKieSessio
 import static org.jbpm.process.audit.AbstractAuditLogServiceTest.createKnowledgeBase;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -76,7 +74,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     private HashMap<String, Object> context;
     private ConnectionFactory factory;
     private Queue queue;
-    
+
     private EmbeddedJMS jmsServer;    
     
     @Before
@@ -127,7 +125,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", true);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -157,7 +155,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", true);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -187,7 +185,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", jmsServer.lookup("ConnectionFactory"));
@@ -215,7 +213,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -229,7 +227,8 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow");
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
+        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 2000, 11, methodName);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -256,7 +255,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
 
         AbstractAuditLogger logger = AuditLoggerFactory.newJMSInstance(true, factory, queue);
         assertNotNull(logger);
@@ -267,7 +266,8 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow");
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
+        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 2000, 11, methodName);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -286,7 +286,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         logService.dispose();
         assertTrue(processInstances.isEmpty());
     }
-    
+
     @Test
     public void testAsyncAuditLoggerCompleteWithVariables() throws Exception {
         Environment env = createEnvironment(context);
@@ -294,7 +294,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -308,10 +308,11 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
 
         // start process instance
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
-        
+
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
-     
+        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 2000, 13, methodName);
+
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
         List<ProcessInstanceLog> processInstances = logService.findProcessInstances("com.sample.ruleflow3");
@@ -319,7 +320,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
         assertEquals(6, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
-
             assertEquals(processInstance.getId(), nodeInstance.getProcessInstanceId().longValue());
             assertEquals("com.sample.ruleflow3", nodeInstance.getProcessId());
             assertNotNull(nodeInstance.getDate());
@@ -332,7 +332,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         VariableInstanceLog var = variables.get(0);
         // initial value from rule flow definition
         assertEquals("InitialValue", var.getValue());
-        assertEquals("", var.getOldValue());
+        assertThat(var.getOldValue(), AnyOf.anyOf(Is.is(""), Is.is((String) null), Is.is(" ")));
         assertEquals(processInstance.getId(), var.getProcessInstanceId().longValue());
         assertEquals(processInstance.getProcessId(), var.getProcessId());
         assertEquals("s", var.getVariableId());
@@ -347,11 +347,11 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         assertEquals(processInstance.getProcessId(), var.getProcessId());
         assertEquals("s", var.getVariableId());
         assertEquals("s", var.getVariableInstanceId());
-        
+
         logService.clear();
         processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         logService.dispose();
-        assertTrue(processInstances.isEmpty());
+        Assertions.assertThat(processInstances).isNullOrEmpty();
     }
     
     @Test
@@ -361,7 +361,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         KieBase kbase = createKnowledgeBase();
         // create a new session
         KieSession session = createSession(kbase, env);
-        
+
         Map<String, Object> jmsProps = new HashMap<String, Object>();
         jmsProps.put("jbpm.audit.jms.transacted", false);
         jmsProps.put("jbpm.audit.jms.connection.factory", factory);
@@ -382,7 +382,8 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
         
         MessageReceiver receiver = new MessageReceiver();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)));
+        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 2000, 28, methodName);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -391,7 +392,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         List<NodeInstanceLog> nodeInstances = logService.findNodeInstances(processInstance.getId());
         assertEquals(12, nodeInstances.size());
         for (NodeInstanceLog nodeInstance: nodeInstances) {
-
             assertEquals(processInstance.getId(), nodeInstance.getProcessInstanceId().longValue());
             assertEquals("com.sample.ruleflow3", nodeInstance.getProcessId());
             assertNotNull(nodeInstance.getDate());
@@ -428,7 +428,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         logService.clear();
         processInstances = logService.findProcessInstances("com.sample.ruleflow3");
         logService.dispose();
-        assertTrue(processInstances.isEmpty());
+        Assertions.assertThat(processInstances).isNullOrEmpty();
     }
     
     public KieSession createSession(KieBase kbase, Environment env) {
@@ -460,12 +460,15 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     
     private class MessageReceiver {
         
-        void receiveAndProcess(Queue queue, EntityManagerFactory entityManagerFactory) throws Exception {
+        void receiveAndProcess(Queue queue, EntityManagerFactory entityManagerFactory, long waitTime, int countDown, String methodName) throws Exception {
             
             Connection qconnetion = factory.createConnection();
             Session qsession = qconnetion.createSession(true, QueueSession.AUTO_ACKNOWLEDGE);
             MessageConsumer consumer = qsession.createConsumer(queue);
             qconnetion.start();
+
+            CountDownLatch latch = new CountDownLatch(countDown);
+
             AsyncAuditLogReceiver rec = new AsyncAuditLogReceiver(entityManagerFactory) {
 
                 @Override
@@ -476,6 +479,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
                         ut.begin();                    
                         super.onMessage(message);
                         ut.commit();
+                        latch.countDown();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -484,7 +488,9 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             };
             consumer.setMessageListener(rec);
             // since we use message listener allow it to complete the async processing
-            Thread.sleep(2000);
+            //Thread.sleep(waitTime);
+            boolean latchResult = latch.await(waitTime, TimeUnit.MILLISECONDS);
+            logger.info("latchResult: " + latchResult);
             
             consumer.close();            
             qsession.close();            
