@@ -227,8 +227,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow");
         
         MessageReceiver receiver = new MessageReceiver();
-        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 2000, 11, methodName);
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 3000, 11);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -266,8 +265,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow");
         
         MessageReceiver receiver = new MessageReceiver();
-        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 2000, 11, methodName);
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 3000, 11);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -310,8 +308,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
 
         MessageReceiver receiver = new MessageReceiver();
-        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 2000, 13, methodName);
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 3000, 13);
 
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -382,8 +379,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
         ProcessInstance processInstance = session.startProcess("com.sample.ruleflow3", params);
         
         MessageReceiver receiver = new MessageReceiver();
-        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
-        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 2000, 28, methodName);
+        receiver.receiveAndProcess(queue, ((EntityManagerFactory)env.get(EnvironmentName.ENTITY_MANAGER_FACTORY)), 3000, 28);
      
         // validate if everything is stored in db
         AuditLogService logService = new JPAAuditLogService(env);
@@ -460,7 +456,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
     
     private class MessageReceiver {
         
-        void receiveAndProcess(Queue queue, EntityManagerFactory entityManagerFactory, long waitTime, int countDown, String methodName) throws Exception {
+        void receiveAndProcess(Queue queue, EntityManagerFactory entityManagerFactory, long waitTime, int countDown) throws Exception {
             
             Connection qconnetion = factory.createConnection();
             Session qsession = qconnetion.createSession(true, QueueSession.AUTO_ACKNOWLEDGE);
@@ -468,7 +464,6 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
             qconnetion.start();
 
             CountDownLatch latch = new CountDownLatch(countDown);
-
             AsyncAuditLogReceiver rec = new AsyncAuditLogReceiver(entityManagerFactory) {
 
                 @Override
@@ -487,10 +482,7 @@ public class AsyncAuditLogProducerTest extends AbstractBaseTest {
                 
             };
             consumer.setMessageListener(rec);
-            // since we use message listener allow it to complete the async processing
-            //Thread.sleep(waitTime);
-            boolean latchResult = latch.await(waitTime, TimeUnit.MILLISECONDS);
-            logger.info("latchResult: " + latchResult);
+            Assertions.assertThat(latch.await(waitTime, TimeUnit.MILLISECONDS)).isTrue();
             
             consumer.close();            
             qsession.close();            
