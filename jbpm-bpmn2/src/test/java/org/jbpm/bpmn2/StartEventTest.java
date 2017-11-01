@@ -514,6 +514,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals(0, list.size());
         // Timer in the process takes 500ms, so after 2.5 seconds, there should be 5 process IDs in the list.
         countDownListener.waitTillCompleted();
+        Thread.sleep(5000);
         assertEquals(5, getNumberOfProcessInstances("MultipleStartEvents"));
 
     }
