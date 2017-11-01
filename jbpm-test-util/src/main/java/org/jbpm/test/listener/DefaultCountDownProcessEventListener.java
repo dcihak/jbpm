@@ -38,6 +38,7 @@ public class DefaultCountDownProcessEventListener extends DefaultProcessEventLis
     }
 
     public DefaultCountDownProcessEventListener(int threads) {
+        logger.info("DefaultCountDownProcessEventListener created");
         this.latch = new CountDownLatch(threads);
     }
 
