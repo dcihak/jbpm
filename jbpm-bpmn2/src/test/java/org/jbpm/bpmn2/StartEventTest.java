@@ -99,7 +99,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         person = new Person();
         person.setName("john");
         ksession.insert(person);
-
+        abortProcessInstances(ksession);
 
     }
 
