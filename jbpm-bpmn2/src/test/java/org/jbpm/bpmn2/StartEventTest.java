@@ -497,11 +497,11 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     @Test(timeout=10000)
     public void testMultipleEventBasedStartEventsStartOnTimer()
             throws Exception {
-        clearLogService();
-
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 5);
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleEventBasedStartEventProcess.bpmn2");
         ksession = createKnowledgeSession(kbase);
+        clearLogService();
+
         ksession.addEventListener(countDownListener);
         TestWorkItemHandler workItemHandler = new TestWorkItemHandler();
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
