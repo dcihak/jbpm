@@ -505,6 +505,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
                 workItemHandler);
         final List<Long> list = new ArrayList<Long>();
+        clearLogService();
         ksession.addEventListener(new DefaultProcessEventListener() {
             public void beforeProcessStarted(ProcessStartedEvent event) {
                 list.add(event.getProcessInstance().getId());

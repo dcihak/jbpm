@@ -958,7 +958,9 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     }
 
     public void clearLogService() {
-        this.logService.clear();
+        if (logService != null) {
+            this.logService.clear();
+        }
     }
 
 }
