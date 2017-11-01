@@ -42,17 +42,17 @@ public class NodeLeftCountDownProcessEventListener extends NodeCountDownProcessE
 
     @Override
     public void afterNodeLeft(ProcessNodeLeftEvent event) {
+        logger.info("afterNodeLeft");
         if (nodeName.equals(event.getNodeInstance().getNodeName())) {
             countDown();
-            logger.info("countDown was invoked: afterNodeLeft");
         }
     }
     
     @Override
     public void beforeNodeLeft(ProcessNodeLeftEvent event) {
+        logger.info("beforeNodeLeft");
         if (reactOnBeforeNodeLeft && nodeName.equals(event.getNodeInstance().getNodeName())) {
             countDown();
-            logger.info("countDown was invoked: beforeNodeLeft");
         }
     }
 }
