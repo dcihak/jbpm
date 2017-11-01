@@ -505,7 +505,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
                 workItemHandler);
         final List<Long> list = new ArrayList<Long>();
-        clearLogService();
         ksession.addEventListener(new DefaultProcessEventListener() {
             public void beforeProcessStarted(ProcessStartedEvent event) {
                 list.add(event.getProcessInstance().getId());
@@ -513,6 +512,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
             }
         });
         assertEquals(0, list.size());
+        clearLogService();
         // Timer in the process takes 500ms, so after 2.5 seconds, there should be 5 process IDs in the list.
         countDownListener.waitTillCompleted();
         assertEquals(5, getNumberOfProcessInstances("MultipleStartEvents"));
