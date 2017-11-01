@@ -100,6 +100,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         person.setName("john");
         ksession.insert(person);
 
+
     }
 
     @Test(timeout=10000)
@@ -270,9 +271,10 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     @Test
     public void testSignalStartDynamic() throws Exception {
-
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 1);
         KieBase kbase = createKnowledgeBase("BPMN2-SignalStart.bpmn2");
         ksession = createKnowledgeSession(kbase);
+        ksession.addEventListener(countDownListener);
         // create KieContainer after session was created to make sure no runtime data
         // will be used during serialization (deep clone)
         KieServices ks = KieServices.Factory.get();
@@ -289,6 +291,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         });
         ksession.signalEvent("MySignal", "NewValue");
 
+        countDownListener.waitTillCompleted();
         assertEquals(1, getNumberOfProcessInstances("Minimal"));
         // now remove the process from kbase to make sure runtime based listeners are removed from signal manager
         kbase.removeProcess("Minimal");
