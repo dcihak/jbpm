@@ -500,8 +500,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 5);
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleEventBasedStartEventProcess.bpmn2");
         ksession = createKnowledgeSession(kbase);
-        clearLogService();
-
         ksession.addEventListener(countDownListener);
         TestWorkItemHandler workItemHandler = new TestWorkItemHandler();
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",

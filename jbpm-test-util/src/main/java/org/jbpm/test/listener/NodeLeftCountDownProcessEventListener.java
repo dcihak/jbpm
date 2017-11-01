@@ -17,11 +17,15 @@
 package org.jbpm.test.listener;
 
 import org.kie.api.event.process.ProcessNodeLeftEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class NodeLeftCountDownProcessEventListener extends NodeCountDownProcessEventListener {
     
     private boolean reactOnBeforeNodeLeft = false;
+
+    private static final Logger logger = LoggerFactory.getLogger(NodeLeftCountDownProcessEventListener.class);
     
     public NodeLeftCountDownProcessEventListener() {
         
@@ -40,6 +44,7 @@ public class NodeLeftCountDownProcessEventListener extends NodeCountDownProcessE
     public void afterNodeLeft(ProcessNodeLeftEvent event) {
         if (nodeName.equals(event.getNodeInstance().getNodeName())) {
             countDown();
+            logger.info("countDown was invoked: afterNodeLeft");
         }
     }
     
@@ -47,6 +52,7 @@ public class NodeLeftCountDownProcessEventListener extends NodeCountDownProcessE
     public void beforeNodeLeft(ProcessNodeLeftEvent event) {
         if (reactOnBeforeNodeLeft && nodeName.equals(event.getNodeInstance().getNodeName())) {
             countDown();
+            logger.info("countDown was invoked: beforeNodeLeft");
         }
     }
 }
