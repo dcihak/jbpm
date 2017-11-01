@@ -122,7 +122,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         countDownListener.waitTillCompleted();
         ksession.dispose();
         assertEquals(5, getNumberOfProcessInstances("Minimal"));
-
+        abortProcessInstances(ksession);
     }
 
     @Test(timeout=10000)
@@ -140,7 +140,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals(0, list.size());
         countDownListener.waitTillCompleted();
         assertEquals(5, getNumberOfProcessInstances("Minimal"));
-
+        abortProcessInstances(ksession);
     }
 
     @Test(timeout=10000)
@@ -168,7 +168,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals(0, list.size());
         countDownListener.waitTillCompleted();
         assertEquals(1, list.size());
-
+        abortProcessInstances(ksession);
     }
 
     @Test(timeout=10000)
@@ -186,7 +186,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals(0, list.size());
         countDownListener.waitTillCompleted();
         assertEquals(6, getNumberOfProcessInstances("Minimal"));
-
+        abortProcessInstances(ksession);
     }
 
     @Test(timeout=10000)
@@ -310,6 +310,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         ksession = createKnowledgeSession(kbase);
         ksession.signalEvent("Message-HelloMessage", "NewValue");
         assertEquals(1, getNumberOfProcessInstances("Minimal"));
+        abortProcessInstances(ksession);
     }
 
     @Test
@@ -553,6 +554,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals(1, list.size());
         String var = getProcessVarValue(list.get(0), "x");
         assertEquals("NEWVALUE", var);
+        abortProcessInstances(ksession);
     }
 
     /**
