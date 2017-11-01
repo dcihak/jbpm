@@ -62,6 +62,7 @@ public class DefaultCountDownProcessEventListener extends DefaultProcessEventLis
     }
 
     protected void countDown() {
+        logger.info("countDown called");
         try {
             TransactionManager tm = TransactionManagerFactory.get().newTransactionManager();
             if (tm != null && tm.getStatus() != TransactionManager.STATUS_NO_TRANSACTION
