@@ -90,8 +90,10 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     @Test
     public void testConditionalStart() throws Exception {
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 1);
         KieBase kbase = createKnowledgeBaseWithoutDumper("BPMN2-ConditionalStart.bpmn2");
         ksession = createKnowledgeSession(kbase);
+        ksession.addEventListener(countDownListener);
         Person person = new Person();
         person.setName("jack");
         ksession.insert(person);
@@ -99,7 +101,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         person = new Person();
         person.setName("john");
         ksession.insert(person);
-
+        countDownListener.waitTillCompleted();
 
     }
 
@@ -231,9 +233,11 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     @Test
     public void testSignalToStartProcess() throws Exception {
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 1);
         KieBase kbase = createKnowledgeBase("BPMN2-SignalStart.bpmn2",
                 "BPMN2-IntermediateThrowEventSignal.bpmn2");
         ksession = createKnowledgeSession(kbase);
+        ksession.addEventListener(countDownListener);
         TestWorkItemHandler handler = new TestWorkItemHandler();
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
                 handler);
@@ -249,14 +253,17 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         ProcessInstance processInstance = ksession
                 .startProcess("SignalIntermediateEvent");
         assertProcessInstanceFinished(processInstance, ksession);
+        countDownListener.waitTillCompleted();
         assertEquals(1, getNumberOfProcessInstances("Minimal"));
         assertEquals(1, getNumberOfProcessInstances("SignalIntermediateEvent"));
     }
 
     @Test
     public void testSignalStart() throws Exception {
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 1);
         KieBase kbase = createKnowledgeBase("BPMN2-SignalStart.bpmn2");
         ksession = createKnowledgeSession(kbase);
+        ksession.addEventListener(countDownListener);
         final List<Long> list = new ArrayList<Long>();
         ksession.addEventListener(new DefaultProcessEventListener() {
             public void beforeProcessStarted(ProcessStartedEvent event) {
@@ -265,15 +272,17 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         });
         ksession.signalEvent("MySignal", "NewValue");
 
+        countDownListener.waitTillCompleted();
         assertEquals(1, getNumberOfProcessInstances("Minimal"));
 
     }
 
     @Test
     public void testSignalStartDynamic() throws Exception {
-
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 1);
         KieBase kbase = createKnowledgeBase("BPMN2-SignalStart.bpmn2");
         ksession = createKnowledgeSession(kbase);
+        ksession.addEventListener(countDownListener);
         // create KieContainer after session was created to make sure no runtime data
         // will be used during serialization (deep clone)
         KieServices ks = KieServices.Factory.get();
@@ -290,6 +299,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         });
         ksession.signalEvent("MySignal", "NewValue");
 
+        countDownListener.waitTillCompleted();
         assertEquals(1, getNumberOfProcessInstances("Minimal"));
         // now remove the process from kbase to make sure runtime based listeners are removed from signal manager
         kbase.removeProcess("Minimal");
@@ -306,16 +316,21 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     @Test
     public void testMessageStart() throws Exception {
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 1);
         KieBase kbase = createKnowledgeBase("BPMN2-MessageStart.bpmn2");
         ksession = createKnowledgeSession(kbase);
+        ksession.addEventListener(countDownListener);
         ksession.signalEvent("Message-HelloMessage", "NewValue");
+        countDownListener.waitTillCompleted();
         assertEquals(1, getNumberOfProcessInstances("Minimal"));
     }
 
     @Test
     public void testMultipleStartEventsRegularStart() throws Exception {
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 1);
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcess.bpmn2");
         ksession = createKnowledgeSession(kbase);
+        ksession.addEventListener(countDownListener);
         TestWorkItemHandler workItemHandler = new TestWorkItemHandler();
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
                 workItemHandler);
@@ -328,7 +343,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals("john", workItem.getParameter("ActorId"));
         ksession.getWorkItemManager().completeWorkItem(workItem.getId(), null);
         assertProcessInstanceFinished(processInstance, ksession);
-
+        countDownListener.waitTillCompleted();
     }
 
     @Test(timeout=10000)
@@ -575,8 +590,10 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     @Test
     public void testSignalStartWithCustomEvent() throws Exception {
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("start", 1);
         KieBase kbase = createKnowledgeBase("BPMN2-SingalStartWithCustomEvent.bpmn2");
         ksession = createKnowledgeSession(kbase);
+        ksession.addEventListener(countDownListener);
         final List<ProcessInstance> list = new ArrayList<ProcessInstance>();
         ksession.addEventListener(new DefaultProcessEventListener() {
             public void beforeProcessStarted(ProcessStartedEvent event) {
@@ -586,6 +603,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         NotAvailableGoodsReport report = new NotAvailableGoodsReport("test");
         ksession.signalEvent("SignalNotAvailableGoods", report);
 
+        countDownListener.waitTillCompleted();
         assertEquals(1, getNumberOfProcessInstances("org.jbpm.example.SignalObjectProcess"));
         assertEquals(1, list.size());
         assertProcessVarValue(list.get(0), "report", "NotAvailableGoodsReport{type:test}");
