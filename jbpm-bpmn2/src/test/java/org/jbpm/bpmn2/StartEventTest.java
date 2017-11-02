@@ -354,6 +354,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         }
     }
 
+    @Ignore
     @Test
     public void testMultipleEventBasedStartEventsSignalStart() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleEventBasedStartEventProcess.bpmn2");
