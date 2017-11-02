@@ -328,7 +328,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     }
 
-    @Ignore
     @Test(timeout=10000)
     public void testMultipleStartEventsStartOnTimer() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 5);
@@ -343,6 +342,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
             ksession.addEventListener(new DefaultProcessEventListener() {
                 public void beforeProcessStarted(ProcessStartedEvent event) {
                     list.add(event.getProcessInstance().getId());
+                    logger.info("ProcessInstance ID: " + event.getProcessInstance().getId());
                 }
             });
             assertEquals(0, list.size());
