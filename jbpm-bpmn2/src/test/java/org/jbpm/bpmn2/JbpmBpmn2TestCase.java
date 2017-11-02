@@ -756,8 +756,13 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     }
     
     protected void abortProcessInstances(KieSession ksession) {
+        log.info("ActiveProcessInstances:");
         if (sessionPersistence) {
             try {
+                List<ProcessInstanceLog> instances = logService.findActiveProcessInstances();
+                for (ProcessInstanceLog instance : instances) {
+                    log.info(instance.toString());
+                }
                 logService.findActiveProcessInstances().forEach(pi -> ksession.abortProcessInstance(pi.getId()));
                 
             } catch(Exception e) {
