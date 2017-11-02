@@ -85,6 +85,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         }
     }
 
+    @Ignore
     @Test
     public void testConditionalStart() throws Exception {
         KieBase kbase = createKnowledgeBaseWithoutDumper("BPMN2-ConditionalStart.bpmn2");
