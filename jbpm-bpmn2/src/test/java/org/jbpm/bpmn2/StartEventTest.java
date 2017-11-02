@@ -101,6 +101,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     }
 
+    @Ignore
     @Test(timeout=10000)
     public void testTimerStartCycleLegacy() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 5);
