@@ -610,6 +610,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         }
     }
 
+    @Ignore
     @Test
     public void testInvalidCycleTimerStart() throws Exception {
         try {
