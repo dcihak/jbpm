@@ -79,6 +79,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     @After
     public void dispose() {
+        abortProcessInstances(ksession);
         if (ksession != null) {
             ksession.dispose();
             ksession = null;
