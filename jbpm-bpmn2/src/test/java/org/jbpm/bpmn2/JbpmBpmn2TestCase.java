@@ -646,10 +646,17 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     }
     
     public int getNumberOfProcessInstances(String processId) {
+        log.info("getNumberOfProcessInstances called");
         int counter = 0;
         if (sessionPersistence) {
             List<ProcessInstanceLog> logs = logService.findProcessInstances(processId);
             if (logs != null) {
+
+                for (ProcessInstanceLog log : logs) {
+                    this.log.info(log.toString());
+                }
+
+                log.info("logs.size: " + logs.size());
                 return logs.size();
             }
         } else {
@@ -661,6 +668,7 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
                     }
                 }
             }
+            log.info("counter: " + counter);
         }
         return counter;
     }
@@ -954,6 +962,12 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
                 DeleteDbFiles.execute("~", "jbpm-db", true);
                 server = null;
             }
+        }
+    }
+
+    public void clearLogService() {
+        if (logService != null) {
+            this.logService.clear();
         }
     }
 

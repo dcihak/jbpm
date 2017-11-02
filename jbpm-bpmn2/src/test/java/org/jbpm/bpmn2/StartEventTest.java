@@ -342,6 +342,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
             ksession.addEventListener(new DefaultProcessEventListener() {
                 public void beforeProcessStarted(ProcessStartedEvent event) {
                     list.add(event.getProcessInstance().getId());
+                    logger.info("ProcessInstance ID: " + event.getProcessInstance().getId());
                 }
             });
             assertEquals(0, list.size());
@@ -505,6 +506,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         ksession.addEventListener(new DefaultProcessEventListener() {
             public void beforeProcessStarted(ProcessStartedEvent event) {
                 list.add(event.getProcessInstance().getId());
+                logger.info("ProcessInstance ID: " + event.getProcessInstance().getId());
             }
         });
         assertEquals(0, list.size());
