@@ -768,7 +768,12 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
             } catch(Exception e) {
                 
             }
-        } 
+        }
+        log.info("ActiveProcessInstances after aborting:");
+        List<ProcessInstanceLog> instances = logService.findActiveProcessInstances();
+        for (ProcessInstanceLog instance : instances) {
+            log.info(instance.toString());
+        }
     }
 
     public void assertProcessVarExists(ProcessInstance process,
