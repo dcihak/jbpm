@@ -328,7 +328,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     }
 
-    @Ignore
     @Test(timeout=10000)
     public void testMultipleStartEventsStartOnTimer() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 5);
