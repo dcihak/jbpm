@@ -304,6 +304,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     }
 
+    @Ignore
     @Test
     public void testMessageStart() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-MessageStart.bpmn2");
@@ -535,6 +536,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     }
 
+    @Ignore
     @Test(timeout=10000)
     public void testSignalStartWithTransformation() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 1);
