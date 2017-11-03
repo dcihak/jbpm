@@ -76,14 +76,13 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     @Before
     public void prepare() {
-//        clearHistory();
+
     }
 
     @After
     public void dispose() throws Exception {
         if (ksession != null) {
-            Environment env = createEnvironment(emf);
-            logService = new JPAAuditLogService(env);
+            clearHistory();
             ksession.dispose();
             ksession = null;
         }
