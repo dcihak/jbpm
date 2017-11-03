@@ -774,7 +774,7 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
         log.info("ActiveProcessInstances after aborting:");
         List<ProcessInstanceLog> instances = logService.findActiveProcessInstances();
         for (ProcessInstanceLog instance : instances) {
-            log.info(instance.toString());
+            log.info(instance.toString() + "Status: " + instance.getStatus());
         }
     }
 
