@@ -76,7 +76,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     @Before
     public void prepare() {
-        clearHistory();
+//        clearHistory();
     }
 
     @After
