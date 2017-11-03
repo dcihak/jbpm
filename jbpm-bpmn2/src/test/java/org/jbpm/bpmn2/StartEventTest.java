@@ -550,6 +550,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals(1, list.size());
         String var = getProcessVarValue(list.get(0), "x");
         assertEquals("NEWVALUE", var);
+        abortProcessInstances(ksession);
     }
 
     /**
