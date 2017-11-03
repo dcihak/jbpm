@@ -40,6 +40,7 @@ import javax.persistence.Persistence;
 import javax.transaction.Status;
 import javax.transaction.Transaction;
 
+import org.assertj.core.api.Assertions;
 import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
 import org.drools.core.SessionConfiguration;
 import org.drools.core.audit.WorkingMemoryInMemoryLogger;
@@ -672,34 +673,6 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
         }
         return counter;
     }
-
-    public int getNumberOfActiveProcessInstances(String processId) {
-        log.info("getNumberOfActiveProcessInstances called");
-        int counter = 0;
-        if (sessionPersistence) {
-            List<ProcessInstanceLog> logs = logService.findActiveProcessInstances(processId);
-            if (logs != null) {
-
-                for (ProcessInstanceLog log : logs) {
-                    this.log.info(log.toString());
-                }
-
-                log.info("logs.size: " + logs.size());
-                return logs.size();
-            }
-        } else {
-            LogEvent [] events = logger.getLogEvents().toArray(new LogEvent[0]);
-            for (LogEvent event : events ) {
-                if (event.getType() == LogEvent.BEFORE_RULEFLOW_CREATED) {
-                    if(((RuleFlowLogEvent) event).getProcessId().equals(processId)) {
-                        counter++;
-                    }
-                }
-            }
-            log.info("counter: " + counter);
-        }
-        return counter;
-    }
     
     protected boolean assertProcessInstanceState(int state, ProcessInstance processInstance) {
         if (sessionPersistence) {
@@ -772,9 +745,10 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     protected void clearHistory() {
         if (sessionPersistence) {
             try {
+                Assertions.assertThat(logService).isNotNull();
                 logService.clear();
             } catch(Exception e) {
-                
+                log.error("Clearing of the AuditLogService failed.");
             }
         } else {
             if (logger != null) {

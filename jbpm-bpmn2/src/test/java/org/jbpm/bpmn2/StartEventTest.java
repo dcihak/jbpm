@@ -31,6 +31,7 @@ import org.drools.core.util.IoUtils;
 import org.jbpm.bpmn2.objects.NotAvailableGoodsReport;
 import org.jbpm.bpmn2.objects.Person;
 import org.jbpm.bpmn2.objects.TestWorkItemHandler;
+import org.jbpm.process.audit.JPAAuditLogService;
 import org.jbpm.test.listener.NodeLeftCountDownProcessEventListener;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -78,7 +79,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     }
 
     @After
-    public void dispose() {
+    public void dispose() throws Exception {
         if (ksession != null) {
             ksession.dispose();
             ksession = null;
@@ -512,7 +513,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals(0, list.size());
         // Timer in the process takes 500ms, so after 2.5 seconds, there should be 5 process IDs in the list.
         countDownListener.waitTillCompleted();
-        assertEquals(5, getNumberOfActiveProcessInstances("MultipleStartEvents"));
+        assertEquals(5, getNumberOfProcessInstances("MultipleStartEvents"));
 
     }
 
