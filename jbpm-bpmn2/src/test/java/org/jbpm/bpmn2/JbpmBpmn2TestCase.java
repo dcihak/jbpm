@@ -672,6 +672,34 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
         }
         return counter;
     }
+
+    public int getNumberOfActiveProcessInstances(String processId) {
+        log.info("getNumberOfActiveProcessInstances called");
+        int counter = 0;
+        if (sessionPersistence) {
+            List<ProcessInstanceLog> logs = logService.findActiveProcessInstances(processId);
+            if (logs != null) {
+
+                for (ProcessInstanceLog log : logs) {
+                    this.log.info(log.toString());
+                }
+
+                log.info("logs.size: " + logs.size());
+                return logs.size();
+            }
+        } else {
+            LogEvent [] events = logger.getLogEvents().toArray(new LogEvent[0]);
+            for (LogEvent event : events ) {
+                if (event.getType() == LogEvent.BEFORE_RULEFLOW_CREATED) {
+                    if(((RuleFlowLogEvent) event).getProcessId().equals(processId)) {
+                        counter++;
+                    }
+                }
+            }
+            log.info("counter: " + counter);
+        }
+        return counter;
+    }
     
     protected boolean assertProcessInstanceState(int state, ProcessInstance processInstance) {
         if (sessionPersistence) {
