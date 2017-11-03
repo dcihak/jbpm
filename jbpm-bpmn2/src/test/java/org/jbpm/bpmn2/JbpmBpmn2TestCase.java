@@ -745,6 +745,8 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     protected void clearHistory() {
         if (sessionPersistence) {
             try {
+                Environment env = createEnvironment(emf);
+                logService = new JPAAuditLogService(env);
                 logService.clear();
             } catch(Exception e) {
                 log.error("Clearing of the AuditLogService failed.");
