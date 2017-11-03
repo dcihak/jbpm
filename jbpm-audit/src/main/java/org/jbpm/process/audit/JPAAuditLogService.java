@@ -296,13 +296,13 @@ public class JPAAuditLogService extends JPAService implements AuditLogService {
         Object newTx = joinTransaction(em);
         try {
             	        
-	        int deletedNodes = em.createQuery("delete FROM NodeInstanceLog WHERE processInstanceId in (select spl.processInstanceId FROM ProcessInstanceLog spl WHERE spl.status in (2, 3))").executeUpdate();
+	        int deletedNodes = em.createQuery("delete FROM NodeInstanceLog WHERE processInstanceId in (select spl.processInstanceId FROM ProcessInstanceLog spl WHERE spl.status in (1, 2, 3))").executeUpdate();
 	        logger.debug("CLEAR:: deleted node instances {}", deletedNodes);
 	        
-	        int deletedVariables = em.createQuery("delete FROM VariableInstanceLog WHERE processInstanceId in (select spl.processInstanceId FROM ProcessInstanceLog spl WHERE spl.status in (2, 3))").executeUpdate();
+	        int deletedVariables = em.createQuery("delete FROM VariableInstanceLog WHERE processInstanceId in (select spl.processInstanceId FROM ProcessInstanceLog spl WHERE spl.status in (1, 2, 3))").executeUpdate();
 	        logger.debug("CLEAR:: deleted variable instances {}", deletedVariables);
 	        
-	        int deletedProcesses = em.createQuery("delete FROM ProcessInstanceLog WHERE status in (2, 3)").executeUpdate();
+	        int deletedProcesses = em.createQuery("delete FROM ProcessInstanceLog WHERE status in (1, 2, 3)").executeUpdate();
             logger.debug("CLEAR:: deleted process instances {}", deletedProcesses);
         } finally {
         	closeEntityManager(em, newTx);
