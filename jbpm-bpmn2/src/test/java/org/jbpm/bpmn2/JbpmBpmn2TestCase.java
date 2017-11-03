@@ -745,7 +745,6 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     protected void clearHistory() {
         if (sessionPersistence) {
             try {
-                Assertions.assertThat(logService).isNotNull();
                 logService.clear();
             } catch(Exception e) {
                 log.error("Clearing of the AuditLogService failed.");

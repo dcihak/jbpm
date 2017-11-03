@@ -43,6 +43,7 @@ import org.kie.api.builder.KieRepository;
 import org.kie.api.event.process.DefaultProcessEventListener;
 import org.kie.api.event.process.ProcessStartedEvent;
 import org.kie.api.io.Resource;
+import org.kie.api.runtime.Environment;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
@@ -81,6 +82,8 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     @After
     public void dispose() throws Exception {
         if (ksession != null) {
+            Environment env = createEnvironment(emf);
+            logService = new JPAAuditLogService(env);
             ksession.dispose();
             ksession = null;
         }
