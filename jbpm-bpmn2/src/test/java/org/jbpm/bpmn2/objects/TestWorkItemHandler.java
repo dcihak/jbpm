@@ -19,9 +19,15 @@ package org.jbpm.bpmn2.objects;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jbpm.bpmn2.JbpmBpmn2TestCase;
 import org.kie.api.runtime.process.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestWorkItemHandler implements WorkItemHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(TestWorkItemHandler.class);
+
 
     private List<WorkItem> workItems = new ArrayList<WorkItem>();
 
@@ -33,6 +39,10 @@ public class TestWorkItemHandler implements WorkItemHandler {
     }
 
     public WorkItem getWorkItem() {
+        log.info("getWorkItem:");
+        for (WorkItem workItem : workItems) {
+            log.info("workItem: " + "name: " + workItem.getName() + "processInstanceId: " + workItem.getProcessInstanceId());
+        }
         if (workItems.size() == 0) {
             return null;
         }
