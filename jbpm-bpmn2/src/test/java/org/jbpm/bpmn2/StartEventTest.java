@@ -336,7 +336,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         workItemHandler.getWorkItem();
         logger.info("Session restored");
         ksession = restoreSession(ksession, true);
-        workItemHandler.getWorkItem();
         WorkItem workItem = workItemHandler.getWorkItem();
         assertNotNull(workItem);
         assertEquals("john", workItem.getParameter("ActorId"));
