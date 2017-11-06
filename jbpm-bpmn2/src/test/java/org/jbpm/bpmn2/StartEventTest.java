@@ -329,25 +329,22 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         TestWorkItemHandler workItemHandler = new TestWorkItemHandler();
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
                 workItemHandler);
-//        ProcessInstance processInstance = ksession
-//                .startProcess("MultipleStartEvents");
-//        assertProcessInstanceActive(processInstance);
-//        logger.info("Process instance started: " + processInstance.getId());
-        workItemHandler.getWorkItem();
-        logger.info("Session restored");
+        ProcessInstance processInstance = ksession
+                .startProcess("MultipleStartEvents");
+        assertProcessInstanceActive(processInstance);
+        logger.info("Process instance started: " + processInstance.getId());
         ksession = restoreSession(ksession, true);
         WorkItem workItem = workItemHandler.getWorkItem();
         assertNotNull(workItem);
         assertEquals("john", workItem.getParameter("ActorId"));
         ksession.getWorkItemManager().completeWorkItem(workItem.getId(), null);
-//        assertProcessInstanceFinished(processInstance, ksession);
+        assertProcessInstanceFinished(processInstance, ksession);
 
     }
 
-    @Ignore
     @Test(timeout=10000)
     public void testMultipleStartEventsStartOnTimer() throws Exception {
-        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 5);
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 2);
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcess.bpmn2");
         ksession = createKnowledgeSession(kbase);
         try {
@@ -364,7 +361,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
             assertEquals(0, list.size());
             // Timer in the process takes 500ms, so after 2.5 seconds, there should be 5 process IDs in the list.
             countDownListener.waitTillCompleted();
-            assertEquals(5, getNumberOfProcessInstances("MultipleStartEvents"));
+            assertEquals(2, getNumberOfProcessInstances("MultipleStartEvents"));
         } finally {
             abortProcessInstances(ksession);
         }
