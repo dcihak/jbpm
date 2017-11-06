@@ -329,6 +329,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         TestWorkItemHandler workItemHandler = new TestWorkItemHandler();
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
                 workItemHandler);
+        workItemHandler.getWorkItem();
         ProcessInstance processInstance = ksession
                 .startProcess("MultipleStartEvents");
         assertProcessInstanceActive(processInstance);
