@@ -39,7 +39,7 @@ public class TestWorkItemHandler implements WorkItemHandler {
     public WorkItem getWorkItem() {
         log.info("getWorkItem:");
         for (WorkItem workItem : workItems) {
-            log.info("workItem: " + "name: " + workItem.getName() + "processInstanceId: " + workItem.getProcessInstanceId());
+            log.info("workItem: " + "name: " + workItem.getName() + " processInstanceId: " + workItem.getProcessInstanceId());
         }
         if (workItems.size() == 0) {
             return null;
