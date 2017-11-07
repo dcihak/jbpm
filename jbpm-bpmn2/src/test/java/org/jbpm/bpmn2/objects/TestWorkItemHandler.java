@@ -55,7 +55,11 @@ public class TestWorkItemHandler implements WorkItemHandler {
 
     public List<WorkItem> getWorkItems() {
         List<WorkItem> result = new ArrayList<WorkItem>(workItems);
-        workItems.clear();
+        log.info("getWorkItems:");
+        for (WorkItem workItem : workItems) {
+            log.info("workItem: " + "name: " + workItem.getName() + " processInstanceId: " + workItem.getProcessInstanceId());
+        }
+        //workItems.clear();
         return result;
     }
 
