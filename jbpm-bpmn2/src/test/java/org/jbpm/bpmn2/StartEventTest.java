@@ -332,16 +332,16 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         ProcessInstance processInstance = ksession
                 .startProcess("MultipleStartEvents");
         workItemHandler.getWorkItems();
-        //assertProcessInstanceActive(processInstance);
-        //logger.info("Process instance started: " + processInstance.getId());
-//        workItemHandler.getWorkItems();
-        //ksession = restoreSession(ksession, true);
-//        workItemHandler.getWorkItems();
-//        WorkItem workItem = workItemHandler.getWorkItem();
-//        assertNotNull(workItem);
-//        assertEquals("john", workItem.getParameter("ActorId"));
-//        ksession.getWorkItemManager().completeWorkItem(workItem.getId(), null);
-        //assertProcessInstanceFinished(processInstance, ksession);
+        assertProcessInstanceActive(processInstance);
+        logger.info("Process instance started: " + processInstance.getId());
+        workItemHandler.getWorkItems();
+        ksession = restoreSession(ksession, true);
+        workItemHandler.getWorkItems();
+        WorkItem workItem = workItemHandler.getWorkItem();
+        assertNotNull(workItem);
+        assertEquals("john", workItem.getParameter("ActorId"));
+        ksession.getWorkItemManager().completeWorkItem(workItem.getId(), null);
+        assertProcessInstanceFinished(processInstance, ksession);
 
     }
 
