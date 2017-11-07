@@ -496,7 +496,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     @Test(timeout=10000)
     public void testMultipleEventBasedStartEventsStartOnTimer()
             throws Exception {
-        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 5);
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 2);
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleEventBasedStartEventProcess.bpmn2");
         ksession = createKnowledgeSession(kbase);
         ksession.addEventListener(countDownListener);
@@ -512,7 +512,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals(0, list.size());
         // Timer in the process takes 500ms, so after 2.5 seconds, there should be 5 process IDs in the list.
         countDownListener.waitTillCompleted();
-        assertEquals(5, getNumberOfProcessInstances("MultipleStartEvents"));
+        assertEquals(2, getNumberOfProcessInstances("MultipleStartEvents"));
 
     }
 
