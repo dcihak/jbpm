@@ -324,21 +324,17 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     @Test
     public void testMultipleStartEventsRegularStart() throws Exception {
-        KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcess.bpmn2");
+        KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcessLongInterval.bpmn2");
         ksession = createKnowledgeSession(kbase);
         TestWorkItemHandler workItemHandler = new TestWorkItemHandler();
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
                 workItemHandler);
         ProcessInstance processInstance = ksession
                 .startProcess("MultipleStartEvents");
-        workItemHandler.getWorkItems();
         assertProcessInstanceActive(processInstance);
         logger.info("Process instance started: " + processInstance.getId());
-        workItemHandler.getWorkItems();
-
-        workItemHandler.getWorkItems();
-        WorkItem workItem = workItemHandler.getWorkItem();
         ksession = restoreSession(ksession, true);
+        WorkItem workItem = workItemHandler.getWorkItem();
         assertNotNull(workItem);
         assertEquals("john", workItem.getParameter("ActorId"));
         ksession.getWorkItemManager().completeWorkItem(workItem.getId(), null);
