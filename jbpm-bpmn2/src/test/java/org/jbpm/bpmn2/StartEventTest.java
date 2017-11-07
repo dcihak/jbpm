@@ -335,7 +335,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertProcessInstanceActive(processInstance);
         logger.info("Process instance started: " + processInstance.getId());
         workItemHandler.getWorkItems();
-        ksession = restoreSession(ksession, true);
+        //ksession = restoreSession(ksession, true);
         workItemHandler.getWorkItems();
         WorkItem workItem = workItemHandler.getWorkItem();
         assertNotNull(workItem);
