@@ -322,6 +322,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals(1, getNumberOfProcessInstances("Minimal"));
     }
 
+    @Ignore
     @Test
     public void testMultipleStartEventsRegularStart() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcess.bpmn2");
@@ -371,7 +372,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         }
     }
 
-    @Ignore
     @Test
     public void testMultipleEventBasedStartEventsSignalStart() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleEventBasedStartEventProcess.bpmn2");
