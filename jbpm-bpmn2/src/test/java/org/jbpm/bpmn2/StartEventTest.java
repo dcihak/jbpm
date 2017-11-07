@@ -322,7 +322,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertEquals(1, getNumberOfProcessInstances("Minimal"));
     }
 
-    @Ignore
     @Test
     public void testMultipleStartEventsRegularStart() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcess.bpmn2");
@@ -336,9 +335,10 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertProcessInstanceActive(processInstance);
         logger.info("Process instance started: " + processInstance.getId());
         workItemHandler.getWorkItems();
-        ksession = restoreSession(ksession, true);
+
         workItemHandler.getWorkItems();
         WorkItem workItem = workItemHandler.getWorkItem();
+        ksession = restoreSession(ksession, true);
         assertNotNull(workItem);
         assertEquals("john", workItem.getParameter("ActorId"));
         ksession.getWorkItemManager().completeWorkItem(workItem.getId(), null);
@@ -372,6 +372,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         }
     }
 
+    @Ignore
     @Test
     public void testMultipleEventBasedStartEventsSignalStart() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleEventBasedStartEventProcess.bpmn2");
