@@ -501,7 +501,6 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
             config.setOption(ForceEagerActivationOption.YES);
             StatefulKnowledgeSession result = JPAKnowledgeService.loadStatefulKnowledgeSession(id, kbase, config, env);
             AuditLoggerFactory.newInstance(Type.JPA, result, null);
-            clearHistory();
             ksession.dispose();
             return result;
         } else {
@@ -735,11 +734,12 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     }
 
     protected void clearHistory() {
+        log.info("clearHistory");
         if (sessionPersistence) {
             try {
                 logService.clear();
             } catch(Exception e) {
-                
+                log.error("History could not be deleted.", e);
             }
         } else {
             if (logger != null) {
@@ -749,12 +749,15 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     }
     
     protected void abortProcessInstances(KieSession ksession) {
+        log.info("abortProcessInstances:");
+        for (ProcessInstanceLog instance : logService.findActiveProcessInstances()) {
+            log.info("ProcessId " + instance.getProcessId() + " ProcessInstanceId " + instance.getProcessInstanceId() + " Status " + instance.getStatus());
+        }
         if (sessionPersistence) {
             try {
                 logService.findActiveProcessInstances().forEach(pi -> ksession.abortProcessInstance(pi.getId()));
-                
             } catch(Exception e) {
-
+                log.error("Process instances could not be aborted.", e);
             }
         } 
     }

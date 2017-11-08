@@ -59,7 +59,7 @@ public class TestWorkItemHandler implements WorkItemHandler {
         for (WorkItem workItem : workItems) {
             log.info("workItem: " + "name: " + workItem.getName() + " processInstanceId: " + workItem.getProcessInstanceId());
         }
-        //workItems.clear();
+        workItems.clear();
         return result;
     }
 
