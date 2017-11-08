@@ -736,6 +736,9 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     protected void clearHistory() {
         log.info("clearHistory");
         if (sessionPersistence) {
+            if (logService == null) {
+                log.warn("logService is NULL!");
+            }
             try {
                 logService.clear();
             } catch(Exception e) {
