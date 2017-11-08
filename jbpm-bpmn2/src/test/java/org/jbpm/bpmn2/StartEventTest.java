@@ -594,25 +594,37 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     }
 
+    /**
+     * Should fail as timer expression is not valid
+     *
+     * @throws Exception
+     */
     @Test
     public void testInvalidDateTimerStart() throws Exception {
         Assertions.assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> { createKnowledgeBase("timer/BPMN2-StartTimerDateInvalid.bpmn2"); })
                 .withMessageContaining("Could not parse date 'abcdef'");
-        fail("Should fail as timer expression is not valid");
     }
 
+    /**
+     * Should fail as timer expression is not valid
+     *
+     * @throws Exception
+     */
     @Test
     public void testInvalidDurationTimerStart() throws Exception {
         Assertions.assertThatExceptionOfType(Exception.class).isThrownBy(() -> { createKnowledgeBase("timer/BPMN2-StartTimerDurationInvalid.bpmn2"); })
                 .withMessageContaining("Could not parse delay 'abcdef'");
-        fail("Should fail as timer expression is not valid");
     }
 
+    /**
+     * Should fail as timer expression is not valid
+     *
+     * @throws Exception
+     */
     @Test
     public void testInvalidCycleTimerStart() throws Exception {
         Assertions.assertThatExceptionOfType(Exception.class).isThrownBy(() -> { createKnowledgeBase("timer/BPMN2-StartTimerCycleInvalid.bpmn2"); })
                 .withMessageContaining("Could not parse delay 'abcdef'");
-        fail("Should fail as timer expression is not valid");
     }
 
 
