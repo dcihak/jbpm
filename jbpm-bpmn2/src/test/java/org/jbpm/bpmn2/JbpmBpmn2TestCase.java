@@ -754,11 +754,10 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     protected void abortProcessInstances(KieSession ksession) {
         log.info("abortProcessInstances:");
         if (logService != null) {
+            log.info("Active process instances:");
             for (ProcessInstanceLog instance : logService.findActiveProcessInstances()) {
                 log.info("ProcessId " + instance.getProcessId() + " ProcessInstanceId " + instance.getProcessInstanceId() + " Status " + instance.getStatus());
             }
-        } else {
-            log.warn("logService is NULL!");
         }
         if (sessionPersistence) {
             try {
