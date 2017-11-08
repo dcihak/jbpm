@@ -41,6 +41,7 @@ import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieRepository;
 import org.kie.api.event.process.DefaultProcessEventListener;
+import org.kie.api.event.process.ProcessCompletedEvent;
 import org.kie.api.event.process.ProcessStartedEvent;
 import org.kie.api.io.Resource;
 import org.kie.api.runtime.KieContainer;
@@ -425,6 +426,15 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcessDifferentPaths.bpmn2");
         ksession = createKnowledgeSession(kbase);
         ksession.addEventListener(countDownListener);
+
+        ksession.addEventListener(new DefaultProcessEventListener() {
+            @Override
+            public void afterProcessCompleted(ProcessCompletedEvent event){
+                System.out.println("Disposing of " + event.getProcessInstance().getProcessName() + "!");
+                ksession.dispose();
+            }
+        });
+
         TestWorkItemHandler workItemHandler = new TestWorkItemHandler();
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
                 workItemHandler);
