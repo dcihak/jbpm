@@ -424,15 +424,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcessDifferentPaths.bpmn2");
         ksession = createKnowledgeSession(kbase);
         ksession.addEventListener(countDownListener);
-
-        ksession.addEventListener(new DefaultProcessEventListener() {
-            @Override
-            public void afterProcessCompleted(ProcessCompletedEvent event){
-                System.out.println("Disposing of " + event.getProcessInstance().getProcessName() + "!");
-                ksession.dispose();
-            }
-        });
-
         TestWorkItemHandler workItemHandler = new TestWorkItemHandler();
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task",
                 workItemHandler);
@@ -441,6 +432,12 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         ksession.addEventListener(new DefaultProcessEventListener() {
             public void beforeProcessStarted(ProcessStartedEvent event) {
                 list.add(event.getProcessInstance().getId());
+            }
+
+            @Override
+            public void afterProcessCompleted(ProcessCompletedEvent event){
+                logger.info("Disposing process " + event.getProcessInstance().getProcessName());
+                ksession.dispose();
             }
         });
 
