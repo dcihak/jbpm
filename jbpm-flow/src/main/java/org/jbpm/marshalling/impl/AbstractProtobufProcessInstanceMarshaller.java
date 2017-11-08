@@ -57,6 +57,8 @@ import org.kie.api.runtime.process.NodeInstanceContainer;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.WorkflowProcessInstance;
 import org.kie.api.runtime.rule.FactHandle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,6 +76,8 @@ import java.util.Map;
 public abstract class AbstractProtobufProcessInstanceMarshaller
         implements
         ProcessInstanceMarshaller {
+
+    private static final Logger log = LoggerFactory.getLogger(AbstractProtobufProcessInstanceMarshaller.class);
 
     // Output methods
     public JBPMMessages.ProcessInstance writeProcessInstance(MarshallerWriteContext context,
@@ -491,6 +495,7 @@ public abstract class AbstractProtobufProcessInstanceMarshaller
         String processId = _instance.getProcessId();
         processInstance.setProcessId( processId );
         String processXml = _instance.getProcessXml();
+        log.info("ProcessXml: " + processXml);
         Process process = null;
         if (processXml != null && processXml.trim().length() > 0) {
         	processInstance.setProcessXml( processXml );

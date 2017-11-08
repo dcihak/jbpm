@@ -418,6 +418,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertNodeTriggered(processInstanceId, "Start", "Script 1", "User task", "End");
     }
 
+    // -->>
     @Test(timeout=10000)
     public void testMultipleEventBasedStartEventsTimerDifferentPaths() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 2);
@@ -490,6 +491,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         assertNodeTriggered(processInstanceId, "StartSignal", "Script 3", "User task", "End");
     }
 
+    // ERR
     @Test(timeout=10000)
     public void testMultipleEventBasedStartEventsStartOnTimer()
             throws Exception {
