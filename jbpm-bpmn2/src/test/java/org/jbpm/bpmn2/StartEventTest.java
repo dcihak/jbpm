@@ -504,6 +504,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         ksession.addEventListener(new DefaultProcessEventListener() {
             public void beforeProcessStarted(ProcessStartedEvent event) {
                 list.add(event.getProcessInstance().getId());
+                logger.info("Adding process: " + event.getProcessInstance().getId());
             }
         });
         Assertions.assertThat(list.size()).isEqualTo(0);
