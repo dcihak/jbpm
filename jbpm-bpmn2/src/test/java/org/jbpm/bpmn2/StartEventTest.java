@@ -36,7 +36,6 @@ import org.jbpm.persistence.jta.ContainerManagedTransactionDisposeCommand;
 import org.jbpm.test.listener.NodeLeftCountDownProcessEventListener;
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -424,7 +423,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     }
 
     // -->>
-    @Ignore
     @Test(timeout=10000)
     public void testMultipleEventBasedStartEventsTimerDifferentPaths() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 2);

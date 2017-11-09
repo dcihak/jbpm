@@ -738,7 +738,7 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
             try {
                 logService.clear();
             } catch(Exception e) {
-                
+                log.error("History could not be deleted.", e);
             }
         } else {
             if (logger != null) {
@@ -748,12 +748,19 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     }
     
     protected void abortProcessInstances(KieSession ksession) {
+        log.info("abortProcessInstances:");
         if (sessionPersistence) {
+            if (logService != null) {
+                log.info("Active process instances:");
+                for (ProcessInstanceLog instance : logService.findActiveProcessInstances()) {
+                    log.info("ProcessId " + instance.getProcessId() + " ProcessInstanceId " + instance.getProcessInstanceId() + " Status " + instance.getStatus());
+                }
+            }
             try {
                 logService.findActiveProcessInstances().forEach(pi -> ksession.abortProcessInstance(pi.getId()));
-                
+                log.error("Process instances successfully aborted.");
             } catch(Exception e) {
-                
+                log.error("Active process instances could not be aborted.", e);
             }
         } 
     }
