@@ -33,7 +33,6 @@ import org.jbpm.bpmn2.objects.NotAvailableGoodsReport;
 import org.jbpm.bpmn2.objects.Person;
 import org.jbpm.bpmn2.objects.TestWorkItemHandler;
 import org.jbpm.persistence.jta.ContainerManagedTransactionDisposeCommand;
-import org.jbpm.services.task.wih.AbstractHTWorkItemHandler;
 import org.jbpm.test.listener.NodeLeftCountDownProcessEventListener;
 import org.junit.After;
 import org.junit.BeforeClass;
