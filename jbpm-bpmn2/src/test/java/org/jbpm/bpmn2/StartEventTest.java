@@ -32,9 +32,10 @@ import org.drools.core.util.IoUtils;
 import org.jbpm.bpmn2.objects.NotAvailableGoodsReport;
 import org.jbpm.bpmn2.objects.Person;
 import org.jbpm.bpmn2.objects.TestWorkItemHandler;
+import org.jbpm.persistence.jta.ContainerManagedTransactionDisposeCommand;
+import org.jbpm.services.task.wih.AbstractHTWorkItemHandler;
 import org.jbpm.test.listener.NodeLeftCountDownProcessEventListener;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,7 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.WorkItem;
+import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -441,7 +443,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
             @Override
             public void afterProcessCompleted(ProcessCompletedEvent event) {
-                ksession.dispose();
+                ksession.execute(new ContainerManagedTransactionDisposeCommand());
             }
         });
 
