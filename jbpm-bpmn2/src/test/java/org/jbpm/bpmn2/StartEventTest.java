@@ -36,6 +36,7 @@ import org.jbpm.persistence.jta.ContainerManagedTransactionDisposeCommand;
 import org.jbpm.test.listener.NodeLeftCountDownProcessEventListener;
 import org.junit.After;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -51,7 +52,6 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.WorkItem;
-import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -424,6 +424,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     }
 
     // -->>
+    @Ignore
     @Test(timeout=10000)
     public void testMultipleEventBasedStartEventsTimerDifferentPaths() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 2);
