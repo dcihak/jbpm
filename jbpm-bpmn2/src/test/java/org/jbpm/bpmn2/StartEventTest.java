@@ -79,6 +79,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     @After
     public void dispose() {
         if (ksession != null) {
+            logger.info("DISPOSING SESSION");
             abortProcessInstances(ksession);
             clearHistory();
             ksession.dispose();
@@ -436,7 +437,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
             @Override
             public void afterProcessCompleted(ProcessCompletedEvent event){
-                logger.info("Disposing process " + event.getProcessInstance().getProcessName());
                 ksession.dispose();
             }
         });
