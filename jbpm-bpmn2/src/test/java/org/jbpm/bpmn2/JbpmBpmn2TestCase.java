@@ -502,7 +502,6 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
             ksession.dispose();
             StatefulKnowledgeSession result = JPAKnowledgeService.loadStatefulKnowledgeSession(id, kbase, config, env);
             AuditLoggerFactory.newInstance(Type.JPA, result, null);
-
             return result;
         } else {
             return ksession;
