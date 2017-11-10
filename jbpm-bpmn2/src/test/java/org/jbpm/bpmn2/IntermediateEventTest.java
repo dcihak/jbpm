@@ -1208,6 +1208,10 @@ public class IntermediateEventTest extends JbpmBpmn2TestCase {
         ksession.getWorkItemManager().registerWorkItemHandler("Human Task", handler);
         timers = getTimerManager(ksession).getTimers();
         Assertions.assertThat(timers).isNullOrEmpty();
+
+        Assertions.assertThat(ksession).isNotNull();
+        Assertions.assertThat(handler).isNotNull();
+        Assertions.assertThat(handler.getWorkItem()).isNotNull();
         ksession.getWorkItemManager().completeWorkItem(handler.getWorkItem().getId(), null);
 
         assertProcessInstanceFinished(processInstance, ksession);
