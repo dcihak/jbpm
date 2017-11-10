@@ -436,11 +436,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
             public void beforeProcessStarted(ProcessStartedEvent event) {
                 list.add(event.getProcessInstance().getId());
             }
-
-            @Override
-            public void afterProcessCompleted(ProcessCompletedEvent event) {
-                ksession.execute(new ContainerManagedTransactionDisposeCommand());
-            }
         });
 
         Assertions.assertThat(list.size()).isEqualTo(0);
