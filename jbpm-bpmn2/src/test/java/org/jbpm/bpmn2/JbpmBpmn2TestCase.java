@@ -40,6 +40,7 @@ import javax.persistence.Persistence;
 import javax.transaction.Status;
 import javax.transaction.Transaction;
 
+import org.assertj.core.api.Assertions;
 import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
 import org.drools.core.SessionConfiguration;
 import org.drools.core.audit.WorkingMemoryInMemoryLogger;
@@ -736,6 +737,7 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     protected void clearHistory() {
         if (sessionPersistence) {
             try {
+                Assertions.assertThat(logService).isNotNull();
                 logService.clear();
             } catch(Exception e) {
                 log.error("History could not be deleted.", e);
