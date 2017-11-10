@@ -1213,6 +1213,7 @@ public class IntermediateEventTest extends JbpmBpmn2TestCase {
         Assertions.assertThat(ksession.getWorkItemManager()).isNotNull();
         Assertions.assertThat(handler).isNotNull();
         Assertions.assertThat(handler.getWorkItem()).isNotNull();
+        Assertions.assertThat(handler.getWorkItem().getId()).isNotNull();
         ksession.getWorkItemManager().completeWorkItem(handler.getWorkItem().getId(), null);
 
         assertProcessInstanceFinished(processInstance, ksession);
