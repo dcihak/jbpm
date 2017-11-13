@@ -33,6 +33,8 @@ import org.jbpm.bpmn2.objects.NotAvailableGoodsReport;
 import org.jbpm.bpmn2.objects.Person;
 import org.jbpm.bpmn2.objects.TestWorkItemHandler;
 import org.jbpm.persistence.jta.ContainerManagedTransactionDisposeCommand;
+import org.jbpm.process.audit.AuditLoggerFactory;
+import org.jbpm.process.audit.JPAAuditLogService;
 import org.jbpm.test.listener.NodeLeftCountDownProcessEventListener;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -47,6 +49,7 @@ import org.kie.api.event.process.DefaultProcessEventListener;
 import org.kie.api.event.process.ProcessCompletedEvent;
 import org.kie.api.event.process.ProcessStartedEvent;
 import org.kie.api.io.Resource;
+import org.kie.api.runtime.Environment;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
@@ -54,6 +57,8 @@ import org.kie.api.runtime.process.WorkItem;
 import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.kie.api.runtime.EnvironmentName.USE_PESSIMISTIC_LOCKING;
 
 @RunWith(Parameterized.class)
 public class StartEventTest extends JbpmBpmn2TestCase {
@@ -617,6 +622,9 @@ public class StartEventTest extends JbpmBpmn2TestCase {
      */
     @Test
     public void testInvalidCycleTimerStart() throws Exception {
+        Environment env = createEnvironment(emf);
+        logService = new JPAAuditLogService(env);
+
         Assertions.assertThatExceptionOfType(Exception.class).isThrownBy(() -> { createKnowledgeBase("timer/BPMN2-StartTimerCycleInvalid.bpmn2"); })
                 .withMessageContaining("Could not parse delay 'abcdef'");
     }
