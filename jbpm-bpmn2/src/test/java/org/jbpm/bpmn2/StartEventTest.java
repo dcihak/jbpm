@@ -600,6 +600,9 @@ public class StartEventTest extends JbpmBpmn2TestCase {
      */
     @Test
     public void testInvalidDateTimerStart() throws Exception {
+        Environment env = createEnvironment(emf);
+        logService = new JPAAuditLogService(env);
+
         Assertions.assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> { createKnowledgeBase("timer/BPMN2-StartTimerDateInvalid.bpmn2"); })
                 .withMessageContaining("Could not parse date 'abcdef'");
     }
@@ -611,6 +614,9 @@ public class StartEventTest extends JbpmBpmn2TestCase {
      */
     @Test
     public void testInvalidDurationTimerStart() throws Exception {
+        Environment env = createEnvironment(emf);
+        logService = new JPAAuditLogService(env);
+
         Assertions.assertThatExceptionOfType(Exception.class).isThrownBy(() -> { createKnowledgeBase("timer/BPMN2-StartTimerDurationInvalid.bpmn2"); })
                 .withMessageContaining("Could not parse delay 'abcdef'");
     }
