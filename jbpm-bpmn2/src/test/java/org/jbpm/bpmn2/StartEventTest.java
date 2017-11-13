@@ -82,7 +82,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         if (ksession != null) {
             logger.info("DISPOSING SESSION");
             abortProcessInstances(ksession);
-            clearHistory();
+            // clearHistory();
             ksession.dispose();
             ksession = null;
             logger.info("SESSION DISPOSED");
