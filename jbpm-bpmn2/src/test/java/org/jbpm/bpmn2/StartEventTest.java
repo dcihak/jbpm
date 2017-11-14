@@ -352,7 +352,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
             countDownListener.waitTillCompleted();
             Assertions.assertThat(getNumberOfProcessInstances("MultipleStartEvents")).isEqualTo(2);
         } finally {
-            //abortProcessInstances(ksession);
+            abortProcessInstances(ksession);
         }
     }
 
