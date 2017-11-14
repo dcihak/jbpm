@@ -32,8 +32,6 @@ import org.drools.core.util.IoUtils;
 import org.jbpm.bpmn2.objects.NotAvailableGoodsReport;
 import org.jbpm.bpmn2.objects.Person;
 import org.jbpm.bpmn2.objects.TestWorkItemHandler;
-import org.jbpm.persistence.jta.ContainerManagedTransactionDisposeCommand;
-import org.jbpm.process.audit.AuditLoggerFactory;
 import org.jbpm.process.audit.JPAAuditLogService;
 import org.jbpm.test.listener.NodeLeftCountDownProcessEventListener;
 import org.junit.After;
@@ -46,7 +44,6 @@ import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieRepository;
 import org.kie.api.event.process.DefaultProcessEventListener;
-import org.kie.api.event.process.ProcessCompletedEvent;
 import org.kie.api.event.process.ProcessStartedEvent;
 import org.kie.api.io.Resource;
 import org.kie.api.runtime.Environment;
@@ -86,7 +83,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     public void dispose() {
         if (ksession != null) {
             logger.info("DISPOSING SESSION");
-            // abortProcessInstances(ksession);
+            abortProcessInstances(ksession);
             clearHistory();
             ksession.dispose();
             ksession = null;
