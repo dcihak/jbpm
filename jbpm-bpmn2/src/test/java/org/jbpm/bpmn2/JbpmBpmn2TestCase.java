@@ -651,6 +651,10 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
         if (sessionPersistence) {
             List<ProcessInstanceLog> logs = logService.findProcessInstances(processId);
             if (logs != null) {
+                log.info("getNumberOfProcessInstances:");
+                for (ProcessInstanceLog piLog : logs) {
+                    log.info("ProcessId: " + piLog.getProcessId() + " ProcessName: " + piLog.getProcessName() + " ProcessInstanceId: " + piLog.getProcessInstanceId());
+                }
                 return logs.size();
             }
         } else {
