@@ -762,7 +762,7 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
             }
             try {
                 logService.findActiveProcessInstances().forEach(pi -> ksession.abortProcessInstance(pi.getId()));
-                log.error("Process instances successfully aborted.");
+                log.info("Process instances successfully aborted.");
             } catch(Exception e) {
                 log.error("Active process instances could not be aborted.", e);
             }
