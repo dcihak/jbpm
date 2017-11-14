@@ -20,7 +20,7 @@
       </timerEventDefinition>
     </startEvent>
     <scriptTask id="_2" name="Hello" >
-      <script>System.out.println(new java.util.Date() + "BPMN2-TimerStartCycleLegacy Triggered ...");</script>
+      <script>System.out.println(new java.util.Date() + " BPMN2-TimerStartCycleLegacy Triggered ...");</script>
     </scriptTask>
     <endEvent id="_3" name="EndProcess" >
         <terminateEventDefinition/>
