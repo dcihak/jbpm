@@ -108,7 +108,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     @Test(timeout=10000)
     public void testTimerStartCycleLegacy() throws Exception {
-        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 3);
+        NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 2);
         KieBase kbase = createKnowledgeBase("BPMN2-TimerStartCycleLegacy.bpmn2");
         ksession = createKnowledgeSession(kbase);
         ksession.addEventListener(countDownListener);
@@ -125,7 +125,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         // then wait 5 times 5oo ms as that is period configured on the process
         countDownListener.waitTillCompleted();
         ksession.dispose();
-        Assertions.assertThat(getNumberOfProcessInstances("Minimal")).isEqualTo(3);
+        Assertions.assertThat(getNumberOfProcessInstances("Minimal")).isEqualTo(2);
 
     }
 
