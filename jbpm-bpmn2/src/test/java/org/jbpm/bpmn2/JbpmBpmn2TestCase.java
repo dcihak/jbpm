@@ -739,12 +739,21 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     }
 
     protected void clearHistory() {
+        log.info("clearHistory:");
         if (sessionPersistence) {
             try {
                 if (logService == null) {
                     log.warn("logService IS NULL!");
                 }
+                log.info("Active process instances in logService before clearing:");
+                for (ProcessInstanceLog instance : logService.findActiveProcessInstances()) {
+                    log.info("ProcessId " + instance.getProcessId() + " ProcessInstanceId " + instance.getProcessInstanceId() + " Status " + instance.getStatus());
+                }
                 logService.clear();
+                log.info("Active process instances in logService after clearing:");
+                for (ProcessInstanceLog instance : logService.findActiveProcessInstances()) {
+                    log.info("ProcessId " + instance.getProcessId() + " ProcessInstanceId " + instance.getProcessInstanceId() + " Status " + instance.getStatus());
+                }
             } catch(Exception e) {
                 log.error("History could not be deleted.", e);
             }
@@ -759,7 +768,7 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
         log.info("abortProcessInstances:");
         if (sessionPersistence) {
             if (logService != null) {
-                log.info("Active process instances:");
+                log.info("Active process instances in logService:");
                 for (ProcessInstanceLog instance : logService.findActiveProcessInstances()) {
                     log.info("ProcessId " + instance.getProcessId() + " ProcessInstanceId " + instance.getProcessInstanceId() + " Status " + instance.getStatus());
                 }
