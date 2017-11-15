@@ -745,13 +745,13 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
                 if (logService == null) {
                     log.warn("logService IS NULL!");
                 }
-                log.info("Active process instances in logService before clearing:");
-                for (ProcessInstanceLog instance : logService.findActiveProcessInstances()) {
+                log.info("Process instances in logService before clearing:");
+                for (ProcessInstanceLog instance : logService.findProcessInstances()) {
                     log.info("ProcessId " + instance.getProcessId() + " ProcessInstanceId " + instance.getProcessInstanceId() + " Status " + instance.getStatus());
                 }
                 logService.clear();
-                log.info("Active process instances in logService after clearing:");
-                for (ProcessInstanceLog instance : logService.findActiveProcessInstances()) {
+                log.info("Process instances in logService after clearing:");
+                for (ProcessInstanceLog instance : logService.findProcessInstances()) {
                     log.info("ProcessId " + instance.getProcessId() + " ProcessInstanceId " + instance.getProcessInstanceId() + " Status " + instance.getStatus());
                 }
             } catch(Exception e) {
