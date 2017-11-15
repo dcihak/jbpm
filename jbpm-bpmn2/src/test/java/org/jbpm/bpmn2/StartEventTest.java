@@ -83,12 +83,11 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     @After
     public void dispose() {
         if (ksession != null) {
-            logger.info("DISPOSING SESSION");
             abortProcessInstances(ksession);
             clearHistory();
             ksession.dispose();
-            ksession = null;
             logger.info("SESSION DISPOSED");
+            ksession = null;
         }
     }
 
@@ -199,7 +198,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     }
 
-    @Ignore
     @Test(timeout=10000)
     public void testTimerStartDuration() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 1);
