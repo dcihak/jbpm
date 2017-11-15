@@ -247,10 +247,10 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
         }
     }
    
-    @After
-    public void clear() {
-        clearHistory();
-    }
+//    @After
+//    public void clear() {
+//        clearHistory();
+//    }
 
 
     @AfterClass
@@ -777,7 +777,7 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
                 logService.findActiveProcessInstances().forEach(pi -> ksession.abortProcessInstance(pi.getId()));
                 log.info("Process instances successfully aborted.");
             } catch(Exception e) {
-                //log.error("Active process instances could not be aborted.", e);
+                log.error("Active process instances could not be aborted.", e);
             }
         } 
     }
