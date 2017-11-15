@@ -21,7 +21,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 
-public abstract class AbstractBaseTest extends Assert {
+public abstract class AbstractBaseTest {
     
 
     @BeforeClass
