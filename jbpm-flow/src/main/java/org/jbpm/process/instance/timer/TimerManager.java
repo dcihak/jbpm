@@ -278,6 +278,7 @@ public class TimerManager {
         private static final long serialVersionUID = 6004839244692770390L;
 
         public void execute(JobContext c) {
+            logger.info("StartProcessJob.execute1");
 
             ProcessJobContext ctx = (ProcessJobContext) c;
 
@@ -323,6 +324,7 @@ public class TimerManager {
         private static final long serialVersionUID = 1039445333595469160L;
 
         public void execute(JobContext c) {
+            logger.info("StartProcessJob.execute2");
 
             StartProcessJobContext ctx = (StartProcessJobContext) c;
 
