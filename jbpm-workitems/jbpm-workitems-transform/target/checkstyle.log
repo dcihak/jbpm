@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="7.4">
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-transform/src/main/java/org/jbpm/process/workitem/transform/TransformWorkItemHandler.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-transform/src/main/java/org/jbpm/process/workitem/transform/Transformer.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-transform/src/test/java/org/jbpm/process/workitem/transform/FileTransformer.java">
+</file>
+</checkstyle>

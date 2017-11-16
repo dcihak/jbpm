@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="7.4">
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-rss/src/main/java/org/jbpm/process/workitem/rss/RSSWorkItemHandler.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-rss/src/test/java/org/jbpm/process/workitem/rss/RSSWorkItemHandlerTest.java">
+</file>
+</checkstyle>

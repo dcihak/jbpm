@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="7.4">
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-java/src/main/java/org/jbpm/process/workitem/java/JavaInvocationWorkItemHandler.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-java/src/main/java/org/jbpm/process/workitem/handler/JavaHandler.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-java/src/main/java/org/jbpm/process/workitem/handler/JavaHandlerWorkItemHandler.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-java/src/test/java/org/jbpm/process/workitem/java/JavaInvokerTest.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-java/src/test/java/org/jbpm/process/workitem/java/MyJavaClass.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-java/src/test/java/org/jbpm/process/workitem/handler/JavaHandlerWorkitemHandlerTest.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-java/src/test/java/org/jbpm/process/workitem/handler/RecordHandler.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-java/src/test/java/org/jbpm/process/workitem/handler/Employee.java">
+</file>
+</checkstyle>

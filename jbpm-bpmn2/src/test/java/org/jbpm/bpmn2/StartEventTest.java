@@ -56,8 +56,6 @@ import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.kie.api.runtime.EnvironmentName.USE_PESSIMISTIC_LOCKING;
-
 @RunWith(Parameterized.class)
 public class StartEventTest extends JbpmBpmn2TestCase {
 
@@ -620,7 +618,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     public void testInvalidDateTimerStart() throws Exception {
         Environment env = createEnvironment(emf);
         logService = new JPAAuditLogService(env);
-
         Assertions.assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> { createKnowledgeBase("timer/BPMN2-StartTimerDateInvalid.bpmn2"); })
                 .withMessageContaining("Could not parse date 'abcdef'");
     }
@@ -635,7 +632,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     public void testInvalidDurationTimerStart() throws Exception {
         Environment env = createEnvironment(emf);
         logService = new JPAAuditLogService(env);
-
         Assertions.assertThatExceptionOfType(Exception.class).isThrownBy(() -> { createKnowledgeBase("timer/BPMN2-StartTimerDurationInvalid.bpmn2"); })
                 .withMessageContaining("Could not parse delay 'abcdef'");
     }
@@ -650,7 +646,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     public void testInvalidCycleTimerStart() throws Exception {
         Environment env = createEnvironment(emf);
         logService = new JPAAuditLogService(env);
-
         Assertions.assertThatExceptionOfType(Exception.class).isThrownBy(() -> { createKnowledgeBase("timer/BPMN2-StartTimerCycleInvalid.bpmn2"); })
                 .withMessageContaining("Could not parse delay 'abcdef'");
     }

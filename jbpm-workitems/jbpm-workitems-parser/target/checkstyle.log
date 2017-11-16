@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="7.4">
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-parser/src/main/java/org/jbpm/process/workitem/parser/ParserWorkItemHandler.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-parser/src/test/java/org/jbpm/process/workitem/parser/Person.java">
+</file>
+<file name="/home/dcihak/Work/IdeaProjects/jbpm/jbpm-workitems/jbpm-workitems-parser/src/test/java/org/jbpm/process/workitem/parser/ParserWorkItemHandlerTest.java">
+</file>
+</checkstyle>

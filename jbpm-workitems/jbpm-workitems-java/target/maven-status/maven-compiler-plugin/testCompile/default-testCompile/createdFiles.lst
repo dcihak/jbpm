@@ -1,0 +1,5 @@
+org/jbpm/process/workitem/handler/Employee.class
+org/jbpm/process/workitem/handler/JavaHandlerWorkitemHandlerTest.class
+org/jbpm/process/workitem/java/JavaInvokerTest.class
+org/jbpm/process/workitem/handler/RecordHandler.class
+org/jbpm/process/workitem/java/MyJavaClass.class
