@@ -87,6 +87,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
 public class ActivityTest extends JbpmBpmn2TestCase {
