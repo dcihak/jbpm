@@ -22,14 +22,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.iterable.Extractor;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.io.impl.ClassPathResource;
@@ -369,8 +366,10 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
  
         // Test findVariableInstancesByName* methods: check for variables (only) in active processes
         List<VariableInstanceLog> varLogs = auditLogService.findVariableInstancesByName("s", true) ;
+        varLogs = varLogs.stream().sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId())).collect(Collectors.toList());
         assertFalse( varLogs.isEmpty() );
         assertEquals( 2, varLogs.size() );
+        Assertions.assertThat(varLogs).flatExtracting(VariableInstanceLog::getValue).containsExactly("", "");
 
         logger.info("varLog");
         for (int i = 0; i < varLogs.size(); i++) {
