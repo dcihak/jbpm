@@ -374,7 +374,7 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
 
         logger.info("varLog");
         for (int i = 0; i < varLogs.size(); i++) {
-            logger.info("varLog: " + i + " " + varLogs.get(i).toString());
+            logger.info("varLog: ID: " + varLogs.get(i).getId() + " " + varLogs.get(i).toString());
         }
 
         
