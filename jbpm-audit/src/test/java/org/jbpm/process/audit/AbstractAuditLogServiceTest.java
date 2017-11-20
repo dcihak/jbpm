@@ -371,6 +371,12 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         List<VariableInstanceLog> varLogs = auditLogService.findVariableInstancesByName("s", true) ;
         assertFalse( varLogs.isEmpty() );
         assertEquals( 2, varLogs.size() );
+
+        logger.info("varLog");
+        for (VariableInstanceLog varLog : varLogs) {
+            logger.info("varLog: " + varLog.toString());
+        }
+
         
         VariableInstanceLog varLogS = varLogs.get(1);
     	assertEquals(variableValue.substring(0, 15), varLogS.getValue());
