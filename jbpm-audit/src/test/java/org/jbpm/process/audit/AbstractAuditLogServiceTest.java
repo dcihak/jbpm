@@ -373,8 +373,8 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         assertEquals( 2, varLogs.size() );
 
         logger.info("varLog");
-        for (VariableInstanceLog varLog : varLogs) {
-            logger.info("varLog: " + varLog.toString());
+        for (int i = 0; i < varLogs.size(); i++) {
+            logger.info("varLog: " + i + " " + varLogs.get(i).toString());
         }
 
         
