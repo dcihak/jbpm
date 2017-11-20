@@ -375,7 +375,7 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
             logger.info("varLog: ID: " + varLogs.get(i).getId() + " " + varLogs.get(i).toString());
         }
 
-        //Assertions.assertThat(varLogs).flatExtracting(VariableInstanceLog::getValue).containsExactly("", "");
+        Assertions.assertThat(varLogs).flatExtracting(VariableInstanceLog::getValue).containsExactly("InitialValue", variableValue.substring(0, 15));
         
 //        VariableInstanceLog varLogS = varLogs.get(1);
 //    	assertEquals(variableValue.substring(0, 15), varLogS.getValue());
