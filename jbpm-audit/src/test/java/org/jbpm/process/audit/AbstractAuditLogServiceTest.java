@@ -197,6 +197,11 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         List<VariableInstanceLog> varLogs = auditLogService.findVariableInstancesByName("s", true) ;
         Assertions.assertThat(varLogs).isNotEmpty();
         Assertions.assertThat(varLogs.size()).isEqualTo(1);
+
+        logger.info("varLog");
+        for (int i = 0; i < varLogs.size(); i++) {
+            logger.info("varLog: ID: " + varLogs.get(i).getId() + " " + varLogs.get(i).toString());
+        }
                 
         for( Long workItemId : workItemIds ) { 
             Map<String, Object> results = new HashMap<String, Object>();
@@ -368,8 +373,14 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         // Test findVariableInstancesByName* methods: check for variables (only) in active processes
         List<VariableInstanceLog> varLogs = auditLogService.findVariableInstancesByName("s", true) ;
         varLogs = varLogs.stream().sorted((o1, o2) -> Long.compare(o1.getId(), o2.getId())).collect(Collectors.toList());
-        Assertions.assertThat(varLogs.isEmpty()).isFalse();
+        Assertions.assertThat(varLogs).isNotEmpty();
         Assertions.assertThat(varLogs.size()).isEqualTo(2);
+
+        logger.info("varLog");
+        for (int i = 0; i < varLogs.size(); i++) {
+            logger.info("varLog: ID: " + varLogs.get(i).getId() + " " + varLogs.get(i).toString());
+        }
+
         Assertions.assertThat(varLogs).flatExtracting(VariableInstanceLog::getValue).containsExactly("InitialValue", variableValue.substring(0, 15));
                 
         for( Long workItemId : workItemIds ) { 
@@ -445,7 +456,7 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
 
         // Test findVariableInstancesByName* methods: check for variables (only) in active processes
         List<VariableInstanceLog> varLogs = auditLogService.findVariableInstancesByName("s", true) ;
-        Assertions.assertThat(varLogs).isEmpty();
+        Assertions.assertThat(varLogs).isNotEmpty();
         Assertions.assertThat(varLogs.size()).isEqualTo(1);
                 
         for( Long workItemId : workItemIds ) { 
