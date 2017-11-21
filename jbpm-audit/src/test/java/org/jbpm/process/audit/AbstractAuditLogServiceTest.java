@@ -196,12 +196,13 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         // Test findVariableInstancesByName* methods: check for variables (only) in active processes
         List<VariableInstanceLog> varLogs = auditLogService.findVariableInstancesByName("s", true) ;
         Assertions.assertThat(varLogs).isNotEmpty();
-        Assertions.assertThat(varLogs.size()).isEqualTo(1);
 
         logger.info("varLog");
         for (int i = 0; i < varLogs.size(); i++) {
             logger.info("varLog: ID: " + varLogs.get(i).getId() + " " + varLogs.get(i).toString());
         }
+
+        Assertions.assertThat(varLogs.size()).isEqualTo(1);
                 
         for( Long workItemId : workItemIds ) { 
             Map<String, Object> results = new HashMap<String, Object>();
