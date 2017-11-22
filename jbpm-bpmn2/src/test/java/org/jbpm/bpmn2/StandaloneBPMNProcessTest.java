@@ -117,7 +117,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testCompositeProcessWithDIGraphical() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-CompositeProcessWithDIGraphical.bpmn2");
@@ -126,7 +125,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testScriptTask() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-ScriptTask.bpmn2");
@@ -135,7 +133,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testDataObject() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-DataObject.bpmn2");
@@ -146,7 +143,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testEvaluationProcess() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-EvaluationProcess.bpmn2");
