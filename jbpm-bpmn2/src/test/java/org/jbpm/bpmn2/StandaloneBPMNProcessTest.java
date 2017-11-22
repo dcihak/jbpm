@@ -179,7 +179,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testUserTask() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-UserTask.bpmn2");
@@ -217,7 +216,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test
     public void testLane() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-Lane.bpmn2");
@@ -243,7 +241,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test
     public void testExclusiveSplit() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-ExclusiveSplit.bpmn2");
@@ -256,7 +253,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testExclusiveSplitDefault() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-ExclusiveSplitDefault.bpmn2");
@@ -269,7 +265,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testInclusiveSplit() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-InclusiveSplit.bpmn2");
@@ -280,7 +275,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testInclusiveSplitDefault() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-InclusiveSplitDefault.bpmn2");
