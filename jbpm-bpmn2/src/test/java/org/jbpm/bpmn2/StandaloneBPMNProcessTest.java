@@ -155,7 +155,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testEvaluationProcess2() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-EvaluationProcess2.bpmn2");
