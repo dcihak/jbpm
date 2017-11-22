@@ -457,7 +457,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         Assertions.assertThat(list.size()).isEqualTo(0);
         // Timer in the process takes 1000ms, so after 2 seconds, there should be 2 process IDs in the list.
         countDownListener.waitTillCompleted();
-        Thread.sleep(5000);
+        Thread.sleep(10000);
 
         Assertions.assertThat(list.size()).isEqualTo(2);
         List<WorkItem> workItems = workItemHandler.getWorkItems();
