@@ -97,8 +97,7 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         logger.debug( "{} -> {} - {}",processInstance.toString(), processInstance.getStart(), processInstance.getEnd());
 
         Assertions.assertThat(processInstance.getStart()).isNotNull();
-        // ProcessInstanceLog does not contain end date.
-        Assertions.assertThat(processInstance.getEnd()).isNotNull();
+        Assertions.assertThat(processInstance.getEnd()).isNotNull().withFailMessage("ProcessInstanceLog does not contain end date.");
         Assertions.assertThat(processInstance.getProcessInstanceId().longValue()).isEqualTo(processInstanceId);
         Assertions.assertThat(processInstance.getProcessId()).isEqualTo("com.sample.ruleflow");
         List<NodeInstanceLog> nodeInstances = auditLogService.findNodeInstances(processInstanceId);
@@ -156,8 +155,7 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         ProcessInstanceLog processInstance = processInstances.get(initialProcessInstanceSize);
         logger.debug("{} -> {} - {}", processInstance.toString(), processInstance.getStart(), processInstance.getEnd());
         Assertions.assertThat(processInstance.getStart()).isNotNull();
-        // ProcessInstanceLog does not contain end date.
-        Assertions.assertThat(processInstance.getEnd()).isNotNull();
+        Assertions.assertThat(processInstance.getEnd()).isNotNull().withFailMessage("ProcessInstanceLog does not contain end date.");
         Assertions.assertThat(processInstance.getProcessInstanceId().longValue()).isEqualTo(processInstanceId);
         Assertions.assertThat(processInstance.getProcessId()).isEqualTo("com.sample.ruleflow2");
         List<NodeInstanceLog> nodeInstances = auditLogService.findNodeInstances(processInstanceId);
@@ -210,8 +208,7 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         ProcessInstanceLog processInstance = processInstances.get(initialProcessInstanceSize);
         logger.debug("{} -> {} - {}", processInstance.toString(), processInstance.getStart(), processInstance.getEnd());
         Assertions.assertThat(processInstance.getStart()).isNotNull();
-        // ProcessInstanceLog does not contain end date.
-        Assertions.assertThat(processInstance.getEnd()).isNotNull();
+        Assertions.assertThat(processInstance.getEnd()).isNotNull().withFailMessage("ProcessInstanceLog does not contain end date.");
         Assertions.assertThat(processInstance.getProcessInstanceId().longValue()).isEqualTo(processInstanceId);
         Assertions.assertThat(processInstance.getProcessId()).isEqualTo("com.sample.ruleflow3");
         List<VariableInstanceLog> variableInstances = auditLogService.findVariableInstances(processInstanceId);
@@ -277,14 +274,12 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         
         logger.debug("Checking process instances for process 'com.sample.ruleflow3'");
         processInstances = auditLogService.findProcessInstances("com.sample.ruleflow3");
-        int expected = initialProcessInstanceSize + 1; 
-        logger.info("Expected " + expected + " ProcessInstanceLog instances, not " + processInstances.size());
-        Assertions.assertThat(processInstances.size()).isEqualTo(expected);
+        int expected = initialProcessInstanceSize + 1;
+        Assertions.assertThat(processInstances.size()).isEqualTo(expected).withFailMessage(String.format("Expected %d ProcessInstanceLog instances, not %d", expected, processInstances.size()));
         ProcessInstanceLog processInstance = processInstances.get(initialProcessInstanceSize);
         logger.debug("{} -> {} - {}",processInstance.toString(), processInstance.getStart(), processInstance.getEnd());
         Assertions.assertThat(processInstance.getStart()).isNotNull();
-        // ProcessInstanceLog does not contain end date.
-        Assertions.assertThat(processInstance.getEnd()).isNotNull();
+        Assertions.assertThat(processInstance.getEnd()).isNotNull().withFailMessage("ProcessInstanceLog does not contain end date.");
         Assertions.assertThat(processInstance.getProcessInstanceId().longValue()).isEqualTo(processInstanceId);
         Assertions.assertThat(processInstance.getProcessId()).isEqualTo("com.sample.ruleflow3");
         List<VariableInstanceLog> variableInstances = auditLogService.findVariableInstances(processInstanceId);
@@ -362,8 +357,7 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         params.put("s", variableValue);
         long processInstanceId = session.startProcess("com.sample.ruleflow3", params).getId();
         int numActiveProcesses = auditLogService.findActiveProcessInstances().size();
-        // find active processes did not work
-        Assertions.assertThat(numActiveProcesses).isEqualTo(initialActiveProcessInstanceSize + 1);
+        Assertions.assertThat(numActiveProcesses).isEqualTo(initialActiveProcessInstanceSize + 1).withFailMessage("find active processes did not work");
  
         // Test findVariableInstancesByName* methods: check for variables (only) in active processes
         List<VariableInstanceLog> varLogs = auditLogService.findVariableInstancesByName("s", true) ;
@@ -384,8 +378,7 @@ public abstract class AbstractAuditLogServiceTest extends AbstractBaseTest {
         ProcessInstanceLog processInstance = processInstances.get(initialProcessInstanceSize);
         logger.debug("{} -> {} - {}", processInstance.toString(), processInstance.getStart(), processInstance.getEnd());
         Assertions.assertThat(processInstance.getStart()).isNotNull();
-        // ProcessInstanceLog does not contain end date.
-        Assertions.assertThat(processInstance.getEnd()).isNotNull();
+        Assertions.assertThat(processInstance.getEnd()).isNotNull().withFailMessage("ProcessInstanceLog does not contain end date.");
         Assertions.assertThat(processInstance.getProcessInstanceId().longValue()).isEqualTo(processInstanceId);
         Assertions.assertThat(processInstance.getProcessId()).isEqualTo("com.sample.ruleflow3");
         List<VariableInstanceLog> variableInstances = auditLogService.findVariableInstances(processInstanceId);
