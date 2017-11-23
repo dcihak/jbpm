@@ -304,7 +304,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testEventBasedSplit() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-EventBasedSplit.bpmn2");
@@ -329,7 +328,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test
     public void testEventBasedSplitBefore() throws Exception {
         // signaling before the split is reached should have no effect
@@ -355,7 +353,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_ACTIVE);
     }
 
-    @Ignore
     @Test
     public void testEventBasedSplitAfter() throws Exception {
         // signaling the other alternative after one has been selected should
@@ -379,7 +376,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         ksession.signalEvent("No", "NoValue", processInstance.getId());
     }
 
-    @Ignore
     @Test(timeout=10000)
     public void testEventBasedSplit2() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("timer", 2);
@@ -445,7 +441,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test
     public void testEventBasedSplit4() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-EventBasedSplit4.bpmn2");
@@ -469,7 +464,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test
     public void testEventBasedSplit5() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-EventBasedSplit5.bpmn2");
@@ -501,7 +495,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         receiveTaskHandler.messageReceived("YesMessage", "YesValue");
     }
 
-    @Ignore
     @Test
     public void testCallActivity() throws Exception {
         KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
@@ -524,7 +517,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertEquals("new value", ((WorkflowProcessInstance) processInstance).getVariable("y"));
     }
 
-    @Ignore
     @Test
     public void testSubProcess() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-SubProcess.bpmn2");
@@ -533,7 +525,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testMultiInstanceLoopCharacteristicsProcess() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-MultiInstanceLoopCharacteristicsProcess.bpmn2");
@@ -547,7 +538,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertTrue(processInstance.getState() == ProcessInstance.STATE_COMPLETED);
     }
 
-    @Ignore
     @Test
     public void testErrorBoundaryEvent() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-ErrorBoundaryEventInterrupting.bpmn2");
@@ -557,7 +547,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test(timeout=10000)
     public void testTimerBoundaryEvent() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("TimerEvent", 1);
