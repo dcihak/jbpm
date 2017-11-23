@@ -326,6 +326,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         Assertions.assertThat(getNumberOfProcessInstances("Minimal")).isEqualTo(1);
     }
 
+    @Ignore
     @Test
     public void testMultipleStartEventsRegularStart() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcessLongInterval.bpmn2");
