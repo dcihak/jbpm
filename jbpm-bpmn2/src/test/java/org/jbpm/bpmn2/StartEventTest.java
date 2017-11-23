@@ -83,7 +83,12 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         if (ksession != null) {
             abortProcessInstances(ksession);
             clearHistory();
-            ksession.dispose();
+            //ksession.dispose();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ie) {
+                logger.info("Interrupted after 5000 ms");
+            }
             logger.info("SESSION DISPOSED");
             ksession = null;
         }
