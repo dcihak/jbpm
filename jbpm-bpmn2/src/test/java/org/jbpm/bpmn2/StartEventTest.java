@@ -441,7 +441,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     }
 
     // -->>
-    @Test(timeout=10000)
+    @Test(timeout=20000)
     public void testMultipleEventBasedStartEventsTimerDifferentPaths() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 2);
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcessDifferentPaths.bpmn2");
