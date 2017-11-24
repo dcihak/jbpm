@@ -470,7 +470,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
             ProcessInstance processInstance = ksession
                     .getProcessInstance(processInstanceId);
-            ksession = restoreSession(ksession, true);
+//            ksession = restoreSession(ksession, true);
 
             Assertions.assertThat(workItem).isNotNull();
             Assertions.assertThat(workItem.getParameter("ActorId")).isEqualTo("john");
