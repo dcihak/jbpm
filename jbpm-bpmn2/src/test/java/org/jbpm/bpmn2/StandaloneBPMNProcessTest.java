@@ -889,7 +889,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         
     }
 
-    @Ignore
     @Test
     public void testSignallingExceptionServiceTask() throws Exception {
         // dump/reread functionality seems to work for this test 
@@ -900,7 +899,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         runTestSignallingExceptionServiceTask(ksession);
     }
 
-    @Ignore
     @Test
     public void testXXEProcessVulnerability() throws Exception {
     	Resource processResource = ResourceFactory.newClassPathResource("xxe-protection/BPMN2-XXE-Process.bpmn2");
