@@ -624,8 +624,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    // <--
-    @Ignore
     @Test
     public void testIntermediateCatchEventSignal() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-IntermediateCatchEventSignal.bpmn2");
@@ -639,7 +637,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test
     public void testIntermediateCatchEventMessage() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-IntermediateCatchEventMessage.bpmn2");
@@ -653,7 +650,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test(timeout=10000)
     public void testIntermediateCatchEventTimer() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("timer", 1);
