@@ -83,12 +83,12 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         if (ksession != null) {
             abortProcessInstances(ksession);
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException ie) {
-                logger.info("Interrupted after 5000 ms");
+                logger.info("Interrupted after 1000 ms");
             }
             clearHistory();
-            //ksession.dispose();
+            ksession.dispose();
             logger.info("SESSION DISPOSED");
             ksession = null;
         }
@@ -441,7 +441,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
     }
 
     // -->>
-    @Test(timeout=20000)
+    @Test(timeout=10000)
     public void testMultipleEventBasedStartEventsTimerDifferentPaths() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartTimer", 2);
         KieBase kbase = createKnowledgeBase("BPMN2-MultipleStartEventProcessDifferentPaths.bpmn2");
