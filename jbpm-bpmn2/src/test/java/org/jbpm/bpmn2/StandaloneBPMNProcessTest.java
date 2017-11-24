@@ -685,7 +685,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test
     public void testErrorEndEventProcess() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-ErrorEndEvent.bpmn2");
@@ -694,7 +693,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceAborted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test
     public void testServiceTask() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-ServiceProcess.bpmn2");
@@ -707,7 +705,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertEquals("Hello john!", processInstance.getVariable("s"));
     }
 
-    @Ignore
     @Test
     public void testSendTask() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-SendTask.bpmn2");
