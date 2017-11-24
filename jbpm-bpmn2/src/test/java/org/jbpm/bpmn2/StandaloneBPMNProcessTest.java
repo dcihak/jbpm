@@ -716,7 +716,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertProcessInstanceCompleted(processInstance.getId(), ksession);
     }
 
-    @Ignore
     @Test
     public void testReceiveTask() throws Exception {
         KieBase kbase = createKnowledgeBaseWithoutDumper("BPMN2-ReceiveTask.bpmn2");
@@ -745,7 +744,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         ksession.fireAllRules();
     }
 
-    @Ignore
     @Test(timeout=10000)
     public void testTimerStart() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 5);
