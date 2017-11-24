@@ -744,7 +744,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         ksession.fireAllRules();
     }
 
-    // ERR
     @Test(timeout=10000)
     public void testTimerStart() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 5);
@@ -765,7 +764,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertEquals(5, list.size());
     }
 
-    @Ignore
     @Test
     public void testSignalStart() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-SignalStart.bpmn2");
@@ -780,7 +778,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertEquals(1, list.size());
     }
 
-    @Ignore
     @Test
     public void testSignalEnd() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-SignalEndEvent.bpmn2");
@@ -790,7 +787,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         ksession.startProcess("SignalEndEvent", params);
     }
 
-    @Ignore
     @Test
     public void testMessageStart() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-MessageStart.bpmn2");
@@ -805,7 +801,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertEquals(1, list.size());
     }
 
-    @Ignore
     @Test
     public void testMessageEnd() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-MessageEndEvent.bpmn2");
@@ -817,7 +812,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertEquals(ProcessInstance.STATE_COMPLETED, processInstance.getState());
     }
 
-    @Ignore
     @Test
     public void testMessageIntermediateThrow() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-IntermediateThrowEventMessage.bpmn2");
