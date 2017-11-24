@@ -823,7 +823,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertEquals(ProcessInstance.STATE_COMPLETED, processInstance.getState());
     }
 
-    @Ignore
     @Test
     public void testSignalIntermediateThrow() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-IntermediateThrowEventSignal.bpmn2");
@@ -834,7 +833,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertEquals(ProcessInstance.STATE_COMPLETED, processInstance.getState());
     }
 
-    @Ignore
     @Test
     public void testNoneIntermediateThrow() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-IntermediateThrowEventNone.bpmn2");
@@ -843,7 +841,6 @@ public class StandaloneBPMNProcessTest extends JbpmBpmn2TestCase {
         assertEquals(ProcessInstance.STATE_COMPLETED, processInstance.getState());
     }
 
-    @Ignore
     @Test
     public void testErrorSignallingExceptionServiceTask() throws Exception {
         KieBase kbase = createKnowledgeBase("BPMN2-ExceptionServiceProcess-ErrorSignalling.bpmn2");
