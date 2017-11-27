@@ -736,7 +736,9 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
     protected void clearHistory() {
         if (sessionPersistence) {
             try {
-                logService.clear();
+                if (logService != null) {
+                    logService.clear();
+                }
             } catch(Exception e) {
                 log.error("History could not be deleted.", e);
             }
