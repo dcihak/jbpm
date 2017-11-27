@@ -217,7 +217,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     }
 
-    @Test(timeout=10000)
+    @Test(timeout=15000)
     public void testTimerStartCron() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 5);
         KieBase kbase = createKnowledgeBase("BPMN2-TimerStartCron.bpmn2");
