@@ -210,7 +210,7 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
     }
 
-    @Test(timeout=10000)
+    @Test(timeout=15000)
     public void testTimerStartCron() throws Exception {
         NodeLeftCountDownProcessEventListener countDownListener = new NodeLeftCountDownProcessEventListener("StartProcess", 5);
         KieBase kbase = createKnowledgeBase("BPMN2-TimerStartCron.bpmn2");
@@ -447,7 +447,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
 
             ProcessInstance processInstance = ksession
                     .getProcessInstance(processInstanceId);
-            ksession = restoreSession(ksession, true);
 
             Assertions.assertThat(workItem).isNotNull();
             Assertions.assertThat(workItem.getParameter("ActorId")).isEqualTo("john");
@@ -526,7 +525,6 @@ public class StartEventTest extends JbpmBpmn2TestCase {
         countDownListener.waitTillCompleted();
         Assertions.assertThat(listener.getCount("start.cycle")).isEqualTo(5);
     }
-
 
     @Test(timeout=10000)
     public void testSignalStartWithTransformation() throws Exception {
