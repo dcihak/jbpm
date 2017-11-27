@@ -247,6 +247,11 @@ public abstract class JbpmBpmn2TestCase extends AbstractBaseTest {
         }
     }
 
+    @After
+    public void clear() {
+        clearHistory();
+    }
+
     @AfterClass
     public static void tearDownClass() throws Exception {
         if (setupDataSource) {
