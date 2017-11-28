@@ -84,13 +84,13 @@ public class AuditQueryDataUtil {
             pil.setProcessVersion(randomString());
             pil.setStatus(random.nextInt());
             pil.setCorrelationKey(randomString());
-            
+
             cal.add(Calendar.MINUTE, 1);
             pil.setStart(cal.getTime());
-            logger.info("pil.getStart: " + pil.getStart());
+            logger.info("pil.getStart: " + pil.getStart().getTime());
             cal.add(Calendar.DAY_OF_YEAR, 1);
             pil.setEnd(cal.getTime());
-            logger.info("pil.getEnd: " + pil.getEnd());
+            logger.info("pil.getEndw: " + pil.getEnd().getTime());
             
             testData[i] = pil; 
         }

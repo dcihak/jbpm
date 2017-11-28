@@ -331,7 +331,7 @@ public class AuditQueryTest extends JPAAuditLogService {
 
        logger.info("getResultList:");
         for (int i = 0; i < resultList.size(); i++) {
-            logger.info("start: " + resultList.get(i).getStart() + "end: " + resultList.get(i).getEnd());
+            logger.info("start: " + resultList.get(i).getStart().getTime() + "end: " + resultList.get(i).getEnd().getTime());
         }
        assertEquals( "union: duration OR end result", 3, resultList.size());
        
