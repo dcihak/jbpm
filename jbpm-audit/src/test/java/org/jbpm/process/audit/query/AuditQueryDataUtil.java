@@ -28,12 +28,17 @@ import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import org.jbpm.process.audit.AuditLogServiceTest;
 import org.jbpm.process.audit.NodeInstanceLog;
 import org.jbpm.process.audit.ProcessInstanceLog;
 import org.jbpm.process.audit.VariableInstanceLog;
 import org.jbpm.process.audit.strategy.StandaloneJtaStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AuditQueryDataUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuditQueryDataUtil.class);
     
     private static Random random = new Random();
 
@@ -65,7 +70,8 @@ public class AuditQueryDataUtil {
         ProcessInstanceLog [] testData = new ProcessInstanceLog[numEntities];
         
         Calendar cal = randomCal();
-        
+
+        logger.info("Creating numEntities:");
         for( int i = 0; i < numEntities; ++i ) { 
             ProcessInstanceLog pil = new ProcessInstanceLog(randomLong(), randomString());
             pil.setDuration(randomLong());
@@ -81,8 +87,10 @@ public class AuditQueryDataUtil {
             
             cal.add(Calendar.MINUTE, 1);
             pil.setStart(cal.getTime());
+            logger.info("pil.getStart: " + pil.getStart());
             cal.add(Calendar.DAY_OF_YEAR, 1);
             pil.setEnd(cal.getTime());
+            logger.info("pil.getEnd: " + pil.getEnd());
             
             testData[i] = pil; 
         }
