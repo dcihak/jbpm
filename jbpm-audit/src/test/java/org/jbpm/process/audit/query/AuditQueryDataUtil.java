@@ -87,10 +87,10 @@ public class AuditQueryDataUtil {
 
             cal.add(Calendar.MINUTE, 1);
             pil.setStart(cal.getTime());
-            logger.info("pil.getStart: " + pil.getStart().getTime());
+            logger.info("pil.getStart: " + pil.getStart());
             cal.add(Calendar.DAY_OF_YEAR, 1);
             pil.setEnd(cal.getTime());
-            logger.info("pil.getEndw: " + pil.getEnd().getTime());
+            logger.info("pil.getEndw: " + pil.getEnd());
             
             testData[i] = pil; 
         }
