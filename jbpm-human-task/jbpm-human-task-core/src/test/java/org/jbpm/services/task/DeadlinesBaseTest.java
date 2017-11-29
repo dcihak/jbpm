@@ -56,6 +56,11 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
     
     @Test(timeout=10000)
     public void testDelayedEmailNotificationOnDeadline() throws Exception {
+        List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
+        for (NotificationEvent e : events) {
+            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+        }
+
         CountDownTaskEventListener countDownListener = new CountDownTaskEventListener(1, false, true);
         addCountDownListner(countDownListener);
         Map<String, Object> vars = new HashMap<String, Object>();
@@ -92,6 +97,11 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
     }
     @Test(timeout=10000)
     public void testDelayedEmailNotificationOnDeadlineContentSingleObject() throws Exception {
+        List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
+        for (NotificationEvent e : events) {
+            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+        }
+
         CountDownTaskEventListener countDownListener = new CountDownTaskEventListener(1, false, true);
         addCountDownListner(countDownListener);
 
@@ -117,10 +127,10 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         assertEquals("'singleobject'", unmarshallObject.toString());
 
         // emails should not be set yet
-        List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
-        for (NotificationEvent e : events) {
-            log.info("taskId: " + e.getTask().getId().toString());
-        }
+        events = ((MockNotificationListener)notificationListener).getEventsRecieved();
+//        for (NotificationEvent e : events) {
+//            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+//        }
 
         assertEquals(0, ((MockNotificationListener)notificationListener).getEventsRecieved().size());
         countDownListener.waitTillCompleted();
@@ -132,6 +142,11 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
     }
     @Test(timeout=10000)
     public void testDelayedEmailNotificationOnDeadlineTaskCompleted() throws Exception {
+        List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
+        for (NotificationEvent e : events) {
+            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+        }
+
         CountDownTaskEventListener countDownListener = new CountDownTaskEventListener(1, false, true);
         addCountDownListner(countDownListener);
 
@@ -191,6 +206,11 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
     }
     @Test(timeout=10000)
     public void testDelayedEmailNotificationOnDeadlineTaskFailed() throws Exception {
+        List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
+        for (NotificationEvent e : events) {
+            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+        }
+
         CountDownTaskEventListener countDownListener = new CountDownTaskEventListener(1, false, true);
         addCountDownListner(countDownListener);
 
@@ -250,6 +270,11 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
     
     @Test(timeout=10000)
     public void testDelayedEmailNotificationOnDeadlineTaskSkipped() throws Exception {
+        List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
+        for (NotificationEvent e : events) {
+            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+        }
+
         CountDownTaskEventListener countDownListener = new CountDownTaskEventListener(1, false, true);
         addCountDownListner(countDownListener);
         
@@ -306,6 +331,11 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
     
     @Test(timeout=10000)   
     public void testDelayedEmailNotificationOnDeadlineTaskExited() throws Exception {
+        List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
+        for (NotificationEvent e : events) {
+            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+        }
+
         CountDownTaskEventListener countDownListener = new CountDownTaskEventListener(1, false, true);
         addCountDownListner(countDownListener);
         
@@ -363,6 +393,11 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
 
     @Test(timeout=10000)
     public void testDelayedReassignmentOnDeadline() throws Exception {
+        List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
+        for (NotificationEvent e : events) {
+            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+        }
+
         CountDownTaskEventListener countDownListener = new CountDownTaskEventListener(1, true, false);
         addCountDownListner(countDownListener);
 
@@ -400,6 +435,11 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
 
       @Test(timeout=10000)
       public void testDelayedEmailNotificationOnDeadlineTaskCompletedMultipleTasks() throws Exception {
+          List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
+          for (NotificationEvent e : events) {
+              log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+          }
+
           CountDownTaskEventListener countDownListener = new CountDownTaskEventListener(2, false, true);
           addCountDownListner(countDownListener);
 
