@@ -469,6 +469,9 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         }
         Thread.sleep(10000);
         log.info("EventsRecieved size: " + ((MockNotificationListener)notificationListener).getEventsRecieved().size());
+        for (NotificationEvent e : ((MockNotificationListener)notificationListener).getEventsRecieved()) {
+            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+        }
         assertEquals(0, ((MockNotificationListener)notificationListener).getEventsRecieved().size());
         for (NotificationEvent e : ((MockNotificationListener)notificationListener).getEventsRecieved()) {
             log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
