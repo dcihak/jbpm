@@ -446,6 +446,7 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         taskService.addTask(task2, new HashMap<String, Object>());
         long taskId = task.getId();
         log.info("Added task with ID: " + task.getId());
+        log.info("Added task with ID: " + task2.getId());
 
         InternalContent content = (InternalContent) TaskModelProvider.getFactory().newContent();
 
@@ -462,14 +463,17 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         taskService.start(taskId, "Administrator");
         taskService.complete(taskId, "Administrator", null);
         // emails should not be set yet
+        log.info("EventsRecieved size: " + ((MockNotificationListener)notificationListener).getEventsRecieved().size());
         for (NotificationEvent e : ((MockNotificationListener)notificationListener).getEventsRecieved()) {
             log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
         }
         Thread.sleep(10000);
+        log.info("EventsRecieved size: " + ((MockNotificationListener)notificationListener).getEventsRecieved().size());
         assertEquals(0, ((MockNotificationListener)notificationListener).getEventsRecieved().size());
         for (NotificationEvent e : ((MockNotificationListener)notificationListener).getEventsRecieved()) {
             log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
         }
+        log.info("EventsRecieved size: " + ((MockNotificationListener)notificationListener).getEventsRecieved().size());
 
         countDownListener.waitTillCompleted();
 
