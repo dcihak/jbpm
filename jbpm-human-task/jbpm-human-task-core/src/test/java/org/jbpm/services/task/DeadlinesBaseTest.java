@@ -38,16 +38,14 @@ import org.kie.api.task.model.Status;
 import org.kie.api.task.model.Task;
 import org.kie.api.task.model.User;
 import org.kie.internal.task.api.TaskModelProvider;
-import org.kie.internal.task.api.model.ContentData;
-import org.kie.internal.task.api.model.InternalContent;
-import org.kie.internal.task.api.model.InternalOrganizationalEntity;
-import org.kie.internal.task.api.model.InternalPeopleAssignments;
-import org.kie.internal.task.api.model.InternalTask;
-import org.kie.internal.task.api.model.InternalTaskData;
-
+import org.kie.internal.task.api.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
+
+    private static final Logger log = LoggerFactory.getLogger(DeadlinesBaseTest.class);
 
     protected NotificationListener notificationListener;
     
@@ -68,6 +66,7 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         
         taskService.addTask(task, new HashMap<String, Object>());
         long taskId = task.getId();
+        log.info("Added task with ID: " + task.getId());
 
         InternalContent content =  (InternalContent) TaskModelProvider.getFactory().newContent();
         
@@ -101,8 +100,9 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
 
         Reader reader = new InputStreamReader(getClass().getResourceAsStream(MvelFilePath.DeadlineWithNotificationContentSingleObject));
         Task task = (Task) TaskFactory.evalTask(reader, vars);
-     
+
         taskService.addTask(task, new HashMap<String, Object>());
+        log.info("Added task with ID: " + task.getId());
         long taskId = task.getId();
 
         InternalContent content = (InternalContent) TaskModelProvider.getFactory().newContent();
@@ -117,6 +117,11 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         assertEquals("'singleobject'", unmarshallObject.toString());
 
         // emails should not be set yet
+        List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
+        for (NotificationEvent e : events) {
+            log.info("taskId: " + e.getTask().getId().toString());
+        }
+
         assertEquals(0, ((MockNotificationListener)notificationListener).getEventsRecieved().size());
         countDownListener.waitTillCompleted();
 
@@ -154,6 +159,7 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         
         taskService.addTask(task, new HashMap<String, Object>());
         long taskId = task.getId();
+        log.info("Added task with ID: " + task.getId());
 
         InternalContent content = (InternalContent) TaskModelProvider.getFactory().newContent();
         
@@ -213,6 +219,7 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         
         taskService.addTask(task, new HashMap<String, Object>());
         long taskId = task.getId();
+        log.info("Added task with ID: " + task.getId());
 
         InternalContent content = (InternalContent) TaskModelProvider.getFactory().newContent();
         
@@ -269,6 +276,7 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         task.setPeopleAssignments(assignments);
         taskService.addTask(task, new HashMap<String, Object>());
         long taskId = task.getId();
+        log.info("Added task with ID: " + task.getId());
 
         InternalContent content = (InternalContent) TaskModelProvider.getFactory().newContent();
         
@@ -324,6 +332,7 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         task.setPeopleAssignments(assignments);
         taskService.addTask(task, new HashMap<String, Object>());
         long taskId = task.getId();
+        log.info("Added task with ID: " + task.getId());
 
         InternalContent content = (InternalContent) TaskModelProvider.getFactory().newContent();
         
@@ -428,6 +437,7 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
           taskService.addTask(task, new HashMap<String, Object>());
           taskService.addTask(task2, new HashMap<String, Object>());
           long taskId = task.getId();
+          log.info("Added task with ID: " + task.getId());
 
           InternalContent content = (InternalContent) TaskModelProvider.getFactory().newContent();
           
