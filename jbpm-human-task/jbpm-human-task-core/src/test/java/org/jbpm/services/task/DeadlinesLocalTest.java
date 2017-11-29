@@ -47,7 +47,6 @@ public class DeadlinesLocalTest extends DeadlinesBaseTest {
 	
 	@After
 	public void clean() {
-		((MockNotificationListener)notificationListener).reset();
 		TaskDeadlinesServiceImpl.reset();
 		super.tearDown();
 		if (emf != null) {
