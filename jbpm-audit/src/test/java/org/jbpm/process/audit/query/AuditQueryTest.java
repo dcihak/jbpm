@@ -65,12 +65,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AuditQueryTest extends JPAAuditLogService {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(AuditQueryDataUtil.class);
+
     private static HashMap<String, Object> context;
     private static EntityManagerFactory emf;
 
-    private static final Logger logger = LoggerFactory.getLogger(AuditLogServiceTest.class);
-   
     private ProcessInstanceLog [] pilTestData;
     private VariableInstanceLog [] vilTestData;
     private NodeInstanceLog [] nilTestData;
@@ -328,6 +328,12 @@ public class AuditQueryTest extends JPAAuditLogService {
        
        builder.endDate(pilTestData[5].getEnd(), pilTestData[6].getEnd());
        resultList = builder.build().getResultList();
+
+        logger.info("getResultList:");
+        logger.info("pilTestData[5].getEnd: " + pilTestData[5].getEnd() + " pilTestData[6].getEnd: " + pilTestData[6].getEnd());
+        for (int i = 0; i < resultList.size(); i++) {
+            logger.info("start: " + resultList.get(i).getStart() + " end: " + resultList.get(i).getEnd());
+        }
        assertEquals( "union: duration OR end result", 3, resultList.size());
        
        builder.identity(pilTestData[7].getIdentity(), pilTestData[8].getIdentity());
