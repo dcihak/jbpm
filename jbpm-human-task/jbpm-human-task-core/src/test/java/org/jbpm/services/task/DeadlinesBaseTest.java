@@ -21,11 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.jbpm.services.task.deadlines.NotificationListener;
 import org.jbpm.services.task.deadlines.notifications.impl.MockNotificationListener;
@@ -460,21 +456,25 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         Object unmarshallObject = ContentMarshallerHelper.unmarshall(content.getContent(), null);
         checkContentSubjectAndBody(unmarshallObject);
 
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 3);
+        task.getDeadlines().getStartDeadlines().get(0).setDate(cal.getTime());
+        task2.getDeadlines().getStartDeadlines().get(0).setDate(cal.getTime());
         taskService.start(taskId, "Administrator");
         taskService.complete(taskId, "Administrator", null);
         // emails should not be set yet
         log.info("EventsRecieved size: " + ((MockNotificationListener)notificationListener).getEventsRecieved().size());
         for (NotificationEvent e : ((MockNotificationListener)notificationListener).getEventsRecieved()) {
-            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+            log.info("taskId: " + e.getTask().getId().toString() + " name: " + e.getTask().getName());
         }
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
         log.info("EventsRecieved size: " + ((MockNotificationListener)notificationListener).getEventsRecieved().size());
         for (NotificationEvent e : ((MockNotificationListener)notificationListener).getEventsRecieved()) {
-            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+            log.info("taskId: " + e.getTask().getId().toString() + " name: " + e.getTask().getName());
         }
         assertEquals(0, ((MockNotificationListener)notificationListener).getEventsRecieved().size());
         for (NotificationEvent e : ((MockNotificationListener)notificationListener).getEventsRecieved()) {
-            log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
+            log.info("taskId: " + e.getTask().getId().toString() + " name: " + e.getTask().getName());
         }
         log.info("EventsRecieved size: " + ((MockNotificationListener)notificationListener).getEventsRecieved().size());
 
