@@ -454,13 +454,12 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         taskService.start(taskId, "Administrator");
         taskService.complete(taskId, "Administrator", null);
         // emails should not be set yet
-        List<NotificationEvent> events = ((MockNotificationListener)notificationListener).getEventsRecieved();
-        for (NotificationEvent e : events) {
+        for (NotificationEvent e : ((MockNotificationListener)notificationListener).getEventsRecieved()) {
             log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
         }
+        Thread.sleep(10000);
         assertEquals(0, ((MockNotificationListener)notificationListener).getEventsRecieved().size());
-        events = ((MockNotificationListener)notificationListener).getEventsRecieved();
-        for (NotificationEvent e : events) {
+        for (NotificationEvent e : ((MockNotificationListener)notificationListener).getEventsRecieved()) {
             log.info("taskId: " + e.getTask().getId().toString() + "name: " + e.getTask().getName());
         }
 
