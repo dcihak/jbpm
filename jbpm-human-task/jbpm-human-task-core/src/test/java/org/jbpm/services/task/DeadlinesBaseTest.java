@@ -461,10 +461,16 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
 //        task.getDeadlines().getStartDeadlines().get(0).setDate(cal.getTime());
 //        task2.getDeadlines().getStartDeadlines().get(0).setDate(cal.getTime());
         for (Deadline startDeadline : task.getDeadlines().getStartDeadlines()) {
-            log.info("startDeadline date: " + startDeadline.getDate());
+            log.info("task startDeadline date: " + startDeadline.getDate());
         }
         for (Deadline endDeadline : task.getDeadlines().getEndDeadlines()) {
-            log.info("endDeadline date: " + endDeadline.getDate());
+            log.info("task endDeadline date: " + endDeadline.getDate());
+        }
+        for (Deadline startDeadline : task2.getDeadlines().getStartDeadlines()) {
+            log.info("task2 startDeadline date: " + startDeadline.getDate());
+        }
+        for (Deadline endDeadline : task2.getDeadlines().getEndDeadlines()) {
+            log.info("task2 endDeadline date: " + endDeadline.getDate());
         }
 
         taskService.start(taskId, "Administrator");
