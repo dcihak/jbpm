@@ -457,7 +457,7 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         checkContentSubjectAndBody(unmarshallObject);
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, 3);
+        cal.add(Calendar.SECOND, 4);
         task.getDeadlines().getStartDeadlines().get(0).setDate(cal.getTime());
         task2.getDeadlines().getStartDeadlines().get(0).setDate(cal.getTime());
         taskService.start(taskId, "Administrator");
