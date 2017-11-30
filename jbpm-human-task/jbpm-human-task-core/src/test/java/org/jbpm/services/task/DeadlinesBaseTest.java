@@ -404,6 +404,7 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
 
     @Test(timeout=25000)
     public void testDelayedEmailNotificationOnDeadlineTaskCompletedMultipleTasks() throws Exception {
+        log.info("testDelayedEmailNotificationOnDeadlineTaskCompletedMultipleTasks");
         CountDownTaskEventListener countDownListener = new CountDownTaskEventListener(2, false, true);
         addCountDownListner(countDownListener);
 

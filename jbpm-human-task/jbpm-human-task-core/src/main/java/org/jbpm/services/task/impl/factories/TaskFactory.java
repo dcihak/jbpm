@@ -37,6 +37,7 @@ public class TaskFactory {
     private static final Logger logger = LoggerFactory.getLogger(TaskFactory.class);
  
     public static Task evalTask(Reader reader, Map<String, Object> vars) {
+        logger.info("evalTask started");
         Task task = null;
         try {
             task = (Task) MVELUtils.eval(MVELUtils.toString(reader), vars);
