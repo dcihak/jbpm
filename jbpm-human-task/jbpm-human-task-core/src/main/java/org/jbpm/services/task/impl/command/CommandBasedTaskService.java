@@ -130,8 +130,12 @@ import org.kie.internal.task.api.model.SubTasksStrategy;
 import org.kie.internal.task.api.model.TaskDef;
 import org.kie.internal.task.api.model.TaskEvent;
 import org.kie.internal.task.query.TaskSummaryQueryBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommandBasedTaskService implements InternalTaskService, EventService<TaskLifeCycleEventListener> {
+
+	private static final Logger log = LoggerFactory.getLogger(CommandBasedTaskService.class);
 
 	private ExecutableRunner executor;
 	private TaskEventSupport taskEventSupport;
@@ -173,6 +177,7 @@ public class CommandBasedTaskService implements InternalTaskService, EventServic
 	}
 
 	public void complete(long taskId, String userId, Map<String, Object> data) {
+		log.info("Task completed.");
 		executor.execute(new CompositeCommand<Void>(
 				new CompleteTaskCommand(taskId, userId, data),
 				new ProcessSubTaskCommand(taskId, userId, data),
@@ -318,6 +323,7 @@ public class CommandBasedTaskService implements InternalTaskService, EventServic
 	}
 
 	public void start(long taskId, String userId) {
+		log.info("Task started.");
 		executor.execute(new CompositeCommand<Void>(
 				new StartTaskCommand(taskId, userId),
 				new CancelDeadlineCommand(taskId, true, false)));
