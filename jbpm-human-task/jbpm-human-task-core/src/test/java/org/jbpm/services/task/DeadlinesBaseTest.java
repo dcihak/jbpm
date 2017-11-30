@@ -457,10 +457,10 @@ public abstract class DeadlinesBaseTest extends HumanTaskServicesBaseTest {
         Object unmarshallObject = ContentMarshallerHelper.unmarshall(content.getContent(), null);
         checkContentSubjectAndBody(unmarshallObject);
 
-//        Calendar cal = Calendar.getInstance();
-//        cal.add(Calendar.SECOND, 3);
-//        task.getDeadlines().getStartDeadlines().get(0).setDate(cal.getTime());
-//        task2.getDeadlines().getStartDeadlines().get(0).setDate(cal.getTime());
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 3);
+        task.getDeadlines().getStartDeadlines().get(0).setDate(cal.getTime());
+        task2.getDeadlines().getStartDeadlines().get(0).setDate(cal.getTime());
         for (Deadline startDeadline : task.getDeadlines().getStartDeadlines()) {
             log.info("task startDeadline date: " + startDeadline.getDate());
         }
